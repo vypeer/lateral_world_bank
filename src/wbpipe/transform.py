@@ -18,7 +18,7 @@ from wbpipe.warehouse import connect, sql_files
 
 log = logging.getLogger(__name__)
 
-LAYERS = ("staging", "core")
+LAYERS = ("staging", "core", "marts")
 
 
 class TransformError(RuntimeError):
@@ -54,15 +54,19 @@ def load_config_tables(con: duckdb.DuckDBPyConnection, settings: Settings) -> No
     )
     con.execute(
         "CREATE OR REPLACE TABLE config.indicator (indicator_code VARCHAR, short_name VARCHAR, "
-        "config_order INTEGER, valid_min DOUBLE, valid_max DOUBLE)"
+        "config_order INTEGER, valid_min DOUBLE, valid_max DOUBLE, aggregation VARCHAR, "
+        "agg_numerator VARCHAR, agg_denominator VARCHAR, agg_weight VARCHAR)"
     )
     con.executemany(
-        "INSERT INTO config.indicator VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO config.indicator VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
-            [i.code, i.short_name, n, i.valid_min, i.valid_max]
+            [
+                i.code, i.short_name, n, i.valid_min, i.valid_max, i.aggregation.method,
+                i.aggregation.numerator, i.aggregation.denominator, i.aggregation.weight,
+            ]
             for n, i in enumerate(settings.indicators, 1)
         ],
-    )
+    )  # fmt: skip
     con.execute("CREATE OR REPLACE TABLE config.year (year INTEGER)")
     con.executemany("INSERT INTO config.year VALUES (?)", [[y] for y in settings.years])
     # Zero or one row; the consistency view and check are empty when the rule is not configured.

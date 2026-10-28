@@ -25,20 +25,31 @@ countries:
   - ZAF
 
 # valid_min / valid_max (optional, inclusive) bound plausible values; checked as a FAIL.
+# aggregation (optional, default mean) says how to combine countries, e.g. by income group:
+#   mean | sum | {method: ratio, numerator, denominator} | {method: weighted_mean, weight}
 indicators:
   - code: SP.POP.TOTL
     short_name: population
     valid_min: 1
+    aggregation: sum
   - code: NY.GDP.MKTP.CD
     short_name: gdp_usd
     valid_min: 1
+    aggregation: sum
   - code: NY.GDP.PCAP.CD
     short_name: gdp_per_capita_usd
     valid_min: 1
+    aggregation:
+      method: ratio
+      numerator: NY.GDP.MKTP.CD
+      denominator: SP.POP.TOTL
   - code: SP.DYN.LE00.IN
     short_name: life_expectancy_years
     valid_min: 20
     valid_max: 100
+    aggregation:
+      method: weighted_mean
+      weight: SP.POP.TOTL
 
 paths:
   landing_dir: data/landing

@@ -29,12 +29,37 @@ class ApiSettings:
 
 
 @dataclass(frozen=True)
+class Aggregation:
+    """How an indicator is combined across countries (e.g. for income-group totals).
+
+    mean           simple average of the countries' values
+    sum            total of the countries' values (additive quantities)
+    ratio          sum(numerator) / sum(denominator), e.g. GDP per capita = sum GDP / sum pop
+    weighted_mean  sum(value * weight) / sum(weight), e.g. population-weighted life expectancy
+    """
+
+    method: str = "mean"
+    numerator: str | None = None
+    denominator: str | None = None
+    weight: str | None = None
+
+
+AGGREGATION_INPUTS = {
+    "mean": (),
+    "sum": (),
+    "ratio": ("numerator", "denominator"),
+    "weighted_mean": ("weight",),
+}
+
+
+@dataclass(frozen=True)
 class Indicator:
     code: str
     short_name: str
     # Plausible value range (inclusive) checked by data quality; None = unbounded.
     valid_min: float | None = None
     valid_max: float | None = None
+    aggregation: Aggregation = Aggregation()
 
 
 @dataclass(frozen=True)
@@ -96,6 +121,23 @@ def _require(mapping: dict[str, Any], key: str, where: str) -> Any:
     return mapping[key]
 
 
+def _parse_aggregation(raw: Any, code: str) -> Aggregation:
+    if raw is None:
+        return Aggregation()
+    if isinstance(raw, str):
+        raw = {"method": raw}
+    method = str(raw.get("method", "mean"))
+    if method not in AGGREGATION_INPUTS:
+        raise ConfigError(
+            f"indicator {code}: aggregation method must be one of {sorted(AGGREGATION_INPUTS)}"
+        )
+    needed = AGGREGATION_INPUTS[method]
+    given = set(raw) - {"method"}
+    if given != set(needed):
+        raise ConfigError(f"indicator {code}: aggregation '{method}' takes exactly {list(needed)}")
+    return Aggregation(method=method, **{key: str(raw[key]) for key in needed})
+
+
 def _optional_float(value: Any) -> float | None:
     return None if value is None else float(value)
 
@@ -131,6 +173,7 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
             short_name=str(_require(i, "short_name", "indicator")).strip(),
             valid_min=_optional_float(i.get("valid_min")),
             valid_max=_optional_float(i.get("valid_max")),
+            aggregation=_parse_aggregation(i.get("aggregation"), str(i.get("code"))),
         )
         for i in _require(raw, "indicators", "config")
     )
@@ -144,6 +187,14 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
     for i in indicators:
         if i.valid_min is not None and i.valid_max is not None and i.valid_min > i.valid_max:
             raise ConfigError(f"indicator {i.code}: valid_min is above valid_max")
+    codes = {i.code for i in indicators}
+    for i in indicators:
+        agg = i.aggregation
+        unknown = {getattr(agg, key) for key in AGGREGATION_INPUTS[agg.method]} - codes
+        if unknown:
+            raise ConfigError(
+                f"indicator {i.code}: aggregation uses unconfigured indicators {sorted(unknown)}"
+            )
 
     paths_raw = _require(raw, "paths", "config")
     paths = Paths(

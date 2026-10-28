@@ -39,6 +39,15 @@ def test_fingerprint_changes_with_config():
         (lambda c: c.pop("api"), "missing 'api'"),
         (lambda c: c["indicators"][3].update(valid_min=101), "valid_min is above valid_max"),
         (lambda c: c["indicators"].pop(0), "unconfigured indicators"),  # used by gdp_per_capita
+        (lambda c: c["indicators"][0].update(aggregation="median"), "method must be one of"),
+        (
+            lambda c: c["indicators"][2].update(aggregation={"method": "ratio", "numerator": "X"}),
+            "takes exactly",
+        ),
+        (
+            lambda c: c["indicators"][3]["aggregation"].update(weight="NOT.CONFIGURED"),
+            "aggregation uses unconfigured",
+        ),
     ],
 )
 def test_invalid_config_is_rejected(mutate, message):
@@ -59,3 +68,12 @@ def test_gdp_per_capita_rule_is_optional():
     raw = copy.deepcopy(RAW)
     del raw["quality"]["gdp_per_capita"]
     assert parse_settings(raw, REPO).quality.gdp_per_capita is None
+
+
+def test_aggregation_defaults_to_mean_and_accepts_shorthand():
+    raw = copy.deepcopy(RAW)
+    del raw["indicators"][3]["aggregation"]
+    settings = parse_settings(raw, REPO)
+    assert settings.indicators[0].aggregation.method == "sum"  # 'sum' shorthand
+    assert settings.indicators[3].aggregation.method == "mean"
+    assert settings.indicators[2].aggregation.denominator == "SP.POP.TOTL"
