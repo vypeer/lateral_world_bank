@@ -37,6 +37,8 @@ def test_fingerprint_changes_with_config():
         (lambda c: c["indicators"].append({"code": "bad code", "short_name": "x"}), "indicator"),
         (lambda c: c["years"].update(start=2025), "after"),
         (lambda c: c.pop("api"), "missing 'api'"),
+        (lambda c: c["indicators"][3].update(valid_min=101), "valid_min is above valid_max"),
+        (lambda c: c["indicators"].pop(0), "unconfigured indicators"),  # used by gdp_per_capita
     ],
 )
 def test_invalid_config_is_rejected(mutate, message):
@@ -44,3 +46,16 @@ def test_invalid_config_is_rejected(mutate, message):
     mutate(raw)
     with pytest.raises(ConfigError, match=message):
         parse_settings(raw, REPO)
+
+
+def test_quality_settings_do_not_change_the_scope_fingerprint():
+    changed = copy.deepcopy(RAW)
+    changed["quality"]["max_source_age_days"] = 1
+    changed["indicators"][0]["valid_min"] = 0
+    assert parse_settings(changed, REPO).fingerprint() == parse_settings(RAW, REPO).fingerprint()
+
+
+def test_gdp_per_capita_rule_is_optional():
+    raw = copy.deepcopy(RAW)
+    del raw["quality"]["gdp_per_capita"]
+    assert parse_settings(raw, REPO).quality.gdp_per_capita is None

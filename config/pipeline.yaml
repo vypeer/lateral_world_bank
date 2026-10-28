@@ -24,15 +24,21 @@ countries:
   - USA
   - ZAF
 
+# valid_min / valid_max (optional, inclusive) bound plausible values; checked as a FAIL.
 indicators:
   - code: SP.POP.TOTL
     short_name: population
+    valid_min: 1
   - code: NY.GDP.MKTP.CD
     short_name: gdp_usd
+    valid_min: 1
   - code: NY.GDP.PCAP.CD
     short_name: gdp_per_capita_usd
+    valid_min: 1
   - code: SP.DYN.LE00.IN
     short_name: life_expectancy_years
+    valid_min: 20
+    valid_max: 100
 
 paths:
   landing_dir: data/landing
@@ -41,5 +47,13 @@ paths:
   output_dir: output
 
 quality:
-  # GDP / population vs GDP per capita: relative difference above this is a WARN
-  gdp_per_capita_tolerance: 0.01
+  checks_file: config/dq_checks.yaml
+  # GDP / population vs GDP per capita: relative difference above tolerance is a WARN.
+  # Remove this block if any of the three indicators is not configured.
+  gdp_per_capita:
+    gdp: NY.GDP.MKTP.CD
+    population: SP.POP.TOTL
+    gdp_per_capita: NY.GDP.PCAP.CD
+    tolerance: 0.01
+  # WARN when the World Bank's lastupdated date is older than this at fetch time
+  max_source_age_days: 400

@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -32,6 +32,9 @@ class ApiSettings:
 class Indicator:
     code: str
     short_name: str
+    # Plausible value range (inclusive) checked by data quality; None = unbounded.
+    valid_min: float | None = None
+    valid_max: float | None = None
 
 
 @dataclass(frozen=True)
@@ -43,6 +46,23 @@ class Paths:
 
 
 @dataclass(frozen=True)
+class GdpPerCapitaRule:
+    """GDP / population should equal GDP per capita within a relative tolerance."""
+
+    gdp: str
+    population: str
+    gdp_per_capita: str
+    tolerance: float
+
+
+@dataclass(frozen=True)
+class QualitySettings:
+    checks_file: Path
+    gdp_per_capita: GdpPerCapitaRule | None
+    max_source_age_days: int
+
+
+@dataclass(frozen=True)
 class Settings:
     api: ApiSettings
     start_year: int
@@ -50,22 +70,34 @@ class Settings:
     countries: tuple[str, ...]
     indicators: tuple[Indicator, ...]
     paths: Paths
-    gdp_per_capita_tolerance: float
+    quality: QualitySettings
 
     @property
     def years(self) -> range:
         return range(self.start_year, self.end_year + 1)
 
     def fingerprint(self) -> str:
-        """Stable hash of the effective config, recorded on every ingest run."""
-        payload = json.dumps(asdict(self), sort_keys=True, default=str)
-        return hashlib.sha256(payload.encode()).hexdigest()
+        """Stable hash of the requested data scope, recorded on every ingest run.
+
+        Only settings that change what is fetched count; quality thresholds do not.
+        """
+        scope = {
+            "base_url": self.api.base_url,
+            "countries": self.countries,
+            "indicators": [i.code for i in self.indicators],
+            "years": [self.start_year, self.end_year],
+        }
+        return hashlib.sha256(json.dumps(scope, sort_keys=True).encode()).hexdigest()
 
 
 def _require(mapping: dict[str, Any], key: str, where: str) -> Any:
     if key not in mapping:
         raise ConfigError(f"missing '{key}' in {where}")
     return mapping[key]
+
+
+def _optional_float(value: Any) -> float | None:
+    return None if value is None else float(value)
 
 
 def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
@@ -97,6 +129,8 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         Indicator(
             code=str(_require(i, "code", "indicator")).strip(),
             short_name=str(_require(i, "short_name", "indicator")).strip(),
+            valid_min=_optional_float(i.get("valid_min")),
+            valid_max=_optional_float(i.get("valid_max")),
         )
         for i in _require(raw, "indicators", "config")
     )
@@ -107,6 +141,9 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         values = [getattr(i, attr) for i in indicators]
         if not values or len(set(values)) != len(values):
             raise ConfigError(f"indicator {attr}s must be non-empty and unique")
+    for i in indicators:
+        if i.valid_min is not None and i.valid_max is not None and i.valid_min > i.valid_max:
+            raise ConfigError(f"indicator {i.code}: valid_min is above valid_max")
 
     paths_raw = _require(raw, "paths", "config")
     paths = Paths(
@@ -116,7 +153,24 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         }
     )
 
-    quality = raw.get("quality", {})
+    quality_raw = raw.get("quality") or {}
+    rule_raw = quality_raw.get("gdp_per_capita")
+    rule = None
+    if rule_raw:
+        rule = GdpPerCapitaRule(
+            gdp=str(_require(rule_raw, "gdp", "quality.gdp_per_capita")),
+            population=str(_require(rule_raw, "population", "quality.gdp_per_capita")),
+            gdp_per_capita=str(_require(rule_raw, "gdp_per_capita", "quality.gdp_per_capita")),
+            tolerance=float(rule_raw.get("tolerance", 0.01)),
+        )
+        unknown = {rule.gdp, rule.population, rule.gdp_per_capita} - {i.code for i in indicators}
+        if unknown:
+            raise ConfigError(f"quality.gdp_per_capita uses unconfigured indicators {unknown}")
+    quality = QualitySettings(
+        checks_file=(root / str(quality_raw.get("checks_file", "config/dq_checks.yaml"))).resolve(),
+        gdp_per_capita=rule,
+        max_source_age_days=int(quality_raw.get("max_source_age_days", 400)),
+    )
     return Settings(
         api=api,
         start_year=start,
@@ -124,7 +178,7 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         countries=countries,
         indicators=indicators,
         paths=paths,
-        gdp_per_capita_tolerance=float(quality.get("gdp_per_capita_tolerance", 0.01)),
+        quality=quality,
     )
 
 

@@ -53,15 +53,29 @@ def load_config_tables(con: duckdb.DuckDBPyConnection, settings: Settings) -> No
         [[code, n] for n, code in enumerate(settings.countries, 1)],
     )
     con.execute(
-        "CREATE OR REPLACE TABLE config.indicator "
-        "(indicator_code VARCHAR, short_name VARCHAR, config_order INTEGER)"
+        "CREATE OR REPLACE TABLE config.indicator (indicator_code VARCHAR, short_name VARCHAR, "
+        "config_order INTEGER, valid_min DOUBLE, valid_max DOUBLE)"
     )
     con.executemany(
-        "INSERT INTO config.indicator VALUES (?, ?, ?)",
-        [[i.code, i.short_name, n] for n, i in enumerate(settings.indicators, 1)],
+        "INSERT INTO config.indicator VALUES (?, ?, ?, ?, ?)",
+        [
+            [i.code, i.short_name, n, i.valid_min, i.valid_max]
+            for n, i in enumerate(settings.indicators, 1)
+        ],
     )
     con.execute("CREATE OR REPLACE TABLE config.year (year INTEGER)")
     con.executemany("INSERT INTO config.year VALUES (?)", [[y] for y in settings.years])
+    # Zero or one row; the consistency view and check are empty when the rule is not configured.
+    con.execute(
+        "CREATE OR REPLACE TABLE config.gdp_per_capita_rule (gdp_code VARCHAR, "
+        "population_code VARCHAR, gdp_per_capita_code VARCHAR, tolerance DOUBLE)"
+    )
+    rule = settings.quality.gdp_per_capita
+    if rule is not None:
+        con.execute(
+            "INSERT INTO config.gdp_per_capita_rule VALUES (?, ?, ?, ?)",
+            [rule.gdp, rule.population, rule.gdp_per_capita, rule.tolerance],
+        )
 
 
 def run_transform(settings: Settings, run_id: str | None = None) -> TransformResult:
@@ -97,13 +111,9 @@ def run_transform(settings: Settings, run_id: str | None = None) -> TransformRes
             raise
 
         counts = con.execute(
-            """
-            SELECT
-                (SELECT count(*) FROM core.fct_indicator_value),
-                (SELECT count(*) FROM core.fct_indicator_value_history WHERE valid_from = $ts),
-                (SELECT count(*) FROM core.fct_indicator_value_history WHERE valid_to = $ts)
-            """,
-            {"ts": transformed_at},
+            "SELECT fact_rows, versions_opened, versions_closed FROM core.transform_run "
+            "WHERE transformed_at = ?",
+            [transformed_at],
         ).fetchone()
     assert counts is not None
     result = TransformResult(run_id, int(counts[0]), int(counts[1]), int(counts[2]))
