@@ -9,6 +9,7 @@ The filter row above the tabs scopes every view.
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
@@ -119,6 +120,7 @@ def status_bar(status: dict[str, Any]) -> None:
             "Unchanged source data creates no new records.",
             width="stretch",
         )
+    issues_panel()
     result = st.session_state.get("refresh_result")
     if result:
         code, log = result
@@ -127,6 +129,42 @@ def status_bar(status: dict[str, Any]) -> None:
             expanded=code != 0,
         ):
             st.code(log or "(no output)", language="text")
+
+
+def issues_panel() -> None:
+    """Name every warning or failure right under the banner, with what it means and examples."""
+    dq = q("dq_latest")
+    issues = dq[dq["status"] != "pass"]
+    if issues.empty:
+        return
+    summary = ", ".join(
+        f"{r.check_name} ({'n/a' if pd.isna(r.violation_count) else int(r.violation_count)})"
+        for r in issues.itertuples()
+    )
+    icon = "⛔" if issues["status"].isin(["fail", "error"]).any() else "⚠️"
+    with st.expander(f"{icon} Data-quality findings: {summary}"):
+        for r in issues.itertuples():
+            count = (
+                "could not run"
+                if pd.isna(r.violation_count)
+                else f"{int(r.violation_count)} row(s)"
+            )
+            st.markdown(
+                f"**{STATUS_ICON.get(r.status, '')} `{r.check_name}`** · {r.severity} · {count}"
+            )
+            st.caption(r.description)
+            sample = json.loads(r.sample) if isinstance(r.sample, str) and r.sample else []
+            if sample:
+                shown = (
+                    f"first {len(sample)} of {count}"
+                    if len(sample) < (r.violation_count or 0)
+                    else count
+                )
+                st.dataframe(pd.DataFrame(sample), hide_index=True, width="stretch")
+                st.caption(
+                    f"Showing {shown}. To list every row, run the check's SQL from "
+                    "`config/dq_checks.yaml` in the *Explore & SQL* tab."
+                )
 
 
 def filters(

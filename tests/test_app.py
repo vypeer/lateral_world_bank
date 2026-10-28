@@ -172,3 +172,19 @@ def test_focus_countries_are_preselected(settings, ingest, monkeypatch):
     countries = next(m for m in at.multiselect if m.label.startswith("Countries"))
     assert len(countries.options) == 10 and countries.value == list(ALL)
     assert countries.label.startswith("Countries (10 in scope")
+
+
+def test_warnings_are_named_under_the_banner(settings, pipeline, fake_session, monkeypatch):
+    edit_observations(fake_session, "SP.POP.TOTL", lambda meta, rows: rows[-1].update(value=None))
+    pipeline("run1")
+    run_checks(settings)  # one missing value: a warning, not a failure
+    monkeypatch.setenv("WBPIPE_WAREHOUSE", str(settings.paths.warehouse))
+    at = AppTest.from_file(APP, default_timeout=60).run()
+    assert not at.exception
+    assert any("15/16 checks pass · 1 warning(s)" in w.value for w in at.warning)
+    assert any(e.label == "⚠️ Data-quality findings: values_missing (1)" for e in at.expander)
+
+
+def test_no_findings_panel_when_everything_passes(app):
+    at = app.run()
+    assert not any("Data-quality findings" in e.label for e in at.expander)
