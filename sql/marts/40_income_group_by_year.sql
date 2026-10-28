@@ -1,7 +1,9 @@
 -- Q4: How do the indicators compare across income groups, by year?
 --
--- Income group is the CURRENT World Bank classification applied to every year (the API has no
--- historical classification). Each indicator is aggregated as configured (config.indicator):
+-- Countries are grouped by their income group IN EACH YEAR (historical World Bank
+-- classification; the latest year uses the current group until the history covers it), so group
+-- membership can change between years; income_group_source says which classification applied.
+-- Each indicator is aggregated as configured (config.indicator):
 --   sum            sum of the group's values                 (population, GDP)
 --   ratio          sum(numerator) / sum(denominator)         (GDP per capita = sum GDP / sum pop)
 --   weighted_mean  sum(value * weight) / sum(weight)         (population-weighted life expectancy)
@@ -15,6 +17,7 @@ WITH base AS (
         v.income_group_id,
         v.income_group_name,
         v.income_group_rank,
+        v.income_group_source,
         v.country_iso3,
         v.year,
         v.indicator,
@@ -51,6 +54,7 @@ SELECT
     income_group_id,
     any_value(income_group_name) AS income_group_name,
     any_value(income_group_rank) AS income_group_rank,
+    string_agg(DISTINCT income_group_source, ';') AS income_group_source,
     year,
     indicator,
     indicator_code,

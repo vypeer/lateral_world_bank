@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 OUTPUT_NAME = "dashboard.html"
 # Income groups get categorical slots in a fixed order (high -> low), never by rank in a chart.
-GROUP_SLOT = {"HIC": 1, "UMC": 2, "LMC": 3, "LIC": 4}
+GROUP_SLOT = {"HIC": 1, "UMC": 2, "LMC": 3, "LIC": 4, "INX": 5}
 YOY_BINS = ("d3", "d2", "d1", "n", "u1", "u2", "u3")
 
 
@@ -458,12 +458,15 @@ def render(data: dict[str, Any]) -> str:
         for g, n, _ in groups
     )
     members = " · ".join(
-        f"{g}: {sum(c['income_group_id'] == g for c in scope)} economies" for g, _, _ in groups
+        f"{g}: {n} economies today"
+        for g, _, _ in groups
+        if (n := sum(c["income_group_id"] == g for c in scope))
     )
     sections.append(f"""
     <section><h2>Income groups over time</h2>
       <p class="lede">Each indicator combined across all economies in scope in each income group, using the
-        aggregation configured for it. Groups use the <em>current</em> World Bank classification for every year.
+        aggregation configured for it. Each year uses <em>that year's</em> World Bank classification (historical
+        workbook); years it does not cover yet use the current classification.
         {esc(members)}.</p>
       <div class="legend">{legend}</div>
       <div class="grid">{"".join(cards)}</div>

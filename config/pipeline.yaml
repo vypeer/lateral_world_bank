@@ -35,6 +35,17 @@ focus_countries:
   - USA
   - ZAF
 
+# Historical income groups. API v2 only knows each country's CURRENT group, so the yearly
+# classification comes from the World Bank's OGHIST workbook (a public file outside API v2; see
+# the README). Years it does not cover yet fall back to the current group, flagged as such. If
+# the download fails, the run continues on current groups and a data-quality check warns.
+# The URL is the "Historical classification by income" link on the World Bank's Country and
+# Lending Groups help-desk page, which serves the current edition (FY27 covers data to 2025).
+income_history:
+  enabled: true
+  url: https://ddh-openapi.worldbank.org/resources/DR0095334/download
+  sheet: Country Analytical History
+
 # valid_min / valid_max (optional, inclusive) bound plausible values; checked as a FAIL.
 # aggregation (optional, default mean) says how to combine countries, e.g. by income group:
 #   mean | sum | {method: ratio, numerator, denominator} | {method: weighted_mean, weight}

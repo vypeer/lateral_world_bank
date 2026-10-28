@@ -30,17 +30,17 @@ CONFIG = os.environ.get("WBPIPE_CONFIG", "config/pipeline.yaml")
 # Categorical slots (fixed order) and the diverging steps, each validated for its surface.
 PALETTE = {
     "light": {
-        "series": ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"],
+        "series": ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"],
         "diverging": ["#952321", "#d6403e", "#ef8a87", "#f0efec", "#86b6ef", "#2a78d6", "#184f95"],
         "muted": "#898781",
     },
     "dark": {
-        "series": ["#3987e5", "#d95926", "#199e70", "#c98500"],
+        "series": ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181"],
         "diverging": ["#f4aaa8", "#d95454", "#8e2f2e", "#383835", "#184f95", "#3987e5", "#9ec5f4"],
         "muted": "#898781",
     },
 }
-GROUP_ORDER = ["HIC", "UMC", "LMC", "LIC"]
+GROUP_ORDER = ["HIC", "UMC", "LMC", "LIC", "INX"]  # INX = not classified (historically)
 # Beyond these, views stop being readable: show the first N of the selection and say so.
 MAX_PANELS = 24
 MAX_ROWS = 60  # income groups keep their colour whatever is filtered
@@ -175,7 +175,7 @@ def filters(
     code = c1.selectbox("Indicator", list(names), format_func=names.__getitem__)
     ind = indicators.set_index("indicator_code").loc[code]
     y0, y1 = c3.slider("Years", years[0], years[-1], (years[0], years[-1]))
-    groups_present = [g for g in GROUP_ORDER if g in set(countries["income_group_id"].dropna())]
+    groups_present = [g for g in GROUP_ORDER if g in set(q("income_group_ids"))]
     groups = (
         c4.pills("Income groups", groups_present, selection_mode="multi", default=groups_present)
         or []
@@ -422,7 +422,8 @@ def tab_income(ind: pd.Series, groups: list[str], y0: int, y1: int) -> None:
         )
     st.caption(
         "Aggregated over every economy in the warehouse in each group, not only the selected "
-        "countries. Income group is the current World Bank classification, applied to every year."
+        "countries. Each year uses that year's World Bank classification (historical workbook); "
+        "years it does not cover yet use the current classification, so membership can change."
     )
 
 

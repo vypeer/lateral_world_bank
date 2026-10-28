@@ -83,6 +83,14 @@ class GdpPerCapitaRule:
 
 
 @dataclass(frozen=True)
+class IncomeHistorySettings:
+    """The World Bank's historical income classification workbook (OGHIST.xlsx)."""
+
+    url: str
+    sheet: str
+
+
+@dataclass(frozen=True)
 class QualitySettings:
     checks_file: Path
     gdp_per_capita: GdpPerCapitaRule | None
@@ -103,6 +111,8 @@ class Settings:
     focus_countries: tuple[str, ...] = ()
     # Skip the full fetch when cheap probes show the source unchanged since the last run
     skip_if_unchanged: bool = True
+    # None = classify every year with the current income group from the API
+    income_history: IncomeHistorySettings | None = None
 
     @property
     def all_countries(self) -> bool:
@@ -119,6 +129,7 @@ class Settings:
         """
         scope = {
             "base_url": self.api.base_url,
+            "income_history": self.income_history.url if self.income_history else None,
             "countries": self.countries if self.countries is not None else "all",
             "indicators": [i.code for i in self.indicators],
             "years": [self.start_year, self.end_year],
@@ -147,6 +158,15 @@ def _parse_aggregation(raw: Any, code: str) -> Aggregation:
     if given != set(needed):
         raise ConfigError(f"indicator {code}: aggregation '{method}' takes exactly {list(needed)}")
     return Aggregation(method=method, **{key: str(raw[key]) for key in needed})
+
+
+def _parse_income_history(raw: Any) -> IncomeHistorySettings | None:
+    if not raw or not raw.get("enabled", True):
+        return None
+    url = str(_require(raw, "url", "income_history"))
+    if not url.startswith("https://"):
+        raise ConfigError("income_history.url must be an https URL")
+    return IncomeHistorySettings(url=url, sheet=str(raw.get("sheet", "Country Analytical History")))
 
 
 def _iso3_list(values: list[Any], key: str) -> tuple[str, ...]:
@@ -265,6 +285,7 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         quality=quality,
         focus_countries=focus,
         skip_if_unchanged=bool((raw.get("ingest") or {}).get("skip_if_unchanged", True)),
+        income_history=_parse_income_history(raw.get("income_history")),
     )
 
 

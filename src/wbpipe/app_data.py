@@ -113,6 +113,15 @@ def indicators(wh: Warehouse) -> pd.DataFrame:
     )
 
 
+def income_group_ids(wh: Warehouse) -> list[str]:
+    """Every income group used in any year (historical groups included)."""
+    df = wh.query(
+        "SELECT DISTINCT income_group_id FROM core.dim_country_income_year "
+        "WHERE income_group_id IS NOT NULL"
+    )
+    return [str(g) for g in df["income_group_id"]]
+
+
 def years(wh: Warehouse) -> list[int]:
     return [int(y) for y in wh.query("SELECT year FROM core.dim_year ORDER BY year")["year"]]
 

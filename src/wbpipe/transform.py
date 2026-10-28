@@ -46,6 +46,9 @@ def latest_successful_run(con: duckdb.DuckDBPyConnection) -> str:
 
 def load_config_tables(con: duckdb.DuckDBPyConnection, settings: Settings) -> None:
     con.execute("CREATE SCHEMA IF NOT EXISTS config")
+    con.execute("CREATE OR REPLACE TABLE config.income_history (url VARCHAR)")
+    if settings.income_history is not None:
+        con.execute("INSERT INTO config.income_history VALUES (?)", [settings.income_history.url])
     con.execute("CREATE OR REPLACE TABLE config.focus_country (country_iso3 VARCHAR)")
     if settings.focus_countries:
         con.executemany(

@@ -4,7 +4,7 @@ import re
 
 import duckdb
 import pytest
-from conftest import edit_observations
+from conftest import edit_observations, n_checks
 
 from wbpipe.dashboard import fmt, fmt_pct, nice_ticks, run_dashboard, yoy_bin
 from wbpipe.quality import DataQualityError, run_checks
@@ -37,7 +37,7 @@ def test_dashboard_is_self_contained_and_complete(settings, published):
         assert name in page
     assert page.count("<svg") == page.count("</svg>")
     assert page.count('class="chart"') == 4 * 3  # income lines, latest bars, YoY heatmaps
-    assert "16/16 pass" in page
+    assert f"{n_checks()}/{n_checks()} pass" in page
     assert "No missing values" in page
     assert page.count("<details>") == 3  # a data table behind every chart section
 

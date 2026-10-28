@@ -15,11 +15,13 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 import duckdb
 
-from wbpipe.api_client import ApiPage, WorldBankApiError, WorldBankClient
+from wbpipe.api_client import ApiPage, RetriesExhausted, WorldBankApiError, WorldBankClient
 from wbpipe.config import Settings
+from wbpipe.income_history import IncomeHistoryError, parse_oghist
 from wbpipe.warehouse import connect
 
 log = logging.getLogger(__name__)
@@ -95,10 +97,49 @@ def response_id(request_url: str, payload_sha256: str) -> str:
     return hashlib.sha256(f"{request_url}\n{payload_sha256}".encode()).hexdigest()[:32]
 
 
+@dataclass(frozen=True)
+class IncomeHistory:
+    body: bytes  # the workbook, verbatim
+    records: list[dict[str, Any]]
+
+
+def download_income_history(settings: Settings, client: WorldBankClient) -> IncomeHistory | None:
+    """The parsed OGHIST workbook, or None (with a warning) when disabled or unavailable.
+
+    A failure here does not fail the run: income groups then fall back to the current
+    classification and the income_history_loaded check warns.
+    """
+    if settings.income_history is None:
+        return None
+    try:
+        body = client.fetch_file(settings.income_history.url)
+        return IncomeHistory(body, parse_oghist(body, settings.income_history.sheet))
+    except (WorldBankApiError, RetriesExhausted, IncomeHistoryError) as exc:
+        log.warning("income history unavailable (%s); using current income groups", exc)
+        return None
+
+
+def income_history_page(settings: Settings, history: IncomeHistory) -> ApiPage:
+    """The workbook's parsed rows as an API-shaped page, so raw lineage works unchanged."""
+    assert settings.income_history is not None
+    url, body, records = settings.income_history.url, history.body, history.records
+    meta = {
+        "page": 1, "pages": 1, "total": len(records), "lastupdated": None,
+        "source_url": url, "sheet": settings.income_history.sheet,
+        "file_sha256": hashlib.sha256(body).hexdigest(), "file_bytes": len(body),
+    }  # fmt: skip
+    payload = json.dumps([meta, records], sort_keys=True, separators=(",", ":")).encode()
+    return ApiPage(
+        path=url, params={}, request_url=url, page=1, http_status=200,
+        fetched_at=datetime.now(timezone.utc), body=payload, meta=meta, rows=records,
+    )  # fmt: skip
+
+
 def unchanged_since(
     settings: Settings,
     client: WorldBankClient,
     country_pages: Sequence[ApiPage],
+    history: IncomeHistory | None = None,
 ) -> str | None:
     """The last successful run if cheap probes show nothing changed since it, else None.
 
@@ -126,6 +167,19 @@ def unchanged_since(
             """,
             [last[0]],
         ).fetchall()
+        history_sha = con.execute(
+            """
+            SELECT r.payload ->> '$[0].file_sha256'
+            FROM raw.api_fetch f JOIN raw.api_response r USING (response_id)
+            WHERE f.run_id = ? AND r.endpoint = 'income_history'
+            """,
+            [last[0]],
+        ).fetchone()
+    previous_history = history_sha[0] if history_sha else None
+    current_history = hashlib.sha256(history.body).hexdigest() if history is not None else None
+    if current_history is not None and current_history != previous_history:
+        log.info("income history workbook changed since run %s", last[0])
+        return None
     country_shas = [row[3] for row in seen if row[0] == "country"]
     if country_shas != [hashlib.sha256(p.body).hexdigest() for p in country_pages]:
         log.info("country metadata changed since run %s", last[0])
@@ -153,9 +207,10 @@ def run_ingest(
     client = client or WorldBankClient(settings.api)
     country_req = country_request(settings)
     prefetched: list[ApiPage] | None = None
+    history = download_income_history(settings, client)
     if settings.skip_if_unchanged and not force:
         prefetched = client.fetch_all(country_req.path, country_req.params)
-        since = unchanged_since(settings, client, prefetched)
+        since = unchanged_since(settings, client, prefetched, history)
         if since:
             with connect(settings) as con:
                 con.execute(
@@ -195,6 +250,14 @@ def run_ingest(
         log.info("%d countries in scope", len(countries))
         for req in plan_requests(settings, countries):
             fetch(req)
+        if history is not None:
+            assert settings.income_history is not None
+            req = Request("income_history", None, settings.income_history.url, {})
+            target = settings.paths.landing_dir / run_id / req.landing_subdir
+            target.mkdir(parents=True, exist_ok=True)
+            # the workbook verbatim, next to the parsed page registered in raw
+            (target / "OGHIST.xlsx").write_bytes(history.body)
+            fetch(req, [income_history_page(settings, history)])
     except Exception as exc:
         with connect(settings) as con:
             _record_failure(con, settings, run_id, started_at, exc)

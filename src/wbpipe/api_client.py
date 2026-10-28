@@ -139,7 +139,11 @@ class WorldBankClient:
             rows=rows,
         )
 
-    def _get_with_retries(self, url: str) -> tuple[int, bytes]:
+    def fetch_file(self, url: str) -> bytes:
+        """A non-API download (e.g. a reference workbook), with the same retry policy."""
+        return self._get_with_retries(url, expect_json=False)[1]
+
+    def _get_with_retries(self, url: str, expect_json: bool = True) -> tuple[int, bytes]:
         attempts = self._settings.max_retries + 1
         last_error = ""
         for attempt in range(attempts):
@@ -149,6 +153,8 @@ class WorldBankClient:
             except (requests.ConnectionError, requests.Timeout) as exc:
                 last_error = f"{type(exc).__name__}: {exc}"
             else:
+                if resp.status_code == 200 and not expect_json:
+                    return resp.status_code, resp.content
                 if resp.status_code == 200:
                     try:
                         json.loads(resp.content)

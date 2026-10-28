@@ -9,7 +9,7 @@ from conftest import LIVE
 
 def test_fixture_files_match_manifest(live_manifest):
     for entry in live_manifest:
-        body = (LIVE / f"{entry['name']}.json").read_bytes()
+        body = (LIVE / entry["file"]).read_bytes()
         assert hashlib.sha256(body).hexdigest() == entry["sha256"], entry["name"]
 
 

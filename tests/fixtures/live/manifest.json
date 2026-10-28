@@ -6,7 +6,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:08+00:00",
     "sha256": "1eb97a11e6d6095fdc7afcd4382fbdf1f49c314ca9e3649b11583ce2771fe929",
-    "bytes": 3499
+    "bytes": 3499,
+    "file": "country_metadata.json"
   },
   {
     "name": "indicator_metadata_SP.POP.TOTL",
@@ -15,7 +16,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:09+00:00",
     "sha256": "2f8491efc00bf2c0995112ff8e87aba69e5e9d22d0880b22f7e3a4ec757ba05c",
-    "bytes": 1099
+    "bytes": 1099,
+    "file": "indicator_metadata_SP.POP.TOTL.json"
   },
   {
     "name": "observations_SP.POP.TOTL_page1",
@@ -24,7 +26,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:09+00:00",
     "sha256": "5502608a57fbac4f24f62fde2ba0e3fa8ec8c60384a5b81485958d0a99f4bafd",
-    "bytes": 9933
+    "bytes": 9933,
+    "file": "observations_SP.POP.TOTL_page1.json"
   },
   {
     "name": "observations_SP.POP.TOTL_page2",
@@ -33,7 +36,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:24+00:00",
     "sha256": "c0fab952feb838f8a8cebf37c5ca503445fd96b471397bab7ceb0a4f27bda022",
-    "bytes": 2716
+    "bytes": 2716,
+    "file": "observations_SP.POP.TOTL_page2.json"
   },
   {
     "name": "indicator_metadata_NY.GDP.MKTP.CD",
@@ -42,7 +46,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:25+00:00",
     "sha256": "51cec1e144a5bad8d92238630c0a305e20116e86d34ad95c7c315ed166255b28",
-    "bytes": 938
+    "bytes": 938,
+    "file": "indicator_metadata_NY.GDP.MKTP.CD.json"
   },
   {
     "name": "observations_NY.GDP.MKTP.CD_page1",
@@ -51,7 +56,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:32+00:00",
     "sha256": "83edf21232eabb826e430f3b923d6d58128ac371551788635e6723ae03eb0728",
-    "bytes": 10441
+    "bytes": 10441,
+    "file": "observations_NY.GDP.MKTP.CD_page1.json"
   },
   {
     "name": "observations_NY.GDP.MKTP.CD_page2",
@@ -60,7 +66,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:33+00:00",
     "sha256": "35e70357438c204532b6735467e75f1ec460e8e2f8642c86a1aec1eb09abba38",
-    "bytes": 2841
+    "bytes": 2841,
+    "file": "observations_NY.GDP.MKTP.CD_page2.json"
   },
   {
     "name": "indicator_metadata_NY.GDP.PCAP.CD",
@@ -69,7 +76,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:34+00:00",
     "sha256": "96520c3a22b1f9da1c7456349a6e70b1643db88d427671faced17cb8b9eaf907",
-    "bytes": 1044
+    "bytes": 1044,
+    "file": "indicator_metadata_NY.GDP.PCAP.CD.json"
   },
   {
     "name": "observations_NY.GDP.PCAP.CD_page1",
@@ -78,7 +86,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:45+00:00",
     "sha256": "5bac0c2182dc517a421ec7d34dc34766cf149f364575b61b41d059f7469b3747",
-    "bytes": 10990
+    "bytes": 10990,
+    "file": "observations_NY.GDP.PCAP.CD_page1.json"
   },
   {
     "name": "observations_NY.GDP.PCAP.CD_page2",
@@ -87,7 +96,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:55+00:00",
     "sha256": "9db9af9de379d317a66148f9363f7021f1f3f44d02beb8ad0514b79adceefc0f",
-    "bytes": 2993
+    "bytes": 2993,
+    "file": "observations_NY.GDP.PCAP.CD_page2.json"
   },
   {
     "name": "indicator_metadata_SP.DYN.LE00.IN",
@@ -96,7 +106,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:55+00:00",
     "sha256": "a39cb6fddfbbb953053690366243dffe77a266c4deae79c46ce5a06da9f5fc31",
-    "bytes": 969
+    "bytes": 969,
+    "file": "indicator_metadata_SP.DYN.LE00.IN.json"
   },
   {
     "name": "observations_SP.DYN.LE00.IN_page1",
@@ -105,7 +116,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:56+00:00",
     "sha256": "772baa9df293f73a91bb97b73ea4403f9f63845ad38730fcf2ec8e7d519b1712",
-    "bytes": 11310
+    "bytes": 11310,
+    "file": "observations_SP.DYN.LE00.IN_page1.json"
   },
   {
     "name": "observations_SP.DYN.LE00.IN_page2",
@@ -114,7 +126,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:57+00:00",
     "sha256": "a3abb15fd03e85fcd99070b63be3513d443215b3b4c07d032e68f640d6ec0f50",
-    "bytes": 3067
+    "bytes": 3067,
+    "file": "observations_SP.DYN.LE00.IN_page2.json"
   },
   {
     "name": "observations_page_beyond_last",
@@ -123,7 +136,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:58+00:00",
     "sha256": "32276376d7c4268bb082f0ab8aace963fb7ea51b51f1430ae5e4e49d5819fead",
-    "bytes": 92
+    "bytes": 92,
+    "file": "observations_page_beyond_last.json"
   },
   {
     "name": "error_invalid_indicator",
@@ -132,7 +146,8 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:58+00:00",
     "sha256": "f230e5b6d8f652aa544aec29624faa117c27571ce309a7a474584e1cfeb45c1b",
-    "bytes": 102
+    "bytes": 102,
+    "file": "error_invalid_indicator.json"
   },
   {
     "name": "error_invalid_country",
@@ -141,6 +156,17 @@
     "http_status": 200,
     "captured_at": "2026-10-28T08:34:59+00:00",
     "sha256": "f230e5b6d8f652aa544aec29624faa117c27571ce309a7a474584e1cfeb45c1b",
-    "bytes": 102
+    "bytes": 102,
+    "file": "error_invalid_country.json"
+  },
+  {
+    "name": "income_history_oghist",
+    "file": "income_history_oghist.xlsx",
+    "description": "Historical income classification workbook (OGHIST.xlsx)",
+    "url": "https://ddh-openapi.worldbank.org/resources/DR0095334/download",
+    "http_status": 200,
+    "captured_at": "2026-10-28T12:19:53+00:00",
+    "sha256": "a4024eb8052150155034559daf053aabbc16336d8290efeb5629e6eeb6515a60",
+    "bytes": 115957
   }
 ]

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import duckdb
 import pytest
-from conftest import edit_observations
+from conftest import edit_observations, n_checks
 
 pytest.importorskip("streamlit")
 
@@ -39,7 +39,7 @@ def app(built, monkeypatch):
 def test_status_reports_build_and_checks(built):
     status = d.status(built)
     assert status["ingest_run_id"] == "run1"
-    assert status["dq"] == {"pass": 16, "warn": 0, "fail": 0, "error": 0}
+    assert status["dq"] == {"pass": n_checks(), "warn": 0, "fail": 0, "error": 0}
 
 
 def test_comparison_uses_latest_year_common_to_the_selection(settings, ingest, fake_session):
@@ -107,7 +107,8 @@ def test_app_renders_every_tab(app):
         "Trends", "Compare", "Year-over-year", "Income groups", "Data quality & lineage",
         "Explore & SQL",
     ]  # fmt: skip
-    assert any("16/16 data-quality checks pass" in s.value for s in at.success)
+    n = n_checks()
+    assert any(f"{n}/{n} data-quality checks pass" in s.value for s in at.success)
 
 
 def test_filters_drive_every_view(app):
@@ -181,7 +182,9 @@ def test_warnings_are_named_under_the_banner(settings, pipeline, fake_session, m
     monkeypatch.setenv("WBPIPE_WAREHOUSE", str(settings.paths.warehouse))
     at = AppTest.from_file(APP, default_timeout=60).run()
     assert not at.exception
-    assert any("15/16 checks pass · 1 warning(s)" in w.value for w in at.warning)
+    assert any(
+        f"{n_checks() - 1}/{n_checks()} checks pass · 1 warning(s)" in w.value for w in at.warning
+    )
     assert any(e.label == "⚠️ Data-quality findings: values_missing (1)" for e in at.expander)
 
 

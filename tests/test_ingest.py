@@ -10,7 +10,8 @@ from wbpipe.api_client import WorldBankApiError
 from wbpipe.ingest import country_request, plan_requests
 
 COUNTRIES = "BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF"
-EXPECTED_PAGES = 1 + 4 * (1 + 2)  # countries + per indicator (metadata + 2 observation pages)
+# countries + per indicator (metadata + 2 observation pages) + the income-history workbook
+EXPECTED_PAGES = 1 + 4 * (1 + 2) + 1
 
 
 def test_plan_is_config_driven(settings):

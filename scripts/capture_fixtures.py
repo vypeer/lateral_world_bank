@@ -4,9 +4,11 @@ Run manually (it calls the live API); tests only ever read the saved files.
 
     python scripts/capture_fixtures.py
 
-Each response body is saved byte-for-byte to tests/fixtures/live/<name>.json and
+Each response body is saved byte-for-byte to tests/fixtures/live/<name>.<ext> and
 described in tests/fixtures/live/manifest.json (URL, HTTP status, capture time, sha256).
 Stdlib only, so it runs before the project's dependencies are installed.
+
+    python scripts/capture_fixtures.py --only income_history_oghist   # one fixture
 """
 
 from __future__ import annotations
@@ -27,6 +29,9 @@ DATE_RANGE = "2018:2024"
 PER_PAGE = 50
 
 OUT_DIR = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "live"
+# World Bank historical income classification (not part of API v2; see README). This is the
+# link on the "World Bank Country and Lending Groups" help-desk page; it serves the current edition.
+OGHIST_URL = "https://ddh-openapi.worldbank.org/resources/DR0095334/download"
 
 
 def requests_to_capture() -> list[tuple[str, str, str]]:
@@ -73,6 +78,11 @@ def requests_to_capture() -> list[tuple[str, str, str]]:
             "Unknown country code: HTTP 200 with a message body instead of data",
             f"{BASE_URL}/country/XXX/indicator/SP.POP.TOTL?format=json&date={DATE_RANGE}",
         ),
+        (
+            "income_history_oghist",
+            "Historical income classification workbook (OGHIST.xlsx)",
+            OGHIST_URL,
+        ),
     ]
     return reqs
 
@@ -83,29 +93,38 @@ def fetch(url: str) -> tuple[int, bytes]:
         return resp.status, resp.read()
 
 
-def main() -> int:
+def main(argv: list[str]) -> int:
+    only = argv[argv.index("--only") + 1] if "--only" in argv else None
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    manifest = []
+    manifest_path = OUT_DIR / "manifest.json"
+    existing = json.loads(manifest_path.read_text()) if manifest_path.exists() else []
+    manifest = {e["name"]: e for e in existing}
     for name, description, url in requests_to_capture():
+        if only and name != only:
+            continue
         status, body = fetch(url)
-        json.loads(body)  # fail loudly if the API returned something that is not JSON
-        (OUT_DIR / f"{name}.json").write_bytes(body)
-        manifest.append(
-            {
-                "name": name,
-                "description": description,
-                "url": url,
-                "http_status": status,
-                "captured_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "sha256": hashlib.sha256(body).hexdigest(),
-                "bytes": len(body),
-            }
-        )
+        is_json = url != OGHIST_URL
+        if is_json:
+            json.loads(body)  # fail loudly if the API returned something that is not JSON
+        filename = f"{name}.json" if is_json else f"{name}.xlsx"
+        (OUT_DIR / filename).write_bytes(body)
+        manifest[name] = {
+            "name": name,
+            "file": filename,
+            "description": description,
+            "url": url,
+            "http_status": status,
+            "captured_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "sha256": hashlib.sha256(body).hexdigest(),
+            "bytes": len(body),
+        }
         print(f"{status} {name} ({len(body)} bytes)")
         time.sleep(0.3)  # be polite to the public API
-    (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    for entry in manifest.values():
+        entry.setdefault("file", f"{entry['name']}.json")
+    manifest_path.write_text(json.dumps(list(manifest.values()), indent=2) + "\n")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

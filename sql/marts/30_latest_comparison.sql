@@ -32,7 +32,7 @@ per_country AS (
         v.country_iso3,
         any_value(v.indicator) AS indicator,
         any_value(v.country_name) AS country_name,
-        any_value(v.income_group_name) AS income_group_name,
+        any_value(v.current_income_group_name) AS income_group_name,  -- current classification
         any_value(v.is_focus) AS is_focus,
         any_value(cy.latest_common_year) AS latest_common_year,
         any_value(v.value) FILTER (WHERE v.year = cy.latest_common_year) AS value_at_common_year,

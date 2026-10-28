@@ -33,8 +33,8 @@ def test_unchanged_source_is_skipped(skipping, ingest_run, fake_session):
     fake_session.calls.clear()
     second = ingest_run(skipping, "run2")
     assert (second.skipped, second.run_id, second.n_pages) == (True, "run1", 0)
-    # one country page + one per_page=1 probe per indicator; nothing landed or registered
-    assert len(fake_session.calls) == 1 + 4
+    # workbook + country page + one per_page=1 probe per indicator; nothing landed or registered
+    assert len(fake_session.calls) == 1 + 1 + 4
     assert all("per_page=1&" in u for u in fake_session.calls if "/indicator/" in u)
     assert not (skipping.paths.landing_dir / "run2").exists()
     assert query(skipping, "SELECT run_id FROM raw.ingest_run") == [("run1",)]
@@ -44,7 +44,7 @@ def test_unchanged_source_is_skipped(skipping, ingest_run, fake_session):
 def test_force_always_fetches(skipping, ingest_run):
     ingest_run(skipping, "run1")
     result = ingest_run(skipping, "run2", force=True)
-    assert not result.skipped and result.n_pages == 13 and result.n_new_responses == 0
+    assert not result.skipped and result.n_pages == 14 and result.n_new_responses == 0
 
 
 def test_new_source_release_triggers_a_full_run(skipping, ingest_run, fake_session):
@@ -76,3 +76,12 @@ def test_scope_change_triggers_a_full_run(skipping, ingest_run):
 
 def test_no_previous_run_means_a_full_run(skipping, ingest_run):
     assert not ingest_run(skipping, "run1").skipped
+
+
+def test_new_income_history_workbook_triggers_a_full_run(skipping, ingest_run, fake_session):
+    from test_income_history import workbook
+
+    ingest_run(skipping, "run1")
+    fake_session.override(skipping.income_history.url, workbook({"BRA": {2023: "H"}}))
+    result = ingest_run(skipping, "run2")
+    assert not result.skipped and result.n_new_responses == 1

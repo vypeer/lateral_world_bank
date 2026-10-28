@@ -134,6 +134,11 @@ def query(settings: Settings, sql: str, params: Any = None) -> list[Any]:
         return con.execute(sql, params or []).fetchall()
 
 
+def n_checks() -> int:
+    """How many data-quality checks are configured (tests should not hard-code it)."""
+    return len(yaml.safe_load((REPO / "config" / "dq_checks.yaml").read_text())["checks"])
+
+
 def load_manifest() -> list[dict[str, Any]]:
     return json.loads((LIVE / "manifest.json").read_text())
 
@@ -157,7 +162,7 @@ def load_live():
 @pytest.fixture
 def fake_session() -> FakeSession:
     routes = {
-        route_key(e["url"]): (LIVE / f"{e['name']}.json").read_bytes()
+        route_key(e["url"]): (LIVE / e["file"]).read_bytes()
         for e in load_manifest()
         if not e["name"].startswith("error_")
     }
