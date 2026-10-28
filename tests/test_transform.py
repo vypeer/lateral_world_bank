@@ -207,3 +207,18 @@ def test_failed_transform_leaves_previous_state_intact(settings, pipeline, tmp_p
     with pytest.raises(duckdb.CatalogException):
         run_transform(broken)
     assert query(settings, "SELECT * FROM core.fct_indicator_value ORDER BY ALL") == snapshot
+
+
+def test_cli_replays_a_given_run(settings, pipeline, fake_session, monkeypatch):
+    from wbpipe import cli
+
+    pipeline("run1")
+    edit_observations(fake_session, "SP.POP.TOTL", lambda meta, rows: rows[-1].update(value=1.0))
+    pipeline("run2")
+    monkeypatch.setattr(cli, "load_settings", lambda _path: settings)
+    assert cli.main(["transform", "--run-id", "run1"]) == 0
+    assert query(settings, "SELECT ingest_run_id FROM core.transform_run "
+                           "ORDER BY transformed_at DESC LIMIT 1") == [("run1",)]  # fmt: skip
+    assert fact(settings, ("ZAF", "SP.POP.TOTL", 2018))[0] != 1.0
+    with pytest.raises(SystemExit):
+        cli.main(["check", "--run-id", "run1"])

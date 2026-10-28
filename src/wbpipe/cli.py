@@ -16,19 +16,19 @@ from wbpipe.transform import TransformError, run_transform
 log = logging.getLogger("wbpipe")
 
 
-def _ingest(settings: Settings) -> None:
+def _ingest(settings: Settings, args: argparse.Namespace) -> None:
     run_ingest(settings)
 
 
-def _transform(settings: Settings) -> None:
-    run_transform(settings)
+def _transform(settings: Settings, args: argparse.Namespace) -> None:
+    run_transform(settings, run_id=args.run_id)
 
 
-def _check(settings: Settings) -> None:
+def _check(settings: Settings, args: argparse.Namespace) -> None:
     run_checks(settings)
 
 
-def _report(settings: Settings) -> None:
+def _report(settings: Settings, args: argparse.Namespace) -> None:
     run_report(settings)
 
 
@@ -42,13 +42,12 @@ EXPECTED_ERRORS = (
     ReportError,
 )
 
-# Steps run in this order by `wbpipe run`; None marks a step that is not built yet.
-STEPS: dict[str, Callable[[Settings], None] | None] = {
+# Steps run in this order by `wbpipe run`.
+STEPS: dict[str, Callable[[Settings, argparse.Namespace], None]] = {
     "ingest": _ingest,
     "transform": _transform,
     "check": _check,
     "report": _report,
-    "dashboard": None,
 }
 
 
@@ -56,12 +55,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wbpipe", description=__doc__)
     parser.add_argument("--config", default="config/pipeline.yaml", help="pipeline config file")
     parser.add_argument("-v", "--verbose", action="store_true", help="debug logging")
+    parser.add_argument(
+        "--run-id",
+        help="transform only: rebuild from this ingest run instead of the latest (replay)",
+    )
     parser.add_argument("step", choices=("run", *STEPS), help="step to execute ('run' = all)")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.run_id and args.step != "transform":
+        parser.error("--run-id can only be used with the transform step")
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
@@ -69,12 +75,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         settings = load_settings(args.config)
         for name in STEPS if args.step == "run" else [args.step]:
-            step = STEPS[name]
-            if step is None:
-                log.warning("step %r is not implemented yet; skipping", name)
-                continue
             log.info("== %s ==", name)
-            step(settings)
+            STEPS[name](settings, args)
     except EXPECTED_ERRORS as exc:
         # Known failure modes: report clearly and exit non-zero without a traceback.
         log.error("%s: %s", type(exc).__name__, exc)
