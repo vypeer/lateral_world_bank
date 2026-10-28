@@ -10,6 +10,7 @@ from wbpipe.api_client import PagingError, RetriesExhausted, WorldBankApiError
 from wbpipe.config import ConfigError, Settings, load_settings
 from wbpipe.ingest import run_ingest
 from wbpipe.quality import DataQualityError, run_checks
+from wbpipe.report import ReportError, run_report
 from wbpipe.transform import TransformError, run_transform
 
 log = logging.getLogger("wbpipe")
@@ -27,6 +28,10 @@ def _check(settings: Settings) -> None:
     run_checks(settings)
 
 
+def _report(settings: Settings) -> None:
+    run_report(settings)
+
+
 EXPECTED_ERRORS = (
     ConfigError,
     WorldBankApiError,
@@ -34,6 +39,7 @@ EXPECTED_ERRORS = (
     RetriesExhausted,
     TransformError,
     DataQualityError,
+    ReportError,
 )
 
 # Steps run in this order by `wbpipe run`; None marks a step that is not built yet.
@@ -41,7 +47,7 @@ STEPS: dict[str, Callable[[Settings], None] | None] = {
     "ingest": _ingest,
     "transform": _transform,
     "check": _check,
-    "report": None,
+    "report": _report,
     "dashboard": None,
 }
 
