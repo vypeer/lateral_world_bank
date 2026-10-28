@@ -19,6 +19,7 @@ import duckdb
 
 from wbpipe.api_client import ApiPage, WorldBankClient
 from wbpipe.config import Settings
+from wbpipe.warehouse import connect
 
 log = logging.getLogger(__name__)
 
@@ -68,13 +69,6 @@ def new_run_id(now: datetime | None = None) -> str:
 
 def response_id(request_url: str, payload_sha256: str) -> str:
     return hashlib.sha256(f"{request_url}\n{payload_sha256}".encode()).hexdigest()[:32]
-
-
-def connect(settings: Settings) -> duckdb.DuckDBPyConnection:
-    settings.paths.warehouse.parent.mkdir(parents=True, exist_ok=True)
-    con = duckdb.connect(str(settings.paths.warehouse))
-    con.execute((settings.paths.sql_dir / "raw" / "schema.sql").read_text())
-    return con
 
 
 def run_ingest(
