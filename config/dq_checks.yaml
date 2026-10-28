@@ -1,0 +1,180 @@
+# Data-quality checks, run by `wbpipe check` after transform.
+#
+# Each check is a SQL query that returns the VIOLATING rows; zero rows = pass.
+#   severity: fail -> the pipeline stops (exit code 1) before publishing outputs
+#   severity: warn -> recorded and reported, the pipeline continues
+# Available session variables: getvariable('ingest_run_id'), getvariable('max_source_age_days').
+# Results are appended to quality.dq_result and written to output/dq_results.csv.
+
+checks:
+  # ---- Grain and completeness ----------------------------------------------------------
+  - name: fct_grain_unique
+    severity: fail
+    description: At most one fact row per country x indicator x year.
+    sql: |
+      SELECT country_iso3, indicator_code, year, count(*) AS n
+      FROM core.fct_indicator_value
+      GROUP BY ALL HAVING count(*) > 1
+
+  - name: fct_spine_complete
+    severity: fail
+    description: >-
+      The fact has exactly the configured country x indicator x year combinations,
+      none missing and none extra (missing values are rows with a status, not absent rows).
+    sql: |
+      WITH spine AS (
+          SELECT c.country_iso3, i.indicator_code, y.year
+          FROM config.country c, config.indicator i, config.year y
+      )
+      SELECT 'missing_from_fact' AS problem, * FROM (
+          SELECT * FROM spine
+          EXCEPT SELECT country_iso3, indicator_code, year FROM core.fct_indicator_value)
+      UNION ALL
+      SELECT 'not_in_config' AS problem, * FROM (
+          SELECT country_iso3, indicator_code, year FROM core.fct_indicator_value
+          EXCEPT SELECT * FROM spine)
+
+  - name: fct_dimension_integrity
+    severity: fail
+    description: Every fact row joins to its country, indicator and year dimension rows.
+    sql: |
+      SELECT f.country_iso3, f.indicator_code, f.year
+      FROM core.fct_indicator_value f
+      LEFT JOIN core.dim_country c USING (country_iso3)
+      LEFT JOIN core.dim_indicator i USING (indicator_code)
+      LEFT JOIN core.dim_year y USING (year)
+      WHERE c.country_iso3 IS NULL OR i.indicator_code IS NULL OR y.year IS NULL
+
+  - name: source_duplicate_observations
+    severity: fail
+    description: >-
+      The API returned more than one observation for the same country x indicator x year
+      (the load keeps the first; the source needs investigating).
+    sql: |
+      SELECT country_iso3, indicator_code, year, count(*) AS n, list(value) AS values
+      FROM staging.stg_observation
+      GROUP BY ALL HAVING count(*) > 1
+
+  # ---- Parsing and status semantics ----------------------------------------------------
+  - name: source_unparseable_values
+    severity: fail
+    description: >-
+      Observations whose year or value could not be parsed. They would otherwise look like
+      missing data.
+    sql: |
+      SELECT country_iso3, indicator_code, date_raw, value_raw, response_id
+      FROM staging.stg_observation
+      WHERE year IS NULL OR (value_raw IS NOT NULL AND value IS NULL)
+
+  - name: fct_status_consistent
+    severity: fail
+    description: >-
+      value_status agrees with the row: present <=> value not null; not_returned <=> no
+      source response.
+    sql: |
+      SELECT country_iso3, indicator_code, year, value_status, value, response_id
+      FROM core.fct_indicator_value
+      WHERE (value_status = 'present') <> (value IS NOT NULL)
+         OR (value_status = 'not_returned') <> (response_id IS NULL)
+
+  - name: fct_lineage_resolves
+    severity: fail
+    description: >-
+      Every sourced fact row points to a raw response that belongs to the ingest run the
+      core layer was built from.
+    sql: |
+      SELECT f.country_iso3, f.indicator_code, f.year, f.response_id
+      FROM core.fct_indicator_value f
+      LEFT JOIN raw.api_fetch a
+        ON a.response_id = f.response_id AND a.run_id = getvariable('ingest_run_id')
+      WHERE f.response_id IS NOT NULL AND a.response_id IS NULL
+
+  # ---- Values --------------------------------------------------------------------------
+  - name: value_in_valid_range
+    severity: fail
+    description: Values lie within the plausible range configured per indicator.
+    sql: |
+      SELECT f.country_iso3, f.indicator_code, f.year, f.value, i.valid_min, i.valid_max
+      FROM core.fct_indicator_value f
+      JOIN config.indicator i USING (indicator_code)
+      WHERE f.value < i.valid_min OR f.value > i.valid_max
+
+  - name: gdp_per_capita_consistent
+    severity: warn
+    description: >-
+      GDP / population matches reported GDP per capita within the configured tolerance
+      (see quality.v_gdp_per_capita_consistency).
+    sql: |
+      SELECT country_iso3, year, gdp_usd, population, reported_gdp_per_capita,
+             derived_gdp_per_capita, relative_difference
+      FROM quality.v_gdp_per_capita_consistency
+      WHERE consistency_status = 'inconsistent'
+
+  - name: values_missing
+    severity: warn
+    description: >-
+      Country x indicator x year combinations without a value (null in source or not
+      returned). Expected for recent years; reported so the gaps are visible.
+    sql: |
+      SELECT country_iso3, indicator_code, year, value_status
+      FROM core.fct_indicator_value
+      WHERE value_status <> 'present'
+
+  # ---- Reference data ------------------------------------------------------------------
+  - name: dim_country_described
+    severity: fail
+    description: >-
+      Every configured country was described by the API, including its income group
+      (needed for the income-group comparison).
+    sql: |
+      SELECT country_iso3, country_name, income_group_id
+      FROM core.dim_country
+      WHERE country_name IS NULL OR income_group_id IS NULL OR income_group_rank IS NULL
+
+  - name: dim_indicator_described
+    severity: warn
+    description: Every configured indicator was described by the API.
+    sql: |
+      SELECT indicator_code, short_name
+      FROM core.dim_indicator
+      WHERE indicator_name IS NULL
+
+  - name: source_unexpected_observations
+    severity: warn
+    description: The API returned observations outside the configured scope (ignored by the load).
+    sql: |
+      SELECT o.country_iso3, o.indicator_code, o.year
+      FROM staging.stg_observation o
+      LEFT JOIN config.country c USING (country_iso3)
+      LEFT JOIN config.indicator i USING (indicator_code)
+      LEFT JOIN config.year y USING (year)
+      WHERE c.country_iso3 IS NULL OR i.indicator_code IS NULL OR y.year IS NULL
+
+  # ---- Freshness and operations --------------------------------------------------------
+  - name: source_freshness
+    severity: warn
+    description: >-
+      The World Bank's lastupdated date is known and was no older than max_source_age_days
+      when the data was fetched.
+    sql: |
+      SELECT r.endpoint, r.entity, r.source_lastupdated,
+             date_diff('day', r.source_lastupdated, CAST(a.fetched_at AS DATE)) AS age_days
+      FROM raw.api_fetch a
+      JOIN raw.api_response r USING (response_id)
+      WHERE a.run_id = getvariable('ingest_run_id')
+        AND r.endpoint = 'observation' AND r.page = 1
+        AND (r.source_lastupdated IS NULL
+             OR date_diff('day', r.source_lastupdated, CAST(a.fetched_at AS DATE))
+                > getvariable('max_source_age_days'))
+
+  - name: ingest_failed_since_checked_run
+    severity: warn
+    description: >-
+      No ingest run has failed since the run being checked; otherwise the published data
+      is older than intended.
+    sql: |
+      SELECT run_id, started_at, error
+      FROM raw.ingest_run
+      WHERE status = 'failed'
+        AND started_at > (SELECT started_at FROM raw.ingest_run
+                          WHERE run_id = getvariable('ingest_run_id'))

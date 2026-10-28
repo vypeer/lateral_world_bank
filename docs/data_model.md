@@ -9,6 +9,7 @@ Data only flows forward: `raw` → `staging` → `core` → `marts`.
 | `config`  | The configured countries / indicators / years                  | `wbpipe transform`| replaced each transform        |
 | `staging` | Responses of one ingest run, parsed into typed rows            | `wbpipe transform`| replaced each transform        |
 | `core`    | Conformed dimensions and the indicator fact (+ its history)    | `wbpipe transform`| dims replaced; fact upserted   |
+| `quality` | Data-quality results and diagnostic views                      | `wbpipe check`    | results appended; views        |
 | `marts`   | Analyst-facing answers to the reporting questions              | _next step_       | views                          |
 
 ## Entity relationships
@@ -139,6 +140,33 @@ One row per version of a fact row. `valid_from` / `valid_to` are transform times
 `valid_from_run_id` / `valid_to_run_id` name the ingest runs. `change_type` is `initial` for the
 first version of a key and `revision` afterwards (source corrections, values filled in late,
 values withdrawn). A closed version without a successor means the key left the configured scope.
+
+### `core.transform_run` — one row per transform
+Which ingest run the core layer was built from (`ingest_run_id`), when, and how many fact versions
+were opened or closed. Data-quality checks run against the latest row.
+
+## Data quality
+
+Checks are declared in `config/dq_checks.yaml`. Each one is a SQL query that returns the
+violating rows. `wbpipe check` runs all of them after every transform:
+
+- **Severity `fail`** stops the pipeline (exit code 1) before outputs are published. Examples:
+  grain or spine violations, broken dimension links, unparseable or out-of-range values, lineage
+  that doesn't resolve to the checked ingest run, a configured country the API didn't describe.
+- **Severity `warn`** is recorded and reported, and the pipeline continues. Examples: GDP /
+  population vs GDP per capita outside tolerance, missing values, out-of-scope rows from the API,
+  stale source data, an ingest failure since the checked run.
+- A check whose SQL errors gets status `error` and always blocks, because an unknown result is
+  not a pass.
+
+Results are appended to `quality.dq_result` (one row per check per execution) and written to
+`output/dq_results.csv` and `output/dq_report.md` (with sample violating rows).
+`quality.v_gdp_per_capita_consistency` shows the cross-indicator comparison for every
+country-year, with its relative difference and status.
+
+Per-indicator plausible ranges (`valid_min` / `valid_max`) and the consistency rule live in
+`config/pipeline.yaml`. Quality settings are not part of the scope fingerprint, so tuning a
+threshold does not count as a scope change.
 
 ## Adding a country or indicator
 Edit `config/pipeline.yaml` and run `make run`. No code or SQL changes: the request plan, the
