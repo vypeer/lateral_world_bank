@@ -1,0 +1,37 @@
+country_iso3,country_name,indicator,indicator_code,years_expected,years_with_value,years_null_in_source,years_not_returned,completeness_pct,first_year_with_value,last_year_with_value,missing_years,completeness_status
+BRA,Brazil,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRA,Brazil,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRA,Brazil,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BRA,Brazil,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CAN,Canada,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CAN,Canada,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CAN,Canada,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CAN,Canada,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DEU,Germany,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DEU,Germany,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DEU,Germany,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DEU,Germany,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GBR,United Kingdom,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GBR,United Kingdom,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GBR,United Kingdom,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GBR,United Kingdom,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IND,India,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IND,India,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IND,India,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IND,India,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+JPN,Japan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JPN,Japan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JPN,Japan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+JPN,Japan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MEX,Mexico,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MEX,Mexico,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MEX,Mexico,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MEX,Mexico,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+USA,United States,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+USA,United States,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+USA,United States,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+USA,United States,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ZAF,South Africa,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZAF,South Africa,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZAF,South Africa,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ZAF,South Africa,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
