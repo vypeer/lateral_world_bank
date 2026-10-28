@@ -30,12 +30,19 @@ The results land in `output/` (CSVs, the data-quality report and
 [`dashboard.html`](output/dashboard.html)) and in `data/warehouse.duckdb` (queryable). From a clean checkout it takes a few seconds. The exit code
 is non-zero if the API fails after retries or a blocking data-quality check fails.
 
+**Live dashboard app** (filters, drill-down, lineage, SQL):
+
+```bash
+make app        # builds the warehouse if needed, then serves http://localhost:8501
+```
+
 **Without uv:**
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt   # pinned; also installs this package
 wbpipe run
+pip install -r requirements-app.txt && streamlit run src/wbpipe/app.py   # optional live app
 ```
 
 **With Docker:**
@@ -55,6 +62,7 @@ docker run --rm -v "$PWD/output:/app/output" wbpipe
 | `wbpipe check` | Run the data-quality checks; exits 1 on a blocking failure |
 | `wbpipe report` | Export the marts to `output/*.csv`. Refuses unless checks passed for the current build |
 | `wbpipe dashboard` | Render `output/dashboard.html` from the marts (same publish gate) |
+| `make app` | Live dashboard app on http://localhost:8501 (see below) |
 | `make check` | ruff + mypy (strict) + pytest. Fully offline |
 | `make fixtures` | Re-capture the live API responses used as test fixtures (the only live call outside `ingest`) |
 
@@ -91,6 +99,7 @@ World Bank API ──► data/landing/<run_id>/…/page_NNNN.json   (verbatim by
 ```
 config/      pipeline.yaml (scope, API, paths, quality settings) · dq_checks.yaml
 src/wbpipe/  cli · config · api_client · ingest · transform · quality · report · dashboard · warehouse
+             app · app_data   (optional live dashboard app)
 sql/         raw/ · staging/ · core/ · marts/ · quality/   (run in file-name order)
 tests/       offline tests; fixtures/live/ holds real captured API responses
 docs/        data_model.md: grain, keys, relationships, ERD
@@ -157,6 +166,37 @@ Design choices:
 > gaps in a series vs trailing gaps, zero or missing priors, incomplete income groups,
 > latest-year fallback) is exercised by tests that edit the captured API responses.
 
+### Live dashboard app
+
+`make app` starts a local [Streamlit](https://streamlit.io) app that queries
+`data/warehouse.duckdb` live. It's an optional extra: the pipeline itself doesn't need it.
+
+- **Filters** in one row above the content scope every view: indicator, countries, year range,
+  income groups.
+- **Tabs:**
+  - **Trends:** small multiples per country, with raw values or indexed to the first year,
+    and a shared or independent axis.
+  - **Compare:** ranked bars at the latest year all *selected* countries share (recomputed
+    for the selection), or any chosen year.
+  - **Year-over-year:** heatmap, switchable between strict and annualised gap-aware change.
+  - **Income groups:** configured aggregate vs simple mean.
+  - **Data quality & lineage:** check results with sample rows, completeness, missing values,
+    source revisions, run history. You can also trace any value to its request URL, landing
+    file and the exact JSON row it came from.
+  - **Explore & SQL:** the filtered data long or wide (one column per indicator) with CSV
+    download, plus a SQL box over the whole warehouse.
+- **Refresh data** runs the full pipeline from the app. Unchanged source data creates no new
+  records; changed data appears as revisions.
+- **Safe by construction:**
+  - every query uses a short-lived **read-only** connection, so the pipeline can rebuild the
+    warehouse while the app is open, and the SQL box can't modify anything (results are
+    capped at 5,000 rows);
+  - filter values are bound parameters, never interpolated into SQL;
+  - Streamlit usage telemetry is switched off in `.streamlit/config.toml`.
+- **Charts reuse the validated palette.** The app uses a dark theme. Chart colours are fixed
+  values validated against each background, so they follow the theme set in
+  `.streamlit/config.toml` (`base = "light"` switches both).
+
 ### Data quality and tests
 
 - **15 checks** are declared in [config/dq_checks.yaml](config/dq_checks.yaml), each a SQL query
@@ -168,7 +208,7 @@ Design choices:
     out-of-scope rows, stale source, failed ingest since the published run.
   - A check that cannot run is an `error` and always blocks.
 - Every execution is appended to `quality.dq_result`.
-- **101 tests, fully offline.** API responses come from real captured fixtures
+- **113 tests, fully offline.** API responses come from real captured fixtures
   ([tests/fixtures/live](tests/fixtures/live), with a sha256 manifest) served by a fake HTTP
   session. They cover:
   - paging, retries, `Retry-After` and in-band errors
@@ -179,8 +219,11 @@ Design choices:
   - each DQ check, with a test showing it catches its defect
   - the publish gate
   - dashboard rendering, including escaping and missing-data display
+  - the live app's queries, and its UI driven headlessly (filters, SQL box, refresh, missing
+    warehouse)
 
-  CI runs lint, strict mypy and the tests on Python 3.10 and 3.12 (DuckDB 1.x and 2.x).
+  CI runs lint, strict mypy and the tests on Python 3.10 and 3.12 (DuckDB 1.x and 2.x),
+  including the app extra.
 
 ### Adding a country or indicator
 
@@ -352,6 +395,9 @@ which the brief encourages.
   type-2 dimension so groups reflect each year's classification.
 - **Skip unchanged runs** using `lastupdated` (see the production note), and add a `--years`
   override for ad-hoc backfills.
-- **Wide country-year view** (one column per indicator) for spreadsheet users. It needs a
-  config-generated pivot, because DuckDB's dynamic `PIVOT` can't be used in a view.
+- **Wide country-year view as SQL** (one column per indicator). The app's Explore tab already
+  offers it, but a warehouse view would need a config-generated pivot, because DuckDB's dynamic
+  `PIVOT` can't be used in a view.
+- **The live app isn't in the Docker image**, which stays pipeline-only. It would need the
+  `app` extra and a published port.
 - **dbt port** of the SQL layer if this moves to a warehouse (see the mapping above).

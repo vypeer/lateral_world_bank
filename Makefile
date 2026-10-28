@@ -1,4 +1,4 @@
-.PHONY: install run test lint typecheck check fixtures clean
+.PHONY: install run app test lint typecheck check fixtures clean
 
 install:  ## create .venv from the lockfile
 	uv sync --frozen
@@ -6,14 +6,19 @@ install:  ## create .venv from the lockfile
 run: install  ## run the full pipeline from a clean checkout
 	uv run wbpipe run
 
-test: install
-	uv run pytest
+app: run  ## live dashboard on http://localhost:8501 (builds the warehouse first)
+	uv run --extra app streamlit run src/wbpipe/app.py
+
+test:
+	uv sync --frozen --extra app
+	uv run --extra app pytest
 
 lint: install
 	uv run ruff check . && uv run ruff format --check .
 
-typecheck: install
-	uv run mypy
+typecheck:
+	uv sync --frozen --extra app
+	uv run --extra app mypy
 
 check: lint typecheck test  ## everything CI runs
 

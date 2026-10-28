@@ -14,8 +14,8 @@ jobs:
       - uses: astral-sh/setup-uv@v3
         with:
           python-version: ${{ matrix.python-version }}
-      - run: uv sync --frozen
+      - run: uv sync --frozen --extra app   # the app extra so its tests and types are checked too
       - run: uv run ruff check .
       - run: uv run ruff format --check .
-      - run: uv run mypy
-      - run: uv run pytest
+      - run: uv run --extra app mypy
+      - run: uv run --extra app pytest

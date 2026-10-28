@@ -1,0 +1,15 @@
+# Settings for `make app` (Streamlit reads this from the working directory).
+[browser]
+gatherUsageStats = false   # no telemetry
+
+[server]
+headless = true            # don't prompt for an email on first start
+runOnSave = false
+
+[client]
+toolbarMode = "minimal"    # no Deploy button
+
+[theme]
+primaryColor = "#3987e5"   # palette blue (dark step): red is reserved for "decline" in the YoY heatmap
+base = "dark"              # chart colours follow this setting (light also supported); Altair can't
+                           # follow a theme switch in the browser, so the base is fixed here
