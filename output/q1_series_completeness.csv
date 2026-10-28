@@ -1,37 +1,869 @@
 country_iso3,country_name,indicator,indicator_code,years_expected,years_with_value,years_null_in_source,years_not_returned,completeness_pct,first_year_with_value,last_year_with_value,missing_years,completeness_status
+ABW,Aruba,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ABW,Aruba,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ABW,Aruba,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ABW,Aruba,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AFG,Afghanistan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AFG,Afghanistan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AFG,Afghanistan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AFG,Afghanistan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AGO,Angola,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AGO,Angola,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AGO,Angola,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AGO,Angola,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ALB,Albania,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ALB,Albania,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ALB,Albania,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ALB,Albania,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AND,Andorra,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AND,Andorra,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AND,Andorra,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AND,Andorra,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ARE,United Arab Emirates,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARE,United Arab Emirates,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARE,United Arab Emirates,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ARE,United Arab Emirates,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ARG,Argentina,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARG,Argentina,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARG,Argentina,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ARG,Argentina,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ARM,Armenia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARM,Armenia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ARM,Armenia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ARM,Armenia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ASM,American Samoa,gdp_usd,NY.GDP.MKTP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+ASM,American Samoa,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+ASM,American Samoa,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ASM,American Samoa,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ATG,Antigua and Barbuda,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ATG,Antigua and Barbuda,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ATG,Antigua and Barbuda,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ATG,Antigua and Barbuda,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AUS,Australia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AUS,Australia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AUS,Australia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AUS,Australia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AUT,Austria,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AUT,Austria,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AUT,Austria,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AUT,Austria,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+AZE,Azerbaijan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AZE,Azerbaijan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+AZE,Azerbaijan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+AZE,Azerbaijan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BDI,Burundi,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BDI,Burundi,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BDI,Burundi,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BDI,Burundi,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BEL,Belgium,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BEL,Belgium,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BEL,Belgium,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BEL,Belgium,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BEN,Benin,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BEN,Benin,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BEN,Benin,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BEN,Benin,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BFA,Burkina Faso,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BFA,Burkina Faso,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BFA,Burkina Faso,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BFA,Burkina Faso,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BGD,Bangladesh,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BGD,Bangladesh,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BGD,Bangladesh,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BGD,Bangladesh,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BGR,Bulgaria,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BGR,Bulgaria,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BGR,Bulgaria,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BGR,Bulgaria,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BHR,Bahrain,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BHR,Bahrain,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BHR,Bahrain,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BHR,Bahrain,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BHS,"Bahamas, The",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BHS,"Bahamas, The",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BHS,"Bahamas, The",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BHS,"Bahamas, The",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BIH,Bosnia and Herzegovina,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BIH,Bosnia and Herzegovina,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BIH,Bosnia and Herzegovina,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BIH,Bosnia and Herzegovina,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BLR,Belarus,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BLR,Belarus,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BLR,Belarus,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BLR,Belarus,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BLZ,Belize,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BLZ,Belize,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BLZ,Belize,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BLZ,Belize,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BMU,Bermuda,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BMU,Bermuda,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BMU,Bermuda,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BMU,Bermuda,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BOL,Bolivia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BOL,Bolivia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BOL,Bolivia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BOL,Bolivia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 BRA,Brazil,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 BRA,Brazil,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 BRA,Brazil,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 BRA,Brazil,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BRB,Barbados,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRB,Barbados,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRB,Barbados,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BRB,Barbados,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BRN,Brunei Darussalam,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRN,Brunei Darussalam,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BRN,Brunei Darussalam,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BRN,Brunei Darussalam,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BTN,Bhutan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BTN,Bhutan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BTN,Bhutan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BTN,Bhutan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+BWA,Botswana,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BWA,Botswana,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+BWA,Botswana,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+BWA,Botswana,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CAF,Central African Republic,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CAF,Central African Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CAF,Central African Republic,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CAF,Central African Republic,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 CAN,Canada,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 CAN,Canada,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 CAN,Canada,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 CAN,Canada,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CHE,Switzerland,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHE,Switzerland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHE,Switzerland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CHE,Switzerland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CHI,Channel Islands,gdp_usd,NY.GDP.MKTP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+CHI,Channel Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+CHI,Channel Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CHI,Channel Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CHL,Chile,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHL,Chile,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHL,Chile,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CHL,Chile,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CHN,China,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHN,China,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CHN,China,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CHN,China,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CIV,Cote d'Ivoire,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CIV,Cote d'Ivoire,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CIV,Cote d'Ivoire,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CIV,Cote d'Ivoire,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CMR,Cameroon,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CMR,Cameroon,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CMR,Cameroon,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CMR,Cameroon,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+COD,"Congo, Dem. Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COD,"Congo, Dem. Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COD,"Congo, Dem. Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+COD,"Congo, Dem. Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+COG,"Congo, Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COG,"Congo, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COG,"Congo, Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+COG,"Congo, Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+COL,Colombia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COL,Colombia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COL,Colombia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+COL,Colombia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+COM,Comoros,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COM,Comoros,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+COM,Comoros,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+COM,Comoros,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CPV,Cabo Verde,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CPV,Cabo Verde,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CPV,Cabo Verde,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CPV,Cabo Verde,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CRI,Costa Rica,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CRI,Costa Rica,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CRI,Costa Rica,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CRI,Costa Rica,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CUB,Cuba,gdp_usd,NY.GDP.MKTP.CD,7,3,4,0,42.9,2018,2020,2021;2022;2023;2024,incomplete
+CUB,Cuba,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,3,4,0,42.9,2018,2020,2021;2022;2023;2024,incomplete
+CUB,Cuba,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CUB,Cuba,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CUW,Curacao,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CUW,Curacao,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CUW,Curacao,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CUW,Curacao,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CYM,Cayman Islands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CYM,Cayman Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CYM,Cayman Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CYM,Cayman Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CYP,Cyprus,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CYP,Cyprus,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CYP,Cyprus,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CYP,Cyprus,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+CZE,Czechia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CZE,Czechia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+CZE,Czechia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+CZE,Czechia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 DEU,Germany,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 DEU,Germany,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 DEU,Germany,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 DEU,Germany,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DJI,Djibouti,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DJI,Djibouti,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DJI,Djibouti,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DJI,Djibouti,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DMA,Dominica,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DMA,Dominica,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DMA,Dominica,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DMA,Dominica,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DNK,Denmark,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DNK,Denmark,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DNK,Denmark,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DNK,Denmark,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DOM,Dominican Republic,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DOM,Dominican Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DOM,Dominican Republic,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DOM,Dominican Republic,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+DZA,Algeria,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DZA,Algeria,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+DZA,Algeria,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+DZA,Algeria,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ECU,Ecuador,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ECU,Ecuador,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ECU,Ecuador,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ECU,Ecuador,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+EGY,"Egypt, Arab Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+EGY,"Egypt, Arab Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+EGY,"Egypt, Arab Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+EGY,"Egypt, Arab Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+ERI,Eritrea,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ERI,Eritrea,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ESP,Spain,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ESP,Spain,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ESP,Spain,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ESP,Spain,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+EST,Estonia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+EST,Estonia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+EST,Estonia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+EST,Estonia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ETH,Ethiopia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ETH,Ethiopia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ETH,Ethiopia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ETH,Ethiopia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+FIN,Finland,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FIN,Finland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FIN,Finland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+FIN,Finland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+FJI,Fiji,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FJI,Fiji,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FJI,Fiji,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+FJI,Fiji,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+FRA,France,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FRA,France,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FRA,France,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+FRA,France,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+FRO,Faroe Islands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FRO,Faroe Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FRO,Faroe Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+FRO,Faroe Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+FSM,"Micronesia, Fed. Sts.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FSM,"Micronesia, Fed. Sts.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+FSM,"Micronesia, Fed. Sts.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+FSM,"Micronesia, Fed. Sts.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GAB,Gabon,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GAB,Gabon,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GAB,Gabon,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GAB,Gabon,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 GBR,United Kingdom,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 GBR,United Kingdom,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 GBR,United Kingdom,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 GBR,United Kingdom,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GEO,Georgia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GEO,Georgia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GEO,Georgia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GEO,Georgia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GHA,Ghana,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GHA,Ghana,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GHA,Ghana,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GHA,Ghana,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+GIB,Gibraltar,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GIB,Gibraltar,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GIN,Guinea,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GIN,Guinea,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GIN,Guinea,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GIN,Guinea,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GMB,"Gambia, The",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GMB,"Gambia, The",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GMB,"Gambia, The",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GMB,"Gambia, The",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GNB,Guinea-Bissau,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GNB,Guinea-Bissau,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GNB,Guinea-Bissau,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GNB,Guinea-Bissau,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GNQ,Equatorial Guinea,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GNQ,Equatorial Guinea,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GNQ,Equatorial Guinea,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GNQ,Equatorial Guinea,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GRC,Greece,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GRC,Greece,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GRC,Greece,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GRC,Greece,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GRD,Grenada,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GRD,Grenada,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GRD,Grenada,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GRD,Grenada,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GRL,Greenland,gdp_usd,NY.GDP.MKTP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+GRL,Greenland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+GRL,Greenland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GRL,Greenland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GTM,Guatemala,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GTM,Guatemala,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GTM,Guatemala,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GTM,Guatemala,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GUM,Guam,gdp_usd,NY.GDP.MKTP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+GUM,Guam,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+GUM,Guam,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GUM,Guam,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+GUY,Guyana,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GUY,Guyana,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+GUY,Guyana,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+GUY,Guyana,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+HKG,"Hong Kong SAR, China",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HKG,"Hong Kong SAR, China",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HKG,"Hong Kong SAR, China",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+HKG,"Hong Kong SAR, China",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+HND,Honduras,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HND,Honduras,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HND,Honduras,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+HND,Honduras,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+HRV,Croatia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HRV,Croatia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HRV,Croatia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+HRV,Croatia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+HTI,Haiti,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HTI,Haiti,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HTI,Haiti,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+HTI,Haiti,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+HUN,Hungary,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HUN,Hungary,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+HUN,Hungary,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+HUN,Hungary,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IDN,Indonesia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IDN,Indonesia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IDN,Indonesia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IDN,Indonesia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IMN,Isle of Man,gdp_usd,NY.GDP.MKTP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+IMN,Isle of Man,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+IMN,Isle of Man,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IMN,Isle of Man,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 IND,India,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 IND,India,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 IND,India,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 IND,India,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IRL,Ireland,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRL,Ireland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRL,Ireland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IRL,Ireland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IRN,"Iran, Islamic Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRN,"Iran, Islamic Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRN,"Iran, Islamic Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IRN,"Iran, Islamic Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+IRQ,Iraq,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRQ,Iraq,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+IRQ,Iraq,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+IRQ,Iraq,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ISL,Iceland,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ISL,Iceland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ISL,Iceland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ISL,Iceland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ISR,Israel,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ISR,Israel,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ISR,Israel,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ISR,Israel,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ITA,Italy,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ITA,Italy,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ITA,Italy,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ITA,Italy,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+JAM,Jamaica,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JAM,Jamaica,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JAM,Jamaica,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+JAM,Jamaica,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+JOR,Jordan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JOR,Jordan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+JOR,Jordan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+JOR,Jordan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 JPN,Japan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 JPN,Japan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 JPN,Japan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 JPN,Japan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KAZ,Kazakhstan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KAZ,Kazakhstan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KAZ,Kazakhstan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KAZ,Kazakhstan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KEN,Kenya,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KEN,Kenya,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KEN,Kenya,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KEN,Kenya,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KGZ,Kyrgyz Republic,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KGZ,Kyrgyz Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KGZ,Kyrgyz Republic,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KGZ,Kyrgyz Republic,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KHM,Cambodia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KHM,Cambodia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KHM,Cambodia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KHM,Cambodia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KIR,Kiribati,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KIR,Kiribati,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KIR,Kiribati,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KIR,Kiribati,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KNA,St. Kitts and Nevis,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KNA,St. Kitts and Nevis,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KNA,St. Kitts and Nevis,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KNA,St. Kitts and Nevis,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KOR,"Korea, Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KOR,"Korea, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KOR,"Korea, Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KOR,"Korea, Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+KWT,Kuwait,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KWT,Kuwait,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+KWT,Kuwait,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+KWT,Kuwait,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LAO,Lao PDR,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LAO,Lao PDR,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LAO,Lao PDR,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LAO,Lao PDR,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LBN,Lebanon,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBN,Lebanon,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBN,Lebanon,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LBN,Lebanon,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LBR,Liberia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBR,Liberia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBR,Liberia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LBR,Liberia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LBY,Libya,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBY,Libya,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LBY,Libya,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LBY,Libya,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LCA,St. Lucia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LCA,St. Lucia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LCA,St. Lucia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LCA,St. Lucia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LIE,Liechtenstein,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LIE,Liechtenstein,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LIE,Liechtenstein,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LIE,Liechtenstein,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LKA,Sri Lanka,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LKA,Sri Lanka,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LKA,Sri Lanka,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LKA,Sri Lanka,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LSO,Lesotho,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LSO,Lesotho,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LSO,Lesotho,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LSO,Lesotho,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LTU,Lithuania,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LTU,Lithuania,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LTU,Lithuania,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LTU,Lithuania,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LUX,Luxembourg,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LUX,Luxembourg,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LUX,Luxembourg,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LUX,Luxembourg,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+LVA,Latvia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LVA,Latvia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+LVA,Latvia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+LVA,Latvia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MAC,"Macao SAR, China",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MAC,"Macao SAR, China",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MAC,"Macao SAR, China",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MAC,"Macao SAR, China",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,7,2,5,0,28.6,2019,2021,2018;2020;2022;2023;2024,incomplete
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,7,2,5,0,28.6,2019,2021,2018;2020;2022;2023;2024,incomplete
+MAF,St. Martin (French part),life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MAF,St. Martin (French part),population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MAR,Morocco,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MAR,Morocco,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MAR,Morocco,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MAR,Morocco,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MCO,Monaco,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MCO,Monaco,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MCO,Monaco,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MCO,Monaco,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MDA,Moldova,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDA,Moldova,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDA,Moldova,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MDA,Moldova,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MDG,Madagascar,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDG,Madagascar,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDG,Madagascar,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MDG,Madagascar,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MDV,Maldives,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDV,Maldives,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MDV,Maldives,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MDV,Maldives,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 MEX,Mexico,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 MEX,Mexico,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 MEX,Mexico,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 MEX,Mexico,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MHL,Marshall Islands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MHL,Marshall Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MHL,Marshall Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MHL,Marshall Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MKD,North Macedonia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MKD,North Macedonia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MKD,North Macedonia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MKD,North Macedonia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MLI,Mali,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MLI,Mali,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MLI,Mali,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MLI,Mali,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MLT,Malta,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MLT,Malta,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MLT,Malta,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MLT,Malta,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MMR,Myanmar,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MMR,Myanmar,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MMR,Myanmar,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MMR,Myanmar,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MNE,Montenegro,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MNE,Montenegro,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MNE,Montenegro,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MNE,Montenegro,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MNG,Mongolia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MNG,Mongolia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MNG,Mongolia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MNG,Mongolia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MNP,Northern Mariana Islands,gdp_usd,NY.GDP.MKTP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+MNP,Northern Mariana Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+MNP,Northern Mariana Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MNP,Northern Mariana Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MOZ,Mozambique,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MOZ,Mozambique,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MOZ,Mozambique,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MOZ,Mozambique,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MRT,Mauritania,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MRT,Mauritania,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MRT,Mauritania,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MRT,Mauritania,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MUS,Mauritius,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MUS,Mauritius,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MUS,Mauritius,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MUS,Mauritius,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MWI,Malawi,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MWI,Malawi,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MWI,Malawi,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MWI,Malawi,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+MYS,Malaysia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MYS,Malaysia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+MYS,Malaysia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+MYS,Malaysia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NAM,Namibia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NAM,Namibia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NAM,Namibia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NAM,Namibia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NCL,New Caledonia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NCL,New Caledonia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NCL,New Caledonia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NCL,New Caledonia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NER,Niger,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NER,Niger,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NER,Niger,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NER,Niger,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NGA,Nigeria,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NGA,Nigeria,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NGA,Nigeria,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NGA,Nigeria,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NIC,Nicaragua,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NIC,Nicaragua,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NIC,Nicaragua,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NIC,Nicaragua,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NLD,Netherlands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NLD,Netherlands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NLD,Netherlands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NLD,Netherlands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NOR,Norway,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NOR,Norway,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NOR,Norway,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NOR,Norway,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NPL,Nepal,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NPL,Nepal,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NPL,Nepal,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NPL,Nepal,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NRU,Naoero,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NRU,Naoero,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NRU,Naoero,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NRU,Naoero,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+NZL,New Zealand,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NZL,New Zealand,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+NZL,New Zealand,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+NZL,New Zealand,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+OMN,Oman,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+OMN,Oman,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+OMN,Oman,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+OMN,Oman,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PAK,Pakistan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PAK,Pakistan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PAK,Pakistan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PAK,Pakistan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PAN,Panama,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PAN,Panama,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PAN,Panama,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PAN,Panama,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PER,Peru,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PER,Peru,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PER,Peru,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PER,Peru,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PHL,Philippines,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PHL,Philippines,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PHL,Philippines,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PHL,Philippines,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PLW,Palau,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PLW,Palau,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PLW,Palau,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PLW,Palau,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PNG,Papua New Guinea,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PNG,Papua New Guinea,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PNG,Papua New Guinea,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PNG,Papua New Guinea,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+POL,Poland,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+POL,Poland,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+POL,Poland,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+POL,Poland,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PRI,Puerto Rico (US),gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRI,Puerto Rico (US),gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRI,Puerto Rico (US),life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PRI,Puerto Rico (US),population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+PRK,"Korea, Dem. People's Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PRK,"Korea, Dem. People's Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PRT,Portugal,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRT,Portugal,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRT,Portugal,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PRT,Portugal,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PRY,Paraguay,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRY,Paraguay,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PRY,Paraguay,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PRY,Paraguay,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PSE,West Bank and Gaza,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PSE,West Bank and Gaza,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PSE,West Bank and Gaza,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PSE,West Bank and Gaza,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+PYF,French Polynesia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PYF,French Polynesia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+PYF,French Polynesia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+PYF,French Polynesia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+QAT,Qatar,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+QAT,Qatar,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+QAT,Qatar,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+QAT,Qatar,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ROU,Romania,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ROU,Romania,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ROU,Romania,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ROU,Romania,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+RUS,Russian Federation,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+RUS,Russian Federation,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+RUS,Russian Federation,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+RUS,Russian Federation,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+RWA,Rwanda,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+RWA,Rwanda,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+RWA,Rwanda,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+RWA,Rwanda,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SAU,Saudi Arabia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SAU,Saudi Arabia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SAU,Saudi Arabia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SAU,Saudi Arabia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SDN,Sudan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SDN,Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SDN,Sudan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SDN,Sudan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SEN,Senegal,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SEN,Senegal,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SEN,Senegal,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SEN,Senegal,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SGP,Singapore,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SGP,Singapore,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SGP,Singapore,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SGP,Singapore,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SLB,Solomon Islands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLB,Solomon Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLB,Solomon Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SLB,Solomon Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SLE,Sierra Leone,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLE,Sierra Leone,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLE,Sierra Leone,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SLE,Sierra Leone,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SLV,El Salvador,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLV,El Salvador,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SLV,El Salvador,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SLV,El Salvador,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SMR,San Marino,gdp_usd,NY.GDP.MKTP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+SMR,San Marino,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,6,1,0,85.7,2018,2023,2024,incomplete
+SMR,San Marino,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SMR,San Marino,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SOM,"Somalia, Fed. Rep.",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SOM,"Somalia, Fed. Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SOM,"Somalia, Fed. Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SOM,"Somalia, Fed. Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SRB,Serbia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SRB,Serbia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SRB,Serbia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SRB,Serbia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+SSD,South Sudan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SSD,South Sudan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+STP,Sao Tome and Principe,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+STP,Sao Tome and Principe,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+STP,Sao Tome and Principe,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+STP,Sao Tome and Principe,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SUR,Suriname,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SUR,Suriname,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SUR,Suriname,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SUR,Suriname,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SVK,Slovak Republic,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SVK,Slovak Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SVK,Slovak Republic,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SVK,Slovak Republic,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SVN,Slovenia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SVN,Slovenia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SVN,Slovenia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SVN,Slovenia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SWE,Sweden,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SWE,Sweden,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SWE,Sweden,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SWE,Sweden,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SWZ,Eswatini,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SWZ,Eswatini,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SWZ,Eswatini,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SWZ,Eswatini,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SXM,Sint Maarten (Dutch part),gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SXM,Sint Maarten (Dutch part),gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SXM,Sint Maarten (Dutch part),life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SXM,Sint Maarten (Dutch part),population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SYC,Seychelles,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SYC,Seychelles,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+SYC,Seychelles,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SYC,Seychelles,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+SYR,Syrian Arab Republic,gdp_usd,NY.GDP.MKTP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+SYR,Syrian Arab Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+SYR,Syrian Arab Republic,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+SYR,Syrian Arab Republic,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TCA,Turks and Caicos Islands,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TCA,Turks and Caicos Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TCA,Turks and Caicos Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TCA,Turks and Caicos Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TCD,Chad,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TCD,Chad,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TCD,Chad,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TCD,Chad,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TGO,Togo,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TGO,Togo,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TGO,Togo,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TGO,Togo,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+THA,Thailand,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+THA,Thailand,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+THA,Thailand,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+THA,Thailand,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TJK,Tajikistan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TJK,Tajikistan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TJK,Tajikistan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TJK,Tajikistan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TKM,Turkmenistan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TKM,Turkmenistan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TKM,Turkmenistan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TKM,Turkmenistan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TLS,Timor-Leste,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TLS,Timor-Leste,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TLS,Timor-Leste,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TLS,Timor-Leste,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TON,Tonga,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TON,Tonga,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TON,Tonga,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TON,Tonga,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TTO,Trinidad and Tobago,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TTO,Trinidad and Tobago,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TTO,Trinidad and Tobago,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TTO,Trinidad and Tobago,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TUN,Tunisia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUN,Tunisia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUN,Tunisia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TUN,Tunisia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TUR,Turkiye,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUR,Turkiye,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUR,Turkiye,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TUR,Turkiye,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TUV,Tuvalu,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUV,Tuvalu,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TUV,Tuvalu,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TUV,Tuvalu,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+TZA,Tanzania,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TZA,Tanzania,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+TZA,Tanzania,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+TZA,Tanzania,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+UGA,Uganda,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UGA,Uganda,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UGA,Uganda,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+UGA,Uganda,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+UKR,Ukraine,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UKR,Ukraine,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UKR,Ukraine,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+UKR,Ukraine,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+URY,Uruguay,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+URY,Uruguay,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+URY,Uruguay,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+URY,Uruguay,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 USA,United States,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 USA,United States,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 USA,United States,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 USA,United States,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+UZB,Uzbekistan,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UZB,Uzbekistan,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+UZB,Uzbekistan,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+UZB,Uzbekistan,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VCT,St. Vincent and the Grenadines,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VCT,St. Vincent and the Grenadines,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VCT,St. Vincent and the Grenadines,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VCT,St. Vincent and the Grenadines,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VEN,"Venezuela, RB",gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VEN,"Venezuela, RB",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VEN,"Venezuela, RB",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VEN,"Venezuela, RB",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,0,7,0,0.0,,,2018;2019;2020;2021;2022;2023;2024,empty
+VGB,British Virgin Islands,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VGB,British Virgin Islands,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VIR,Virgin Islands (U.S.),gdp_usd,NY.GDP.MKTP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+VIR,Virgin Islands (U.S.),gdp_per_capita_usd,NY.GDP.PCAP.CD,7,5,2,0,71.4,2018,2022,2023;2024,incomplete
+VIR,Virgin Islands (U.S.),life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VIR,Virgin Islands (U.S.),population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VNM,Viet Nam,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VNM,Viet Nam,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VNM,Viet Nam,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VNM,Viet Nam,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+VUT,Vanuatu,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VUT,Vanuatu,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+VUT,Vanuatu,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+VUT,Vanuatu,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+WSM,Samoa,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+WSM,Samoa,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+WSM,Samoa,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+WSM,Samoa,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+XKX,Kosovo,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+XKX,Kosovo,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+XKX,Kosovo,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+XKX,Kosovo,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,7,1,6,0,14.3,2018,2018,2019;2020;2021;2022;2023;2024,incomplete
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,7,1,6,0,14.3,2018,2018,2019;2020;2021;2022;2023;2024,incomplete
+YEM,"Yemen, Rep.",life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+YEM,"Yemen, Rep.",population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
 ZAF,South Africa,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
 ZAF,South Africa,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
 ZAF,South Africa,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
 ZAF,South Africa,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ZMB,Zambia,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZMB,Zambia,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZMB,Zambia,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ZMB,Zambia,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete
+ZWE,Zimbabwe,gdp_usd,NY.GDP.MKTP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZWE,Zimbabwe,gdp_per_capita_usd,NY.GDP.PCAP.CD,7,7,0,0,100.0,2018,2024,"",complete
+ZWE,Zimbabwe,life_expectancy_years,SP.DYN.LE00.IN,7,7,0,0,100.0,2018,2024,"",complete
+ZWE,Zimbabwe,population,SP.POP.TOTL,7,7,0,0,100.0,2018,2024,"",complete

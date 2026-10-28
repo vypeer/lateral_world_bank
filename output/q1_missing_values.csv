@@ -1,1 +1,129 @@
 country_iso3,country_name,indicator,indicator_code,year,missing_reason,gap_type,last_year_with_value
+ASM,American Samoa,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2022
+ASM,American Samoa,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2022
+ASM,American Samoa,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2022
+ASM,American Samoa,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2022
+CHI,Channel Islands,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2023
+CHI,Channel Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2023
+CUB,Cuba,gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2020
+CUB,Cuba,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2020
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,no_data_for_series,
+ERI,Eritrea,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,no_data_for_series,
+GIB,Gibraltar,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,no_data_for_series,
+GRL,Greenland,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2023
+GRL,Greenland,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2023
+GUM,Guam,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2022
+GUM,Guam,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2022
+GUM,Guam,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2022
+GUM,Guam,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2022
+IMN,Isle of Man,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2023
+IMN,Isle of Man,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2023
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,gap_in_series,2021
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,gap_in_series,2021
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,not_yet_published,2021
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2021
+MAF,St. Martin (French part),gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2021
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,gap_in_series,2021
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,gap_in_series,2021
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,not_yet_published,2021
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2021
+MAF,St. Martin (French part),gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2021
+MNP,Northern Mariana Islands,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2022
+MNP,Northern Mariana Islands,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2022
+MNP,Northern Mariana Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2022
+MNP,Northern Mariana Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2022
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,no_data_for_series,
+PRK,"Korea, Dem. People's Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,no_data_for_series,
+SMR,San Marino,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2023
+SMR,San Marino,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2023
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,no_data_for_series,
+SSD,South Sudan,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,no_data_for_series,
+SYR,Syrian Arab Republic,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2022
+SYR,Syrian Arab Republic,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2022
+SYR,Syrian Arab Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2022
+SYR,Syrian Arab Republic,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2022
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2018,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2018,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,no_data_for_series,
+VGB,British Virgin Islands,gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,no_data_for_series,
+VIR,Virgin Islands (U.S.),gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2022
+VIR,Virgin Islands (U.S.),gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2022
+VIR,Virgin Islands (U.S.),gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2022
+VIR,Virgin Islands (U.S.),gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2022
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2019,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2020,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2021,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2022,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2023,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_usd,NY.GDP.MKTP.CD,2024,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2019,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2020,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2021,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2022,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2023,null_in_source,not_yet_published,2018
+YEM,"Yemen, Rep.",gdp_per_capita_usd,NY.GDP.PCAP.CD,2024,null_in_source,not_yet_published,2018

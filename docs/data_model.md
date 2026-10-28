@@ -104,10 +104,14 @@ the JSON into typed, trimmed columns, keeping `response_id` on every row. `stg_o
 keeps `value_raw`, so a value that fails to parse is detectable instead of looking missing.
 Staging is not deduplicated or scoped; that happens in `core`.
 
-### `core.dim_country` — grain: configured country
+### `core.dim_country` — grain: country in scope
 Business key `country_iso3`. Built from `config.country` left-joined to the API metadata, so a
 configured country is present even if the API did not describe it (attributes NULL, flagged by
-data-quality checks). **Income group is the current World Bank classification applied to all
+data-quality checks). With `countries: all`, `config.country` is every economy in the ingested
+country metadata: aggregates, marked with region id `NA`, are excluded. It's derived after
+staging, from the same rule ingest used to choose which countries to request. `is_focus` marks
+the configured `focus_countries`, which dashboards show by default and which anchor the
+comparison year; focus countries come first in `config_order`. **Income group is the current World Bank classification applied to all
 years**: the API exposes no historical classification. It is a type-1 dimension.
 
 ### `core.dim_indicator` — grain: configured indicator
@@ -157,7 +161,7 @@ passed for the current transform.
 | `v_missing_values` | **Q1** Which combinations are missing, why (`null_in_source` / `not_returned`), and the kind of gap (`gap_in_series`, `not_yet_published` (trailing gap, likely publication lag), `no_data_for_series`) | missing country × indicator × year |
 | `v_series_completeness` | **Q1** How complete each series is: counts by status, `missing_years`, `complete` / `incomplete` / `empty` | country × indicator |
 | `v_yoy_change` | **Q2** Strict YoY vs the previous calendar year, with `yoy_status` explaining any NULL (`current_missing`, `prior_missing`, `prior_out_of_scope`, `prior_zero`). Plus gap-aware change vs the last available year, annualised | country × indicator × year |
-| `v_latest_comparison` | **Q3** `latest_common_year` (latest year every country has a value) with rank, share of total and ratio to average; plus each country's own latest year and value, flagged when it differs | indicator × country |
+| `v_latest_comparison` | **Q3** `latest_common_year` (latest year every *focus* country has a value; every country when no focus list is set) with rank, share of total and ratio to average among all economies with a value that year; plus each country's own latest year and value, flagged when it differs | indicator × country |
 | `v_income_group_by_year` | **Q4** Configured aggregate per income group (sum / ratio / weighted mean / mean), simple mean, min and max, country counts, `is_complete` | income group × indicator × year |
 | `v_data_freshness` | Extra: source `lastupdated`, coverage and the published ingest run per indicator | indicator |
 | `v_source_revisions` | Extra: every detected source revision, with previous and new value | revision |

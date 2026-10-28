@@ -5,8 +5,10 @@ A local, configuration-driven pipeline that pulls yearly country indicators from
 them in DuckDB and publishes reporting outputs. Analysts can query the results without knowing
 the API, and missing data is always explicit.
 
-- **Scope (configurable):** BRA, CAN, DEU, GBR, IND, JPN, MEX, USA, ZAF · population, GDP
-  (current US$), GDP per capita (current US$), life expectancy · 2018–2024
+- **Scope (configurable):** every economy the API lists (217 today; regional and income
+  aggregates excluded), with the brief's countries (BRA, CAN, DEU, GBR, IND, JPN, MEX, USA, ZAF)
+  as *focus countries* that the dashboards show by default · population, GDP (current US$),
+  GDP per capita (current US$), life expectancy · 2018–2024
 - **Stack:** Python 3.10+ · DuckDB (one local file) · plain SQL models · uv · pytest
 
 ---
@@ -160,11 +162,18 @@ Design choices:
   or hovering alone.
 - **Source text is HTML-escaped**, so names from the API can't inject markup.
 
-> **About the sample outputs:** at the time of the run (source `lastupdated` 2026-10-08) the
-> World Bank had every value for these countries, indicators and years. So the missing-value
-> outputs are empty and every series is `complete`. The gap handling (null vs not returned,
-> gaps in a series vs trailing gaps, zero or missing priors, incomplete income groups,
-> latest-year fallback) is exercised by tests that edit the captured API responses.
+> **About the sample outputs** (source `lastupdated` 2026-10-08, all 217 economies):
+> - **Missing data:** the brief's 9 countries are complete, but across all economies 128 GDP and
+>   GDP-per-capita values are null in the source. They're listed in `q1_missing_values.csv`:
+>   70 belong to series with no data at all, 54 are trailing gaps (not yet published) and 4 are
+>   gaps inside a series. Several income-group aggregates are therefore flagged
+>   `is_complete = false`.
+> - **Data quality:** the run passes with 2 warnings. One is the missing values. The other is
+>   that GDP ÷ population differs from the published GDP per capita by more than 1% for 5
+>   economies (Cyprus about 30%, Ukraine about 6%, Tanzania, Russia, Morocco), a known
+>   difference in the population base the World Bank uses for some per-capita figures.
+> - **Tests:** zero or missing priors, values not returned at all, and revisions don't occur in
+>   this snapshot. Tests exercise them by editing the captured API responses.
 
 ### Live dashboard app
 
@@ -230,7 +239,8 @@ Design choices:
 Edit [config/pipeline.yaml](config/pipeline.yaml) and run `make run`. No code changes are needed:
 
 ```yaml
-countries: [..., FRA]
+countries: all                # or an explicit list, e.g. [BRA, CAN, FRA]
+focus_countries: [BRA, ...]   # dashboard default and comparison-year basis; must be in scope
 indicators:
   - code: EN.POP.DNST
     short_name: population_density
@@ -238,7 +248,10 @@ indicators:
     aggregation: mean         # how income groups combine it: mean | sum | ratio | weighted_mean
 ```
 
-The request plan, the spine, the dimensions and the marts all derive from configuration.
+The request plan, the spine, the dimensions and the marts all derive from configuration. In
+`all` mode, ingest fetches the country list first, keeps the economies (aggregates such as
+"World" or "High income" carry region id `NA` and are dropped), and requests observations for
+exactly those. A new economy therefore enters on the next run.
 
 ---
 
@@ -270,8 +283,11 @@ The request plan, the spine, the dimensions and the marts all derive from config
 7. **YoY:** strict previous-year change is primary, and a `yoy_status` explains every NULL. A
    gap-aware, annualised change against the last available year is an extra column. When the
    prior value is 0 the percentage is NULL and the absolute change is kept.
-8. **Latest year:** both the latest year *all* countries share (like-for-like ranking) and each
-   country's own latest year, labelled where they differ.
+8. **Latest year:** both a common comparison year (like-for-like ranking) and each country's own
+   latest year, labelled where they differ. The common year is the latest year in which every
+   *focus* country has a value: with ~200 economies some are always missing (no year has GDP
+   for all 217), so a common year across all of them wouldn't exist. Ranks and shares then
+   cover every economy with a value in that year.
 9. **Income groups:** each indicator's aggregation is set in config. Population and GDP are
    summed, GDP per capita is ΣGDP/Σpop, and life expectancy is population-weighted. The simple
    mean, country counts and `is_complete` are reported alongside, because a total over part of
@@ -289,6 +305,9 @@ The request plan, the spine, the dimensions and the marts all derive from config
 - Values are stored as DOUBLE. Population and GDP are well within exact double precision for
   this use.
 - The source's `obs_status`, `unit` and `decimal` are carried through but not interpreted.
+- Plausibility bounds (`valid_min` / `valid_max`) are meant to catch *impossible* values, not
+  extreme ones. Life expectancy's floor is 10 because real crisis years go below 20 (the WDI
+  has the Central African Republic at 18.8 in 2022).
 - The World Bank's `lastupdated` is per dataset, not per value, so it's used for freshness,
   not for change detection. Changes are detected by content hash.
 
