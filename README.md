@@ -422,23 +422,98 @@ ISO3 codes; nothing else changes.
 ## AI usage
 
 This project was built with **Claude Code** (Anthropic, Claude Opus 5.5) as a pair programmer,
-which the brief encourages.
+which the brief encourages. The AI wrote most of the code; the author decided what was built,
+how, and when it was good enough to publish.
 
-- **The author's part:** set the scope and working rules; made the design decisions above
-  (each open question was put to the author and confirmed before it was built); drove the work
-  step by step; reviewed each step before it was committed and pushed.
-- **The AI's part:** proposed the design, wrote the code, SQL, tests and documentation,
-  captured the API fixtures, and ran the pipeline against the live API to check results.
-- **How the output was checked rather than trusted:**
-  - every change ran through ruff, strict mypy and the test suite;
-  - each commit was re-tested in a clean worktree;
-  - `make run` was verified from a fresh clone, through the pip path, and on Python 3.12 with
-    DuckDB 2.0; the Docker image was built and run end to end;
-  - mart numbers were cross-checked against values computed independently in the tests.
-- **Bugs this process caught:** a window function evaluated before row filtering in the
-  latest-year view; test helpers that silently discarded earlier fixture edits; and, found by
-  running the Docker image, a dashboard query pattern that DuckDB 2.x rejects (the image
-  resolves DuckDB 2.x, local development used 1.x).
+### How the work was split
+
+- **The author** set the scope and working rules, made the decisions listed below, drove the
+  work one step at a time, reviewed each step, and approved every commit being pushed. The
+  rules: commits authored by the author with no AI co-author trailer, history that tells the
+  story, the AI's notes file kept out of the repository, ask before major design decisions.
+- **The AI** proposed designs and options with a recommendation, wrote the code, SQL, tests and
+  documentation, captured the API fixtures, ran the pipeline against the live API, and reviewed
+  its own work before handing it over.
+
+### Decisions the author made
+
+**Up front**
+- **Stack:** Python with DuckDB and plain SQL models (dbt only mentioned as an option); uv
+  with a lockfile plus a `requirements.txt` fallback; one `make run` command; a Dockerfile.
+- **Optional extra:** a self-contained static HTML dashboard.
+- **Income-group comparison:** weighted aggregates (summed population and GDP, GDP per capita
+  as ΣGDP/Σpop, population-weighted life expectancy), reported with the simple mean and
+  country counts.
+
+**The open questions, settled before building**
+- **Latest-year comparison:** show both the latest year all countries share and each country's
+  own latest year, labelled.
+- **Year-over-year:** strict previous-year change as the primary measure, with a gap-aware
+  column alongside. When the prior value is 0, the percentage is NULL and the absolute change
+  is kept.
+- **Data-quality severities:** GDP ÷ population vs GDP per capita (1% tolerance) is a warning
+  with its own view; grain duplicates and gaps in the expected rows are failures.
+- **Data-quality tooling:** custom YAML + SQL checks persisted to a results table, rather than
+  Great Expectations or Soda.
+- **Dev tooling:** ruff, mypy, pre-commit and GitHub Actions CI.
+
+**Scope and features, added along the way**
+- **A live dashboard app** querying the warehouse, with filters, chosen over adding filters to
+  the static page.
+- **Every economy in scope**, with the brief's nine as focus countries that the dashboards
+  open on. The reasons are recorded in *Beyond the brief*.
+- **A dark theme** for the live app.
+- **Historical income groups:** taken from the World Bank's OGHIST workbook, a second source
+  outside API v2, chosen over an API-only approximation from GNI thresholds.
+- **Skipping unchanged runs** and **a wide country-year SQL view**.
+- **Acknowledging in this README** that the scope goes beyond the brief, and why.
+
+**Reviews, findings and process**
+- **Spotted** that the app's data-quality banner gave a count but didn't say what the warnings
+  were. That led to the findings panel under the banner.
+- **Reported a CI failure** on Python 3.12 (strict mypy with pandas-stubs 3.x) that local
+  checks on 3.10 hadn't caught.
+- **Installed Docker Desktop** so the image could be built and run. That run exposed a DuckDB
+  2.x incompatibility in the dashboard.
+- **Asked for the history to be reordered** and fixes folded into the commits they belong to,
+  for review, and approved the force-push.
+- **Confirmed CI was green** after the fixes.
+
+### Proposed by the AI and accepted by the author
+
+These judgement calls were flagged for the author's review rather than decided by the author:
+- Anchoring the comparison year on the focus countries (no year has GDP for all 217
+  economies).
+- Lowering the life-expectancy floor to 10 after the source showed 18.8 for the Central
+  African Republic in 2022.
+- Treating the GDP-per-capita mismatches (five economies) and missing source values as
+  warnings rather than failures.
+- Falling back to current income groups, with a warning, when the OGHIST download fails.
+
+### How the output was checked rather than trusted
+
+- Every change ran through ruff, strict mypy and the test suite.
+- Every commit was re-tested in a clean worktree, on Python 3.10 and 3.12.
+- `make run` was verified from a fresh clone, through the pip path, and on Python 3.12 with
+  DuckDB 2.0; the Docker image was built and run end to end.
+- Dashboards and the app were checked in a browser (light and dark, phone width), as well as
+  by the author.
+- Mart numbers were cross-checked against values computed independently in the tests, and
+  each data-quality check has a test showing it catches its defect.
+
+### Bugs this process caught
+
+- **Self-review:** a window function evaluated before row filtering in the latest-year view,
+  and test helpers that silently discarded earlier fixture edits.
+- **Running the Docker image:** a dashboard query pattern that DuckDB 2.x rejects. The image
+  resolves DuckDB 2.x, while local development used 1.x.
+- **Browser checks:** dark-mode colours applied in light mode, labels pushed off charts, and
+  a horizontal scroll at phone width.
+- **The author's CI run:** strict mypy failures with pandas-stubs 3.x on Python 3.12.
+- **Widening the scope:** a life-expectancy bound too tight for real data, which blocked
+  publishing until reviewed.
+- **Checking the source:** the first OGHIST link found was two editions out of date. The
+  current edition is now used, and a check catches the next one.
 
 ---
 
