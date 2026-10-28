@@ -10,7 +10,7 @@ Data only flows forward: `raw` → `staging` → `core` → `marts`.
 | `staging` | Responses of one ingest run, parsed into typed rows            | `wbpipe transform`| replaced each transform        |
 | `core`    | Conformed dimensions and the indicator fact (+ its history)    | `wbpipe transform`| dims replaced; fact upserted   |
 | `quality` | Data-quality results and diagnostic views                      | `wbpipe check`    | results appended; views        |
-| `marts`   | Analyst-facing answers to the reporting questions              | _next step_       | views                          |
+| `marts`   | Analyst-facing answers to the reporting questions              | `wbpipe transform`| views (exported by `report`)   |
 
 ## Entity relationships
 
@@ -144,6 +144,39 @@ values withdrawn). A closed version without a successor means the key left the c
 ### `core.transform_run` — one row per transform
 Which ingest run the core layer was built from (`ingest_run_id`), when, and how many fact versions
 were opened or closed. Data-quality checks run against the latest row.
+
+## Marts (reporting layer)
+
+All marts are views over `core`, so they are always consistent with the current fact.
+`wbpipe report` exports each one to `output/` as CSV, but only after `wbpipe check` has
+passed for the current transform.
+
+| View | Answers | Grain |
+|---|---|---|
+| `v_indicator_value` | Base for everything else: readable names, income group, `value_status`, `has_value` | country × indicator × year |
+| `v_missing_values` | **Q1** Which combinations are missing, why (`null_in_source` / `not_returned`), and the kind of gap (`gap_in_series`, `not_yet_published` (trailing gap, likely publication lag), `no_data_for_series`) | missing country × indicator × year |
+| `v_series_completeness` | **Q1** How complete each series is: counts by status, `missing_years`, `complete` / `incomplete` / `empty` | country × indicator |
+| `v_yoy_change` | **Q2** Strict YoY vs the previous calendar year, with `yoy_status` explaining any NULL (`current_missing`, `prior_missing`, `prior_out_of_scope`, `prior_zero`). Plus gap-aware change vs the last available year, annualised | country × indicator × year |
+| `v_latest_comparison` | **Q3** `latest_common_year` (latest year every country has a value) with rank, share of total and ratio to average; plus each country's own latest year and value, flagged when it differs | indicator × country |
+| `v_income_group_by_year` | **Q4** Configured aggregate per income group (sum / ratio / weighted mean / mean), simple mean, min and max, country counts, `is_complete` | income group × indicator × year |
+| `v_data_freshness` | Extra: source `lastupdated`, coverage and the published ingest run per indicator | indicator |
+| `v_source_revisions` | Extra: every detected source revision, with previous and new value | revision |
+
+Conventions:
+- **Missing is never 0.** Change columns are NULL when they can't be computed, and a status
+  column says why.
+- **Percentages are in percent**, using `|prior|` as the base. When the prior value is 0, the
+  percentage is NULL and the absolute change is still given.
+- **Income-group aggregation is configured per indicator** in `pipeline.yaml`:
+  - population and GDP are summed;
+  - GDP per capita is ΣGDP / Σpopulation, using only countries that have both;
+  - life expectancy is population-weighted;
+  - unconfigured indicators default to the simple mean.
+
+  A group-year is `is_complete` only when every member contributed. A sum over part of a
+  group isn't comparable across years.
+- **Income group is the current classification applied to all years.** For example, a country
+  that moved group in 2020 is reported in its 2024 group for 2018 too.
 
 ## Data quality
 

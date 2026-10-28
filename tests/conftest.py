@@ -76,10 +76,8 @@ def edit_observations(fake_session: FakeSession, indicator: str, edit: Any, page
     A change to meta.total is mirrored onto the other page, as the real API would report it.
     """
     url = f"{BASE_URL}/country/{COUNTRIES}/indicator/{indicator}?format=json&date=2018:2024"
-    pages = {
-        n: json.loads((LIVE / f"observations_{indicator}_page{n}.json").read_bytes())
-        for n in (1, 2)
-    }
+    # Start from what is currently served, so several edits to the same page accumulate.
+    pages = {n: json.loads(fake_session.routes[route_key(f"{url}&page={n}")]) for n in (1, 2)}
     meta, rows = pages[page]
     edit(meta, rows)
     fake_session.override(f"{url}&page={page}", json.dumps([meta, rows]).encode())
