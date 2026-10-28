@@ -109,6 +109,34 @@ def load_country_scope(con: duckdb.DuckDBPyConnection, settings: Settings) -> No
     )
 
 
+def wide_view_sql(settings: Settings) -> str:
+    """marts.v_country_year_wide: one row per country x year, one column per indicator.
+
+    Generated from configuration because DuckDB cannot use a dynamic PIVOT in a view. Codes and
+    short names are validated by config (indicator-code pattern, snake_case identifiers).
+    """
+    columns = ",\n    ".join(
+        f"max(value) FILTER (WHERE indicator_code = '{i.code}') AS \"{i.short_name}\""
+        for i in settings.indicators
+    )
+    return f"""
+CREATE OR REPLACE VIEW marts.v_country_year_wide AS
+SELECT
+    country_iso3,
+    any_value(country_name) AS country_name,
+    any_value(region_name) AS region_name,
+    any_value(income_group_id) AS income_group_id,
+    any_value(income_group_name) AS income_group_name,
+    any_value(is_focus) AS is_focus,
+    year,
+    {columns},
+    count(*) FILTER (WHERE NOT has_value) AS indicators_missing,
+    any_value(country_order) AS country_order
+FROM marts.v_indicator_value
+GROUP BY country_iso3, year
+"""
+
+
 def run_transform(settings: Settings, run_id: str | None = None) -> TransformResult:
     """Transform the given ingest run (default: the latest successful one)."""
     transformed_at = datetime.now(timezone.utc)
@@ -138,6 +166,7 @@ def run_transform(settings: Settings, run_id: str | None = None) -> TransformRes
                     con.execute(path.read_text())
                 if layer == "staging":
                     load_country_scope(con, settings)
+            con.execute(wide_view_sql(settings))
             con.execute("COMMIT")
         except Exception:
             con.execute("ROLLBACK")

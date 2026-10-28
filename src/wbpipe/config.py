@@ -13,6 +13,8 @@ import yaml
 
 _ISO3 = re.compile(r"^[A-Z]{3}$")
 _INDICATOR = re.compile(r"^[A-Z0-9]+(\.[A-Z0-9]+)+$")
+# short_name becomes a column name in generated SQL (marts.v_country_year_wide)
+_SHORT_NAME = re.compile(r"^[a-z][a-z0-9_]{0,62}$")
 
 
 class ConfigError(ValueError):
@@ -210,6 +212,9 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         values = [getattr(i, attr) for i in indicators]
         if not values or len(set(values)) != len(values):
             raise ConfigError(f"indicator {attr}s must be non-empty and unique")
+    bad = [i.short_name for i in indicators if not _SHORT_NAME.match(i.short_name)]
+    if bad:
+        raise ConfigError(f"indicator short_names must be snake_case identifiers, got {bad}")
     for i in indicators:
         if i.valid_min is not None and i.valid_max is not None and i.valid_min > i.valid_max:
             raise ConfigError(f"indicator {i.code}: valid_min is above valid_max")

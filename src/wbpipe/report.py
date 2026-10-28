@@ -24,6 +24,7 @@ EXPORTS = {
     "v_latest_comparison": "q3_latest_comparison.csv",
     "v_income_group_by_year": "q4_income_group_by_year.csv",
     "v_indicator_value": "indicator_values.csv",
+    "v_country_year_wide": "country_year_wide.csv",
     "v_data_freshness": "data_freshness.csv",
     "v_source_revisions": "source_revisions.csv",
 }
@@ -36,6 +37,7 @@ ORDER_BY = {
     "v_latest_comparison": "indicator_code, rank_at_common_year NULLS LAST, country_iso3",
     "v_income_group_by_year": "indicator_code, year, income_group_rank NULLS LAST",
     "v_indicator_value": "country_order, indicator_order, year",
+    "v_country_year_wide": "country_order, year",
     "v_data_freshness": "indicator_code",
     "v_source_revisions": "detected_at, country_iso3, indicator_code, year",
 }

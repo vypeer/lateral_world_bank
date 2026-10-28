@@ -315,3 +315,16 @@ def test_base_view_has_readable_names(settings, pipeline):
         "India", "population", "Lower middle income", True,
     )  # fmt: skip
     assert query(settings, "SELECT count(*) FROM marts.v_indicator_value") == [(252,)]
+
+
+def test_wide_view_has_one_column_per_configured_indicator(settings, pipeline, fake_session):
+    set_bra(fake_session, POP, 2020, None)
+    pipeline("run1")
+    rows = mart(settings, "v_country_year_wide", "country_iso3 = 'BRA'", "year")
+    assert len(rows) == 7 and len(mart(settings, "v_country_year_wide")) == 9 * 7
+    assert list(rows[0])[7:11] == [i.short_name for i in settings.indicators]
+    by_year = {r["year"]: r for r in rows}
+    assert by_year[2019]["population"] == live_value(POP, "BRA", 2019)
+    assert by_year[2019]["gdp_per_capita_usd"] == live_value(GDPPC, "BRA", 2019)
+    assert (by_year[2020]["population"], by_year[2020]["indicators_missing"]) == (None, 1)
+    assert by_year[2019]["indicators_missing"] == 0

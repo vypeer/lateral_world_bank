@@ -59,6 +59,8 @@ def test_focus_countries_are_optional():
         (lambda c: c.update(countries=["BRA", "br"]), "ISO3"),
         (lambda c: c.update(countries=["BRA", "BRA"]), "duplicates"),
         (lambda c: c.update(countries="some"), "'all' or a list"),
+        (lambda c: c["indicators"][0].update(short_name="Pop Total"), "snake_case"),
+        (lambda c: c["indicators"][0].update(short_name='x"; DROP TABLE t; --'), "snake_case"),
         (lambda c: c.update(countries=[]), "non-empty"),
         (lambda c: c.update(countries=["BRA"]), "not in countries"),  # focus outside scope
         (lambda c: c["focus_countries"].append("xx"), "focus_countries must be ISO3"),
