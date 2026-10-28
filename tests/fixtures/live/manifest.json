@@ -1,0 +1,146 @@
+[
+  {
+    "name": "country_metadata",
+    "description": "Metadata for all configured countries (one page)",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF?format=json&per_page=50",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:08+00:00",
+    "sha256": "1eb97a11e6d6095fdc7afcd4382fbdf1f49c314ca9e3649b11583ce2771fe929",
+    "bytes": 3499
+  },
+  {
+    "name": "indicator_metadata_SP.POP.TOTL",
+    "description": "Metadata for indicator SP.POP.TOTL",
+    "url": "https://api.worldbank.org/v2/indicator/SP.POP.TOTL?format=json",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:09+00:00",
+    "sha256": "2f8491efc00bf2c0995112ff8e87aba69e5e9d22d0880b22f7e3a4ec757ba05c",
+    "bytes": 1099
+  },
+  {
+    "name": "observations_SP.POP.TOTL_page1",
+    "description": "SP.POP.TOTL observations, page 1 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/SP.POP.TOTL?format=json&date=2018:2024&per_page=50&page=1",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:09+00:00",
+    "sha256": "5502608a57fbac4f24f62fde2ba0e3fa8ec8c60384a5b81485958d0a99f4bafd",
+    "bytes": 9933
+  },
+  {
+    "name": "observations_SP.POP.TOTL_page2",
+    "description": "SP.POP.TOTL observations, page 2 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/SP.POP.TOTL?format=json&date=2018:2024&per_page=50&page=2",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:24+00:00",
+    "sha256": "c0fab952feb838f8a8cebf37c5ca503445fd96b471397bab7ceb0a4f27bda022",
+    "bytes": 2716
+  },
+  {
+    "name": "indicator_metadata_NY.GDP.MKTP.CD",
+    "description": "Metadata for indicator NY.GDP.MKTP.CD",
+    "url": "https://api.worldbank.org/v2/indicator/NY.GDP.MKTP.CD?format=json",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:25+00:00",
+    "sha256": "51cec1e144a5bad8d92238630c0a305e20116e86d34ad95c7c315ed166255b28",
+    "bytes": 938
+  },
+  {
+    "name": "observations_NY.GDP.MKTP.CD_page1",
+    "description": "NY.GDP.MKTP.CD observations, page 1 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/NY.GDP.MKTP.CD?format=json&date=2018:2024&per_page=50&page=1",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:32+00:00",
+    "sha256": "83edf21232eabb826e430f3b923d6d58128ac371551788635e6723ae03eb0728",
+    "bytes": 10441
+  },
+  {
+    "name": "observations_NY.GDP.MKTP.CD_page2",
+    "description": "NY.GDP.MKTP.CD observations, page 2 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/NY.GDP.MKTP.CD?format=json&date=2018:2024&per_page=50&page=2",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:33+00:00",
+    "sha256": "35e70357438c204532b6735467e75f1ec460e8e2f8642c86a1aec1eb09abba38",
+    "bytes": 2841
+  },
+  {
+    "name": "indicator_metadata_NY.GDP.PCAP.CD",
+    "description": "Metadata for indicator NY.GDP.PCAP.CD",
+    "url": "https://api.worldbank.org/v2/indicator/NY.GDP.PCAP.CD?format=json",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:34+00:00",
+    "sha256": "96520c3a22b1f9da1c7456349a6e70b1643db88d427671faced17cb8b9eaf907",
+    "bytes": 1044
+  },
+  {
+    "name": "observations_NY.GDP.PCAP.CD_page1",
+    "description": "NY.GDP.PCAP.CD observations, page 1 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2024&per_page=50&page=1",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:45+00:00",
+    "sha256": "5bac0c2182dc517a421ec7d34dc34766cf149f364575b61b41d059f7469b3747",
+    "bytes": 10990
+  },
+  {
+    "name": "observations_NY.GDP.PCAP.CD_page2",
+    "description": "NY.GDP.PCAP.CD observations, page 2 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2024&per_page=50&page=2",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:55+00:00",
+    "sha256": "9db9af9de379d317a66148f9363f7021f1f3f44d02beb8ad0514b79adceefc0f",
+    "bytes": 2993
+  },
+  {
+    "name": "indicator_metadata_SP.DYN.LE00.IN",
+    "description": "Metadata for indicator SP.DYN.LE00.IN",
+    "url": "https://api.worldbank.org/v2/indicator/SP.DYN.LE00.IN?format=json",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:55+00:00",
+    "sha256": "a39cb6fddfbbb953053690366243dffe77a266c4deae79c46ce5a06da9f5fc31",
+    "bytes": 969
+  },
+  {
+    "name": "observations_SP.DYN.LE00.IN_page1",
+    "description": "SP.DYN.LE00.IN observations, page 1 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/SP.DYN.LE00.IN?format=json&date=2018:2024&per_page=50&page=1",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:56+00:00",
+    "sha256": "772baa9df293f73a91bb97b73ea4403f9f63845ad38730fcf2ec8e7d519b1712",
+    "bytes": 11310
+  },
+  {
+    "name": "observations_SP.DYN.LE00.IN_page2",
+    "description": "SP.DYN.LE00.IN observations, page 2 of 2",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/SP.DYN.LE00.IN?format=json&date=2018:2024&per_page=50&page=2",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:57+00:00",
+    "sha256": "a3abb15fd03e85fcd99070b63be3513d443215b3b4c07d032e68f640d6ec0f50",
+    "bytes": 3067
+  },
+  {
+    "name": "observations_page_beyond_last",
+    "description": "Requesting a page past the last one (page=3 of 2)",
+    "url": "https://api.worldbank.org/v2/country/BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF/indicator/SP.POP.TOTL?format=json&date=2018:2024&per_page=50&page=3",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:58+00:00",
+    "sha256": "32276376d7c4268bb082f0ab8aace963fb7ea51b51f1430ae5e4e49d5819fead",
+    "bytes": 92
+  },
+  {
+    "name": "error_invalid_indicator",
+    "description": "Unknown indicator code: HTTP 200 with a message body instead of data",
+    "url": "https://api.worldbank.org/v2/country/BRA/indicator/NOT.A.REAL.CODE?format=json",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:58+00:00",
+    "sha256": "f230e5b6d8f652aa544aec29624faa117c27571ce309a7a474584e1cfeb45c1b",
+    "bytes": 102
+  },
+  {
+    "name": "error_invalid_country",
+    "description": "Unknown country code: HTTP 200 with a message body instead of data",
+    "url": "https://api.worldbank.org/v2/country/XXX/indicator/SP.POP.TOTL?format=json&date=2018:2024",
+    "http_status": 200,
+    "captured_at": "2026-10-28T08:34:59+00:00",
+    "sha256": "f230e5b6d8f652aa544aec29624faa117c27571ce309a7a474584e1cfeb45c1b",
+    "bytes": 102
+  }
+]
