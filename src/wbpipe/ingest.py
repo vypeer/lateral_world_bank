@@ -41,9 +41,10 @@ class Request:
 
 @dataclass(frozen=True)
 class IngestResult:
-    run_id: str
+    run_id: str  # when skipped: the earlier run whose data is still current
     n_pages: int
     n_new_responses: int
+    skipped: bool = False
 
 
 # The API lists regional and income-group aggregates ("World", "High income", ...) alongside
@@ -94,12 +95,77 @@ def response_id(request_url: str, payload_sha256: str) -> str:
     return hashlib.sha256(f"{request_url}\n{payload_sha256}".encode()).hexdigest()[:32]
 
 
+def unchanged_since(
+    settings: Settings,
+    client: WorldBankClient,
+    country_pages: Sequence[ApiPage],
+) -> str | None:
+    """The last successful run if cheap probes show nothing changed since it, else None.
+
+    Unchanged means: same scope fingerprint, byte-identical country metadata (which carries
+    income groups and the list of economies), and for every indicator the same lastupdated
+    date and row count (probed with per_page=1).
+    """
+    if not settings.paths.warehouse.exists():
+        return None
+    with connect(settings, read_only=True) as con:
+        last = con.execute(
+            "SELECT run_id, config_fingerprint FROM raw.ingest_run WHERE status = 'succeeded' "
+            "ORDER BY finished_at DESC, run_id DESC LIMIT 1"
+        ).fetchone()
+        if last is None or last[1] != settings.fingerprint():
+            return None
+        seen = con.execute(
+            """
+            SELECT r.endpoint, r.entity, r.page, r.payload_sha256,
+                   CAST(r.source_lastupdated AS VARCHAR), r.total_rows
+            FROM raw.api_fetch f JOIN raw.api_response r USING (response_id)
+            WHERE f.run_id = ? AND (r.endpoint = 'country' OR (r.endpoint = 'observation'
+                                                                AND r.page = 1))
+            ORDER BY r.endpoint, r.entity, r.page
+            """,
+            [last[0]],
+        ).fetchall()
+    country_shas = [row[3] for row in seen if row[0] == "country"]
+    if country_shas != [hashlib.sha256(p.body).hexdigest() for p in country_pages]:
+        log.info("country metadata changed since run %s", last[0])
+        return None
+    previous = {row[1]: (row[4], row[5]) for row in seen if row[0] == "observation"}
+    countries = settings.countries or tuple(economies(country_pages))
+    for req in plan_requests(settings, countries):
+        if req.endpoint != "observation":
+            continue
+        probe = client.first_page(req.path, req.params, per_page=1)
+        current = (probe.lastupdated, int(probe.meta["total"]))
+        if previous.get(req.entity) != current:
+            log.info("%s changed since run %s: %s -> %s",
+                     req.entity, last[0], previous.get(req.entity), current)  # fmt: skip
+            return None
+    return str(last[0])
+
+
 def run_ingest(
     settings: Settings,
     client: WorldBankClient | None = None,
     run_id: str | None = None,
+    force: bool = False,
 ) -> IngestResult:
     client = client or WorldBankClient(settings.api)
+    country_req = country_request(settings)
+    prefetched: list[ApiPage] | None = None
+    if settings.skip_if_unchanged and not force:
+        prefetched = client.fetch_all(country_req.path, country_req.params)
+        since = unchanged_since(settings, client, prefetched)
+        if since:
+            with connect(settings) as con:
+                con.execute(
+                    "INSERT INTO raw.ingest_skip VALUES (?, ?)",
+                    [datetime.now(timezone.utc), since],
+                )
+            log.info("source unchanged since ingest run %s; skipping the fetch "
+                     "(use --force to fetch anyway)", since)  # fmt: skip
+            return IngestResult(run_id=since, n_pages=0, n_new_responses=0, skipped=True)
+
     run_id = run_id or new_run_id()
     started_at = datetime.now(timezone.utc)
     run_dir = settings.paths.landing_dir / run_id
@@ -108,9 +174,9 @@ def run_ingest(
     # Fetch before opening the warehouse so its write lock is held only while registering.
     landed: list[tuple[Request, ApiPage, Path]] = []
 
-    def fetch(req: Request) -> list[ApiPage]:
+    def fetch(req: Request, already: list[ApiPage] | None = None) -> list[ApiPage]:
         pages = []
-        for page in client.iter_pages(req.path, req.params):
+        for page in already if already is not None else client.iter_pages(req.path, req.params):
             rel_path = Path(run_id) / req.landing_subdir / f"page_{page.page:04d}.json"
             target = settings.paths.landing_dir / rel_path
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -122,7 +188,7 @@ def run_ingest(
 
     try:
         # Countries first: in 'all' mode the observation requests depend on the economies listed.
-        country_pages = fetch(country_request(settings))
+        country_pages = fetch(country_req, prefetched)
         countries = settings.countries or tuple(economies(country_pages))
         if not countries:
             raise WorldBankApiError("the country endpoint listed no economies")

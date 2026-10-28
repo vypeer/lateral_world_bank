@@ -101,6 +101,8 @@ class Settings:
     quality: QualitySettings
     # Shown by default in the dashboards and used to pick the comparison year; empty = all
     focus_countries: tuple[str, ...] = ()
+    # Skip the full fetch when cheap probes show the source unchanged since the last run
+    skip_if_unchanged: bool = True
 
     @property
     def all_countries(self) -> bool:
@@ -262,6 +264,7 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         paths=paths,
         quality=quality,
         focus_countries=focus,
+        skip_if_unchanged=bool((raw.get("ingest") or {}).get("skip_if_unchanged", True)),
     )
 
 

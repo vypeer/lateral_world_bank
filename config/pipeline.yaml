@@ -8,6 +8,12 @@ api:
   max_retries: 5
   backoff_seconds: 1.0    # exponential: 1, 2, 4, ... (plus jitter)
 
+ingest:
+  # Before a full fetch, probe the API cheaply (country list hash, and each indicator's
+  # lastupdated and row count) and skip the run when nothing changed since the last successful
+  # one with the same scope. `wbpipe run --force` always fetches.
+  skip_if_unchanged: true
+
 years:
   start: 2018
   end: 2024

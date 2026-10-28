@@ -171,6 +171,8 @@ def settings(tmp_path: Path) -> Settings:
     raw["api"].update(base_url=BASE_URL, per_page=50, max_retries=2, backoff_seconds=0)
     # The captured fixtures name these nine countries explicitly; 'all' mode has its own tests.
     raw["countries"] = COUNTRIES.split(";")
+    # Most tests re-ingest unchanged fixtures on purpose; skipping is tested explicitly.
+    raw["ingest"] = {"skip_if_unchanged": False}
     raw["paths"] = {
         "landing_dir": str(tmp_path / "landing"),
         "warehouse": str(tmp_path / "warehouse.duckdb"),

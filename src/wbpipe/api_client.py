@@ -106,11 +106,19 @@ class WorldBankClient:
                 f"{path}: received {seen} rows across {pages} pages, meta says {total}"
             )
 
-    def _fetch_page(self, path: str, params: dict[str, str], page: int) -> ApiPage:
+    def first_page(
+        self, path: str, params: dict[str, str] | None = None, per_page: int | None = None
+    ) -> ApiPage:
+        """Only page 1, e.g. with per_page=1 as a cheap probe of meta (total, lastupdated)."""
+        return self._fetch_page(path, params or {}, page=1, per_page=per_page)
+
+    def _fetch_page(
+        self, path: str, params: dict[str, str], page: int, per_page: int | None = None
+    ) -> ApiPage:
         query = {
             "format": "json",
             **params,
-            "per_page": str(self._settings.per_page),
+            "per_page": str(per_page or self._settings.per_page),
             "page": str(page),
         }
         url = self.build_url(path, query)

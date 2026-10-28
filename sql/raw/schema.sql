@@ -44,3 +44,9 @@ CREATE TABLE IF NOT EXISTS raw.api_fetch (
     landing_path        VARCHAR NOT NULL,
     PRIMARY KEY (run_id, response_id)
 );
+
+-- Runs skipped because probes showed the source unchanged since an earlier successful run.
+CREATE TABLE IF NOT EXISTS raw.ingest_skip (
+    checked_at              TIMESTAMPTZ PRIMARY KEY,
+    unchanged_since_run_id  VARCHAR NOT NULL
+);

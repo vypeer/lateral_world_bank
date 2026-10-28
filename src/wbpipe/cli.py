@@ -18,7 +18,7 @@ log = logging.getLogger("wbpipe")
 
 
 def _ingest(settings: Settings, args: argparse.Namespace) -> None:
-    run_ingest(settings)
+    run_ingest(settings, force=args.force)
 
 
 def _transform(settings: Settings, args: argparse.Namespace) -> None:
@@ -61,6 +61,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wbpipe", description=__doc__)
     parser.add_argument("--config", default="config/pipeline.yaml", help="pipeline config file")
     parser.add_argument("-v", "--verbose", action="store_true", help="debug logging")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="ingest: fetch even when probes show the source unchanged since the last run",
+    )
     parser.add_argument(
         "--run-id",
         help="transform only: rebuild from this ingest run instead of the latest (replay)",
