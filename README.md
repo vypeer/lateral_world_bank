@@ -59,7 +59,7 @@ docker run --rm -v "$PWD/output:/app/output" wbpipe
 | Command | What it does |
 |---|---|
 | `make run` / `wbpipe run` | Full pipeline |
-| `wbpipe ingest` | Fetch all pages, land them verbatim, register them in `raw` |
+| `wbpipe ingest [--force]` | Fetch all pages, land them verbatim, register them in `raw`. Skipped when cheap probes show the source unchanged since the last run; `--force` fetches anyway (also works with `run`) |
 | `wbpipe transform [--run-id ID]` | Rebuild staging / core / marts from the latest successful ingest run, or replay an older one |
 | `wbpipe check` | Run the data-quality checks; exits 1 on a blocking failure |
 | `wbpipe report` | Export the marts to `output/*.csv`. Refuses unless checks passed for the current build |
@@ -136,6 +136,7 @@ The full description, with a Mermaid ERD, is in [docs/data_model.md](docs/data_m
 | Year-over-year change, handling missing / zero priors | `v_yoy_change` | [q2_yoy_change.csv](output/q2_yoy_change.csv) |
 | Comparison at the latest available year | `v_latest_comparison` | [q3_latest_comparison.csv](output/q3_latest_comparison.csv) |
 | Indicators by income group and year | `v_income_group_by_year` | [q4_income_group_by_year.csv](output/q4_income_group_by_year.csv) |
+| Wide view | `v_country_year_wide`: one row per country-year, one column per indicator (generated from config) | [country_year_wide.csv](output/country_year_wide.csv) |
 | Extras | `v_indicator_value` (analyst base table), `v_data_freshness`, `v_source_revisions` | [indicator_values.csv](output/indicator_values.csv), [data_freshness.csv](output/data_freshness.csv), [source_revisions.csv](output/source_revisions.csv) |
 | Data quality | `quality.dq_result`, `quality.v_gdp_per_capita_consistency` | [dq_report.md](output/dq_report.md), [dq_results.csv](output/dq_results.csv) |
 | All of the above, visually | n/a | [dashboard.html](output/dashboard.html): open it in a browser after `make run` |
@@ -294,6 +295,17 @@ exactly those. A new economy therefore enters on the next run.
    a group isn't comparable.
 10. **DQ as data:** checks are YAML + SQL with fail/warn severity, persisted per execution.
     `report` only publishes a build whose latest check passed.
+11. **Historical income groups:** each country-year uses the World Bank classification based
+    on that year's data, from its OGHIST workbook. API v2 only knows the current group. Years
+    the workbook doesn't cover yet use the current group, flagged in `income_group_source`;
+    the current edition covers data up to 2025, so all of 2018–2024 is historical. Group
+    membership therefore changes over time.
+12. **Skip unchanged runs:** before a full fetch, ingest probes the API with 6 small requests
+    (the country list, a 1-row page per indicator, the workbook). If the scope fingerprint,
+    the country metadata hash, every indicator's `lastupdated` and row count, and the workbook
+    hash all match the last successful run, it records a skip instead of re-fetching.
+    Transform, check and report still run, because they're cheap and a code change may need
+    a rebuild.
 
 ### Beyond the brief, on purpose
 
@@ -306,11 +318,22 @@ and the comparison year are built around. There were two reasons:
   real data.
 - **Personal curiosity:** seeing how the brief's countries sit among all economies.
 
+It also uses a second World Bank source. The brief asks for the public API only, but API v2 has
+no historical income classification, so it comes from the World Bank's public OGHIST workbook
+(no key). It is landed verbatim like the API pages, and can be switched off in
+`config/pipeline.yaml` (`income_history.enabled: false`). Every year then uses the current
+group, as the API alone allows. If the download fails, the run carries on with current groups
+and a data-quality check warns.
+
+To reproduce exactly the brief's scope, set `countries` in `config/pipeline.yaml` to the nine
+ISO3 codes; nothing else changes.
+
 ### Assumptions
 
-- **Income group is the current World Bank classification, applied to all years.** The API
-  exposes no history (the historical classification is a separate spreadsheet). For example,
-  a country that changed group in 2020 appears in its current group for 2018.
+- **Income group for year Y is the classification based on year-Y data**, published the
+  following July (the workbook's fiscal year Y+2 is kept as `fiscal_year`). A year the
+  workbook doesn't cover yet uses the current group. "Not classified" (e.g. Venezuela in recent
+  years) is kept as its own group, `INX`, not dropped.
 - "Latest available year" means the latest year with a non-null value, limited to the
   configured range (2018–2024).
 - Values are stored as DOUBLE. Population and GDP are well within exact double precision for
@@ -345,9 +368,11 @@ and the comparison year are built around. There were two reasons:
 **Scheduling and incremental refreshes**
 - Run daily from an orchestrator (Airflow / Dagster / Step Functions) as four tasks mirroring
   the CLI steps, each with retries; the steps are already idempotent.
-- The World Bank updates its indicators a few times a year. A cheap first task can fetch page 1
-  per indicator and compare `lastupdated` with the last ingested value, skipping the run when
-  nothing changed.
+- The World Bank updates its indicators a few times a year. Ingest already probes cheaply
+  (country list hash, a 1-row page per indicator for `lastupdated` and row count, workbook
+  hash) and skips the fetch when nothing changed, recording it in `raw.ingest_skip`. In
+  production the orchestrator would short-circuit the remaining tasks on a skip, and alert if
+  skips continue past the expected release cadence.
 - Refresh a rolling window (e.g. the last 10 years) on every run rather than "new years
   only", because past years are revised. Storage stays incremental through hash dedupe in
   `raw` and the row-hash upsert in `core`.
@@ -419,13 +444,12 @@ which the brief encourages.
 
 ## Unfinished work and next steps
 
-- **Income group history:** load the World Bank's historical classification (OGHIST) as a
-  type-2 dimension so groups reflect each year's classification.
-- **Skip unchanged runs** using `lastupdated` (see the production note), and add a `--years`
-  override for ad-hoc backfills.
-- **Wide country-year view as SQL** (one column per indicator). The app's Explore tab already
-  offers it, but a warehouse view would need a config-generated pivot, because DuckDB's dynamic
-  `PIVOT` can't be used in a view.
+- **A `--years` override** for ad-hoc backfills without editing the config.
+- **The OGHIST link could move.** It's the "Historical classification by income" link on the
+  World Bank's Country and Lending Groups page, which currently serves the latest edition. If
+  it moves, the run falls back to current groups (`income_history_loaded` warns). If it keeps
+  serving an old edition, `income_history_up_to_date` warns. Either way, update
+  `income_history.url`.
 - **The live app isn't in the Docker image**, which stays pipeline-only. It would need the
   `app` extra and a published port.
 - **dbt port** of the SQL layer if this moves to a warehouse (see the mapping above).

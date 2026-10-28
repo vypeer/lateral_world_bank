@@ -1,8 +1,8 @@
 # Data-quality report
 
-- Ingest run checked: `20261028T103723Z-660aca`
-- Checked at: 2026-10-28 10:37:25 UTC
-- Result: 14 pass, 2 warn, 0 fail, 0 error
+- Ingest run checked: `20261028T122131Z-c0b6eb`
+- Checked at: 2026-10-28 12:21:33 UTC
+- Result: 17 pass, 2 warn, 0 fail, 0 error
 
 | Check | Severity | Status | Violations | Description |
 |---|---|---|---|---|
@@ -20,6 +20,9 @@
 | `focus_countries_in_scope` | fail | **PASS** | 0 | Every configured focus country is in scope (in 'all' mode: listed by the API as an economy), so dashboards and the comparison year are based on real countries. |
 | `dim_indicator_described` | warn | **PASS** | 0 | Every configured indicator was described by the API. |
 | `source_unexpected_observations` | warn | **PASS** | 0 | The API returned observations outside the configured scope (ignored by the load). |
+| `income_history_loaded` | warn | **PASS** | 0 | The historical income classification was loaded when configured; otherwise every year uses the current income group (see core.dim_country_income_year.income_group_source). |
+| `income_history_up_to_date` | warn | **PASS** | 0 | The historical classification covers the latest published data year that falls in the configured range (classifications for year Y appear each July of Y+1). An older edition means the configured URL points at a superseded workbook. |
+| `income_history_covers_scope` | warn | **PASS** | 0 | Every economy in scope appears in the historical classification for the years it covers (a missing economy falls back to its current group in those years). |
 | `source_freshness` | warn | **PASS** | 0 | The World Bank's lastupdated date is known and was no older than max_source_age_days when the data was fetched. |
 | `ingest_failed_since_checked_run` | warn | **PASS** | 0 | No ingest run has failed since the run being checked; otherwise the published data is older than intended. |
 
