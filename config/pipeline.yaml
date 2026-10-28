@@ -1,0 +1,45 @@
+# Pipeline configuration. Adding a country or indicator is a one-line change here;
+# no pipeline code needs to be copied or edited.
+
+api:
+  base_url: https://api.worldbank.org/v2
+  per_page: 1000          # API maximum is large; tests use fixtures captured with per_page=50
+  timeout_seconds: 30
+  max_retries: 5
+  backoff_seconds: 1.0    # exponential: 1, 2, 4, ... (plus jitter)
+
+years:
+  start: 2018
+  end: 2024
+
+# ISO3 codes
+countries:
+  - BRA
+  - CAN
+  - DEU
+  - GBR
+  - IND
+  - JPN
+  - MEX
+  - USA
+  - ZAF
+
+indicators:
+  - code: SP.POP.TOTL
+    short_name: population
+  - code: NY.GDP.MKTP.CD
+    short_name: gdp_usd
+  - code: NY.GDP.PCAP.CD
+    short_name: gdp_per_capita_usd
+  - code: SP.DYN.LE00.IN
+    short_name: life_expectancy_years
+
+paths:
+  landing_dir: data/landing
+  warehouse: data/warehouse.duckdb
+  sql_dir: sql
+  output_dir: output
+
+quality:
+  # GDP / population vs GDP per capita: relative difference above this is a WARN
+  gdp_per_capita_tolerance: 0.01
