@@ -23,11 +23,11 @@ make run
 This one command installs the locked dependencies into `.venv`, then runs every step:
 
 ```
-ingest → transform → check → report
+ingest → transform → check → report → dashboard
 ```
 
-The results land in `output/` (CSVs and the data-quality report) and in
-`data/warehouse.duckdb` (queryable). From a clean checkout it takes a few seconds. The exit code
+The results land in `output/` (CSVs, the data-quality report and
+[`dashboard.html`](output/dashboard.html)) and in `data/warehouse.duckdb` (queryable). From a clean checkout it takes a few seconds. The exit code
 is non-zero if the API fails after retries or a blocking data-quality check fails.
 
 **Without uv:**
@@ -54,6 +54,7 @@ docker run --rm -v "$PWD/output:/app/output" wbpipe
 | `wbpipe transform [--run-id ID]` | Rebuild staging / core / marts from the latest successful ingest run, or replay an older one |
 | `wbpipe check` | Run the data-quality checks; exits 1 on a blocking failure |
 | `wbpipe report` | Export the marts to `output/*.csv`. Refuses unless checks passed for the current build |
+| `wbpipe dashboard` | Render `output/dashboard.html` from the marts (same publish gate) |
 | `make check` | ruff + mypy (strict) + pytest. Fully offline |
 | `make fixtures` | Re-capture the live API responses used as test fixtures (the only live call outside `ingest`) |
 
@@ -84,12 +85,12 @@ World Bank API ──► data/landing/<run_id>/…/page_NNNN.json   (verbatim by
                    marts.v_*          answers to the four questions
                          │  check (config/dq_checks.yaml) → quality.dq_result
                          │  report (only if checks passed)
-                   output/*.csv, output/dq_report.md
+                   output/*.csv, output/dq_report.md, output/dashboard.html
 ```
 
 ```
 config/      pipeline.yaml (scope, API, paths, quality settings) · dq_checks.yaml
-src/wbpipe/  cli · config · api_client · ingest · transform · quality · report · warehouse
+src/wbpipe/  cli · config · api_client · ingest · transform · quality · report · dashboard · warehouse
 sql/         raw/ · staging/ · core/ · marts/ · quality/   (run in file-name order)
 tests/       offline tests; fixtures/live/ holds real captured API responses
 docs/        data_model.md: grain, keys, relationships, ERD
@@ -126,6 +127,29 @@ The full description, with a Mermaid ERD, is in [docs/data_model.md](docs/data_m
 | Indicators by income group and year | `v_income_group_by_year` | [q4_income_group_by_year.csv](output/q4_income_group_by_year.csv) |
 | Extras | `v_indicator_value` (analyst base table), `v_data_freshness`, `v_source_revisions` | [indicator_values.csv](output/indicator_values.csv), [data_freshness.csv](output/data_freshness.csv), [source_revisions.csv](output/source_revisions.csv) |
 | Data quality | `quality.dq_result`, `quality.v_gdp_per_capita_consistency` | [dq_report.md](output/dq_report.md), [dq_results.csv](output/dq_results.csv) |
+| All of the above, visually | n/a | [dashboard.html](output/dashboard.html): open it in a browser after `make run` |
+
+### Dashboard
+
+`output/dashboard.html` is a single self-contained file: no external requests, no JavaScript
+libraries, charts drawn as inline SVG by `wbpipe dashboard`. It shows:
+- coverage and data-quality status tiles;
+- income-group trends: one small chart per indicator, three lines;
+- a ranked comparison at the latest common year;
+- year-over-year heatmaps, country × year;
+- a completeness matrix and the missing-value list;
+- the check results.
+
+Design choices:
+- **Colour encodes entities only where there are few of them.** The 9 countries are never
+  9 colours: lines show the 3 income groups, and country comparisons use single-colour bars
+  and heatmaps.
+- **Light and dark themes are both chosen deliberately**, each with its own colour steps.
+- **The diverging heatmap scale was validated** for step separation, contrast against the
+  background and colour-blind separation of its two poles.
+- **Every chart has hover/keyboard tooltips and a data table**, so nothing depends on colour
+  or hovering alone.
+- **Source text is HTML-escaped**, so names from the API can't inject markup.
 
 > **About the sample outputs:** at the time of the run (source `lastupdated` 2026-10-08) the
 > World Bank had every value for these countries, indicators and years. So the missing-value
@@ -144,7 +168,7 @@ The full description, with a Mermaid ERD, is in [docs/data_model.md](docs/data_m
     out-of-scope rows, stale source, failed ingest since the published run.
   - A check that cannot run is an `error` and always blocks.
 - Every execution is appended to `quality.dq_result`.
-- **88 tests, fully offline.** API responses come from real captured fixtures
+- **101 tests, fully offline.** API responses come from real captured fixtures
   ([tests/fixtures/live](tests/fixtures/live), with a sha256 manifest) served by a fake HTTP
   session. They cover:
   - paging, retries, `Retry-After` and in-band errors
@@ -154,6 +178,7 @@ The full description, with a Mermaid ERD, is in [docs/data_model.md](docs/data_m
   - every mart's edge cases
   - each DQ check, with a test showing it catches its defect
   - the publish gate
+  - dashboard rendering, including escaping and missing-data display
 
   CI runs lint, strict mypy and the tests on Python 3.10 and 3.12 (DuckDB 1.x and 2.x).
 
@@ -310,19 +335,17 @@ which the brief encourages.
   - every change ran through ruff, strict mypy and the test suite;
   - each commit was re-tested in a clean worktree;
   - `make run` was verified from a fresh clone, through the pip path, and on Python 3.12 with
-    DuckDB 2.0;
+    DuckDB 2.0; the Docker image was built and run end to end;
   - mart numbers were cross-checked against values computed independently in the tests.
 - **Bugs this process caught:** a window function evaluated before row filtering in the
-  latest-year view, and test helpers that silently discarded earlier fixture edits.
+  latest-year view; test helpers that silently discarded earlier fixture edits; and, found by
+  running the Docker image, a dashboard query pattern that DuckDB 2.x rejects (the image
+  resolves DuckDB 2.x, local development used 1.x).
 
 ---
 
 ## Unfinished work and next steps
 
-- **Dashboard (optional) not built.** The plan was a self-contained static HTML page generated
-  from the marts.
-- **Docker image not built or run here.** Docker isn't installed on the development machine.
-  The same Python 3.12 / DuckDB 2.0 environment it uses was tested with uv.
 - **CI not yet confirmed green on GitHub.** The workflow is committed but its runs weren't
   checked from the development environment.
 - **Income group history:** load the World Bank's historical classification (OGHIST) as a

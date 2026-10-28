@@ -1,7 +1,7 @@
 # Data-quality report
 
-- Ingest run checked: `20261028T093326Z-82bd2b`
-- Checked at: 2026-10-28 09:33:27 UTC
+- Ingest run checked: `20261028T095204Z-b16cc5`
+- Checked at: 2026-10-28 09:52:04 UTC
 - Result: 15 pass, 0 warn, 0 fail, 0 error
 
 | Check | Severity | Status | Violations | Description |
