@@ -11,6 +11,8 @@ duckdb==2.0.0 ; python_full_version >= '3.11'
     # via wbpipe
 idna==3.20
     # via requests
+pytz==2026.5
+    # via wbpipe
 pyyaml==6.0.3
     # via wbpipe
 requests==2.34.2

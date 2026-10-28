@@ -8,6 +8,7 @@ from collections.abc import Callable
 
 from wbpipe.config import Settings, load_settings
 from wbpipe.ingest import run_ingest
+from wbpipe.transform import run_transform
 
 log = logging.getLogger("wbpipe")
 
@@ -16,10 +17,14 @@ def _ingest(settings: Settings) -> None:
     run_ingest(settings)
 
 
+def _transform(settings: Settings) -> None:
+    run_transform(settings)
+
+
 # Steps run in this order by `wbpipe run`; None marks a step that is not built yet.
 STEPS: dict[str, Callable[[Settings], None] | None] = {
     "ingest": _ingest,
-    "transform": None,
+    "transform": _transform,
     "check": None,
     "report": None,
     "dashboard": None,
