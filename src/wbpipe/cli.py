@@ -8,6 +8,7 @@ from collections.abc import Callable
 
 from wbpipe.api_client import PagingError, RetriesExhausted, WorldBankApiError
 from wbpipe.config import ConfigError, Settings, load_settings
+from wbpipe.dashboard import run_dashboard
 from wbpipe.ingest import run_ingest
 from wbpipe.quality import DataQualityError, run_checks
 from wbpipe.report import ReportError, run_report
@@ -32,6 +33,10 @@ def _report(settings: Settings, args: argparse.Namespace) -> None:
     run_report(settings)
 
 
+def _dashboard(settings: Settings, args: argparse.Namespace) -> None:
+    run_dashboard(settings)
+
+
 EXPECTED_ERRORS = (
     ConfigError,
     WorldBankApiError,
@@ -48,6 +53,7 @@ STEPS: dict[str, Callable[[Settings, argparse.Namespace], None]] = {
     "transform": _transform,
     "check": _check,
     "report": _report,
+    "dashboard": _dashboard,
 }
 
 
