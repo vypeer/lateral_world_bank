@@ -11,6 +11,7 @@ from urllib.parse import parse_qsl, urlsplit
 
 import pytest
 import requests
+import yaml
 
 from wbpipe.config import Settings, parse_settings
 
@@ -66,6 +67,62 @@ class FakeSession:
         self.routes[route_key(fixture_url)] = body
 
 
+COUNTRIES = "BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF"
+
+
+def edit_observations(fake_session: FakeSession, indicator: str, edit: Any, page: int = 2) -> None:
+    """Serve a modified observation page; ``edit(meta, rows)`` mutates it in place.
+
+    A change to meta.total is mirrored onto the other page, as the real API would report it.
+    """
+    url = f"{BASE_URL}/country/{COUNTRIES}/indicator/{indicator}?format=json&date=2018:2024"
+    pages = {
+        n: json.loads((LIVE / f"observations_{indicator}_page{n}.json").read_bytes())
+        for n in (1, 2)
+    }
+    meta, rows = pages[page]
+    edit(meta, rows)
+    fake_session.override(f"{url}&page={page}", json.dumps([meta, rows]).encode())
+    other_meta, other_rows = pages[3 - page]
+    if other_meta["total"] != meta["total"]:
+        other_meta["total"] = meta["total"]
+        fake_session.override(
+            f"{url}&page={3 - page}", json.dumps([other_meta, other_rows]).encode()
+        )
+
+
+@pytest.fixture
+def ingest(settings, fake_session):
+    """Ingest from the fixtures under a given run id."""
+    from wbpipe.api_client import WorldBankClient
+    from wbpipe.ingest import run_ingest
+
+    def _run(run_id: str):
+        client = WorldBankClient(settings.api, session=fake_session, sleep=lambda _: None)
+        return run_ingest(settings, client=client, run_id=run_id)
+
+    return _run
+
+
+@pytest.fixture
+def pipeline(settings, ingest):
+    """Ingest then transform, as `wbpipe run` would."""
+    from wbpipe.transform import run_transform
+
+    def _run(run_id: str):
+        ingest(run_id)
+        return run_transform(settings)
+
+    return _run
+
+
+def query(settings: Settings, sql: str, params: Any = None) -> list[Any]:
+    import duckdb
+
+    with duckdb.connect(str(settings.paths.warehouse), read_only=True) as con:
+        return con.execute(sql, params or []).fetchall()
+
+
 def load_manifest() -> list[dict[str, Any]]:
     return json.loads((LIVE / "manifest.json").read_text())
 
@@ -98,27 +155,16 @@ def fake_session() -> FakeSession:
 
 @pytest.fixture
 def settings(tmp_path: Path) -> Settings:
-    """Repo config with paging and storage pointed at the fixtures and a temp dir."""
-    return parse_settings(
-        {
-            "api": {"base_url": BASE_URL, "per_page": 50, "max_retries": 2, "backoff_seconds": 0},
-            "years": {"start": 2018, "end": 2024},
-            "countries": ["BRA", "CAN", "DEU", "GBR", "IND", "JPN", "MEX", "USA", "ZAF"],
-            "indicators": [
-                {"code": "SP.POP.TOTL", "short_name": "population"},
-                {"code": "NY.GDP.MKTP.CD", "short_name": "gdp_usd"},
-                {"code": "NY.GDP.PCAP.CD", "short_name": "gdp_per_capita_usd"},
-                {"code": "SP.DYN.LE00.IN", "short_name": "life_expectancy_years"},
-            ],
-            "paths": {
-                "landing_dir": str(tmp_path / "landing"),
-                "warehouse": str(tmp_path / "warehouse.duckdb"),
-                "sql_dir": str(REPO / "sql"),
-                "output_dir": str(tmp_path / "output"),
-            },
-        },
-        root=tmp_path,
-    )
+    """The repo config, with paging matching the fixtures and storage in a temp dir."""
+    raw = yaml.safe_load((REPO / "config" / "pipeline.yaml").read_text())
+    raw["api"].update(base_url=BASE_URL, per_page=50, max_retries=2, backoff_seconds=0)
+    raw["paths"] = {
+        "landing_dir": str(tmp_path / "landing"),
+        "warehouse": str(tmp_path / "warehouse.duckdb"),
+        "sql_dir": str(REPO / "sql"),
+        "output_dir": str(tmp_path / "output"),
+    }
+    return parse_settings(raw, root=REPO)
 
 
 __all__ = ["FakeResponse", "FakeSession", "requests"]

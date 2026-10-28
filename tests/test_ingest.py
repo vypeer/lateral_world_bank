@@ -3,29 +3,14 @@ from __future__ import annotations
 import hashlib
 import json
 
-import duckdb
 import pytest
-from conftest import BASE_URL, LIVE, FakeResponse
+from conftest import BASE_URL, LIVE, FakeResponse, query
 
-from wbpipe.api_client import WorldBankApiError, WorldBankClient
-from wbpipe.ingest import plan_requests, run_ingest
+from wbpipe.api_client import WorldBankApiError
+from wbpipe.ingest import plan_requests
 
 COUNTRIES = "BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF"
 EXPECTED_PAGES = 1 + 4 * (1 + 2)  # countries + per indicator (metadata + 2 observation pages)
-
-
-@pytest.fixture
-def ingest(settings, fake_session):
-    def _run(run_id: str):
-        client = WorldBankClient(settings.api, session=fake_session, sleep=lambda _: None)
-        return run_ingest(settings, client=client, run_id=run_id)
-
-    return _run
-
-
-def query(settings, sql: str, params=None):
-    with duckdb.connect(str(settings.paths.warehouse), read_only=True) as con:
-        return con.execute(sql, params or []).fetchall()
 
 
 def test_plan_is_config_driven(settings):

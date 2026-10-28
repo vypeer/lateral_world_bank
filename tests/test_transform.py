@@ -6,43 +6,12 @@ import shutil
 
 import duckdb
 import pytest
-from conftest import BASE_URL, LIVE
+from conftest import edit_observations, query
 
-from wbpipe.api_client import WorldBankClient
 from wbpipe.config import Indicator
-from wbpipe.ingest import run_ingest
 from wbpipe.transform import TransformError, run_transform
 
-COUNTRIES = "BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF"
-POP_PAGE1 = LIVE / "observations_SP.POP.TOTL_page1.json"
-POP_PAGE2 = LIVE / "observations_SP.POP.TOTL_page2.json"
-POP_URL = f"{BASE_URL}/country/{COUNTRIES}/indicator/SP.POP.TOTL?format=json&date=2018:2024"
 SPINE = 9 * 4 * 7
-
-
-@pytest.fixture
-def ingest(settings, fake_session):
-    def _run(run_id: str) -> None:
-        client = WorldBankClient(settings.api, session=fake_session, sleep=lambda _: None)
-        run_ingest(settings, client=client, run_id=run_id)
-
-    return _run
-
-
-@pytest.fixture
-def pipeline(settings, ingest):
-    """Ingest then transform, as `wbpipe run` would."""
-
-    def _run(run_id: str):
-        ingest(run_id)
-        return run_transform(settings)
-
-    return _run
-
-
-def query(settings, sql: str, params=None):
-    with duckdb.connect(str(settings.paths.warehouse), read_only=True) as con:
-        return con.execute(sql, params or []).fetchall()
 
 
 def fact(settings, key=("BRA", "SP.POP.TOTL", 2018)):
@@ -53,20 +22,6 @@ def fact(settings, key=("BRA", "SP.POP.TOTL", 2018)):
         list(key),
     )
     return rows[0] if rows else None
-
-
-def edit_pop_page2(fake_session, edit) -> None:
-    """Serve a modified SP.POP.TOTL page 2; edit(meta, rows) mutates in place.
-
-    A change to meta.total is mirrored onto page 1, as the real API would report it.
-    """
-    meta, rows = json.loads(POP_PAGE2.read_bytes())
-    edit(meta, rows)
-    fake_session.override(f"{POP_URL}&page=2", json.dumps([meta, rows]).encode())
-    meta1, rows1 = json.loads(POP_PAGE1.read_bytes())
-    if meta1["total"] != meta["total"]:
-        meta1["total"] = meta["total"]
-        fake_session.override(f"{POP_URL}&page=1", json.dumps([meta1, rows1]).encode())
 
 
 def test_first_load_builds_dims_and_full_spine(settings, pipeline):
@@ -129,7 +84,7 @@ def test_source_revision_is_applied_and_versioned(settings, pipeline, fake_sessi
         assert (rows[-1]["countryiso3code"], rows[-1]["date"]) == ("ZAF", "2018")
         rows[-1]["value"] = 1.0
 
-    edit_pop_page2(fake_session, revise)
+    edit_observations(fake_session, "SP.POP.TOTL", revise)
     result = pipeline("run2")
     assert (result.versions_opened, result.versions_closed) == (1, 1)
     value, status, response_id, changed_run, _ = fact(settings, revised_key)
@@ -154,7 +109,7 @@ def test_null_value_in_source_is_kept_as_null_in_source(settings, pipeline, fake
     def null_out(meta, rows):
         rows[-1]["value"] = None
 
-    edit_pop_page2(fake_session, null_out)
+    edit_observations(fake_session, "SP.POP.TOTL", null_out)
     pipeline("run1")
     value, status, response_id, *_ = fact(settings, ("ZAF", "SP.POP.TOTL", 2018))
     assert (value, status) == (None, "null_in_source")
@@ -166,7 +121,7 @@ def test_row_missing_from_source_is_not_returned(settings, pipeline, fake_sessio
         rows.pop()
         meta["total"] -= 1
 
-    edit_pop_page2(fake_session, drop)
+    edit_observations(fake_session, "SP.POP.TOTL", drop)
     pipeline("run1")
     assert query(settings, "SELECT count(*) FROM core.fct_indicator_value") == [(SPINE,)]
     value, status, response_id, *_ = fact(settings, ("ZAF", "SP.POP.TOTL", 2018))
@@ -178,7 +133,7 @@ def test_duplicate_source_rows_do_not_break_the_grain(settings, pipeline, fake_s
         rows.append(dict(rows[-1], value=999.0))
         meta["total"] += 1
 
-    edit_pop_page2(fake_session, duplicate)
+    edit_observations(fake_session, "SP.POP.TOTL", duplicate)
     pipeline("run1")
     assert query(settings, "SELECT count(*) FROM core.fct_indicator_value") == [(SPINE,)]
     assert fact(settings, ("ZAF", "SP.POP.TOTL", 2018))[0] != 999.0  # first occurrence wins
@@ -221,7 +176,7 @@ def test_scope_follows_configuration(settings, ingest, caplog):
 def test_older_run_can_be_replayed(settings, pipeline, fake_session):
     pipeline("run1")
     original = fact(settings, ("ZAF", "SP.POP.TOTL", 2018))[0]
-    edit_pop_page2(fake_session, lambda meta, rows: rows[-1].update(value=1.0))
+    edit_observations(fake_session, "SP.POP.TOTL", lambda meta, rows: rows[-1].update(value=1.0))
     pipeline("run2")
     run_transform(settings, run_id="run1")
     assert fact(settings, ("ZAF", "SP.POP.TOTL", 2018))[0] == original
