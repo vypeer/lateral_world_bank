@@ -295,6 +295,17 @@ exactly those. A new economy therefore enters on the next run.
 10. **DQ as data:** checks are YAML + SQL with fail/warn severity, persisted per execution.
     `report` only publishes a build whose latest check passed.
 
+### Beyond the brief, on purpose
+
+The brief's scope is nine countries. The pipeline deliberately goes further: it ingests every
+economy the API lists (217), keeping the brief's nine as *focus countries* that the dashboards
+and the comparison year are built around. There were two reasons:
+- **A larger dataset for testing.** The nine countries have complete data for 2018–2024, so on
+  its own the brief never exercises missing values, incomplete income groups, cross-indicator
+  inconsistencies or a few hundred rows per indicator. With every economy, all of those occur in
+  real data.
+- **Personal curiosity:** seeing how the brief's countries sit among all economies.
+
 ### Assumptions
 
 - **Income group is the current World Bank classification, applied to all years.** The API
@@ -408,8 +419,6 @@ which the brief encourages.
 
 ## Unfinished work and next steps
 
-- **CI not yet confirmed green on GitHub.** The workflow is committed but its runs weren't
-  checked from the development environment.
 - **Income group history:** load the World Bank's historical classification (OGHIST) as a
   type-2 dimension so groups reflect each year's classification.
 - **Skip unchanged runs** using `lastupdated` (see the production note), and add a `--years`
