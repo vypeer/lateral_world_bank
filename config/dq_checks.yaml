@@ -124,12 +124,23 @@ checks:
   - name: dim_country_described
     severity: fail
     description: >-
-      Every configured country was described by the API, including its income group
-      (needed for the income-group comparison).
+      Every country in scope was described by the API, including its income group (needed
+      for the income-group comparison; "not classified" counts as described).
     sql: |
       SELECT country_iso3, country_name, income_group_id
       FROM core.dim_country
-      WHERE country_name IS NULL OR income_group_id IS NULL OR income_group_rank IS NULL
+      WHERE country_name IS NULL OR income_group_id IS NULL
+
+  - name: focus_countries_in_scope
+    severity: fail
+    description: >-
+      Every configured focus country is in scope (in 'all' mode: listed by the API as an
+      economy), so dashboards and the comparison year are based on real countries.
+    sql: |
+      SELECT f.country_iso3
+      FROM config.focus_country f
+      LEFT JOIN core.dim_country c USING (country_iso3)
+      WHERE c.country_iso3 IS NULL
 
   - name: dim_indicator_described
     severity: warn

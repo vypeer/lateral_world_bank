@@ -92,10 +92,17 @@ class Settings:
     api: ApiSettings
     start_year: int
     end_year: int
-    countries: tuple[str, ...]
+    # None = every economy the API lists (regional and income aggregates excluded)
+    countries: tuple[str, ...] | None
     indicators: tuple[Indicator, ...]
     paths: Paths
     quality: QualitySettings
+    # Shown by default in the dashboards and used to pick the comparison year; empty = all
+    focus_countries: tuple[str, ...] = ()
+
+    @property
+    def all_countries(self) -> bool:
+        return self.countries is None
 
     @property
     def years(self) -> range:
@@ -108,7 +115,7 @@ class Settings:
         """
         scope = {
             "base_url": self.api.base_url,
-            "countries": self.countries,
+            "countries": self.countries if self.countries is not None else "all",
             "indicators": [i.code for i in self.indicators],
             "years": [self.start_year, self.end_year],
         }
@@ -138,6 +145,16 @@ def _parse_aggregation(raw: Any, code: str) -> Aggregation:
     return Aggregation(method=method, **{key: str(raw[key]) for key in needed})
 
 
+def _iso3_list(values: list[Any], key: str) -> tuple[str, ...]:
+    codes = tuple(str(c).strip().upper() for c in values)
+    bad = [c for c in codes if not _ISO3.match(c)]
+    if bad:
+        raise ConfigError(f"{key} must be ISO3 codes, got {bad}")
+    if len(set(codes)) != len(codes):
+        raise ConfigError(f"{key} contains duplicates")
+    return codes
+
+
 def _optional_float(value: Any) -> float | None:
     return None if value is None else float(value)
 
@@ -160,12 +177,21 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
     if start > end:
         raise ConfigError(f"years.start ({start}) is after years.end ({end})")
 
-    countries = tuple(str(c).strip().upper() for c in _require(raw, "countries", "config"))
-    bad = [c for c in countries if not _ISO3.match(c)]
-    if bad:
-        raise ConfigError(f"countries must be ISO3 codes, got {bad}")
-    if not countries or len(set(countries)) != len(countries):
-        raise ConfigError("countries must be a non-empty list without duplicates")
+    raw_countries = _require(raw, "countries", "config")
+    countries: tuple[str, ...] | None
+    if isinstance(raw_countries, str) and raw_countries.strip().lower() == "all":
+        countries = None
+    elif isinstance(raw_countries, list):
+        countries = _iso3_list(raw_countries, "countries")
+        if not countries:
+            raise ConfigError("countries must be 'all' or a non-empty list of ISO3 codes")
+    else:
+        raise ConfigError("countries must be 'all' or a list of ISO3 codes")
+    focus = _iso3_list(raw.get("focus_countries") or [], "focus_countries")
+    if countries is not None and set(focus) - set(countries):
+        raise ConfigError(
+            f"focus_countries {sorted(set(focus) - set(countries))} are not in countries"
+        )
 
     indicators = tuple(
         Indicator(
@@ -230,6 +256,7 @@ def parse_settings(raw: dict[str, Any], root: Path) -> Settings:
         indicators=indicators,
         paths=paths,
         quality=quality,
+        focus_countries=focus,
     )
 
 

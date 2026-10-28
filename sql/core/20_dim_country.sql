@@ -1,4 +1,5 @@
--- Country dimension: one row per configured country (business key: ISO3).
+-- Country dimension: one row per country in scope (business key: ISO3): the configured list,
+-- or in 'all' mode every economy the API lists (aggregates excluded).
 -- Driven by config so a country the API did not describe still appears (with NULL
 -- attributes, flagged by data-quality checks). Income group is the CURRENT World Bank
 -- classification; the API exposes no history, so it is applied to all years (type 1).
@@ -17,6 +18,7 @@ CREATE OR REPLACE TABLE core.dim_country (
     longitude           DOUBLE,
     latitude            DOUBLE,
     config_order        INTEGER NOT NULL,
+    is_focus            BOOLEAN NOT NULL,  -- one of config focus_countries (dashboard default)
     response_id         VARCHAR    -- lineage: raw.api_response the attributes came from
 );
 
@@ -36,6 +38,7 @@ SELECT
     s.longitude,
     s.latitude,
     c.config_order,
+    c.is_focus,
     s.response_id
 FROM config.country AS c
 LEFT JOIN (

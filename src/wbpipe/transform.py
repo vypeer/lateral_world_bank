@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 import duckdb
 
 from wbpipe.config import Settings
+from wbpipe.ingest import AGGREGATE_REGION_ID
 from wbpipe.warehouse import connect, sql_files
 
 log = logging.getLogger(__name__)
@@ -45,13 +46,11 @@ def latest_successful_run(con: duckdb.DuckDBPyConnection) -> str:
 
 def load_config_tables(con: duckdb.DuckDBPyConnection, settings: Settings) -> None:
     con.execute("CREATE SCHEMA IF NOT EXISTS config")
-    con.execute(
-        "CREATE OR REPLACE TABLE config.country (country_iso3 VARCHAR, config_order INTEGER)"
-    )
-    con.executemany(
-        "INSERT INTO config.country VALUES (?, ?)",
-        [[code, n] for n, code in enumerate(settings.countries, 1)],
-    )
+    con.execute("CREATE OR REPLACE TABLE config.focus_country (country_iso3 VARCHAR)")
+    if settings.focus_countries:
+        con.executemany(
+            "INSERT INTO config.focus_country VALUES (?)", [[c] for c in settings.focus_countries]
+        )
     con.execute(
         "CREATE OR REPLACE TABLE config.indicator (indicator_code VARCHAR, short_name VARCHAR, "
         "config_order INTEGER, valid_min DOUBLE, valid_max DOUBLE, aggregation VARCHAR, "
@@ -82,6 +81,34 @@ def load_config_tables(con: duckdb.DuckDBPyConnection, settings: Settings) -> No
         )
 
 
+def load_country_scope(con: duckdb.DuckDBPyConnection, settings: Settings) -> None:
+    """config.country: the configured list, or in 'all' mode every economy in the ingested
+    country metadata (aggregates excluded). Focus countries come first in display order.
+
+    Runs after staging because 'all' mode depends on what the API listed.
+    """
+    if settings.countries is not None:
+        codes = list(settings.countries)
+    else:
+        rows = con.execute(
+            "SELECT DISTINCT country_iso3 FROM staging.stg_country "
+            "WHERE region_id IS DISTINCT FROM ? ORDER BY country_iso3",
+            [AGGREGATE_REGION_ID],
+        ).fetchall()
+        codes = [str(r[0]) for r in rows]
+    focus = set(settings.focus_countries)
+    ordered = [c for c in settings.focus_countries if c in codes]
+    ordered += [c for c in codes if c not in focus]
+    con.execute(
+        "CREATE OR REPLACE TABLE config.country "
+        "(country_iso3 VARCHAR, config_order INTEGER, is_focus BOOLEAN)"
+    )
+    con.executemany(
+        "INSERT INTO config.country VALUES (?, ?, ?)",
+        [[code, n, code in focus] for n, code in enumerate(ordered, 1)],
+    )
+
+
 def run_transform(settings: Settings, run_id: str | None = None) -> TransformResult:
     """Transform the given ingest run (default: the latest successful one)."""
     transformed_at = datetime.now(timezone.utc)
@@ -109,6 +136,8 @@ def run_transform(settings: Settings, run_id: str | None = None) -> TransformRes
                 for path in sql_files(settings, layer):
                     log.debug("executing %s", path.relative_to(settings.paths.sql_dir))
                     con.execute(path.read_text())
+                if layer == "staging":
+                    load_country_scope(con, settings)
             con.execute("COMMIT")
         except Exception:
             con.execute("ROLLBACK")

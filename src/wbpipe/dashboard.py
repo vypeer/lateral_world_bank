@@ -120,7 +120,9 @@ def load(con: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             )
         ],
         "countries": rows(
-            con, "SELECT country_iso3, country_name FROM core.dim_country ORDER BY config_order"
+            con,
+            "SELECT country_iso3, country_name, income_group_id, is_focus "
+            "FROM core.dim_country ORDER BY config_order",
         ),
         "years": [r["year"] for r in rows(con, "SELECT year FROM core.dim_year ORDER BY year")],
         "freshness": rows(con, "SELECT * FROM marts.v_data_freshness ORDER BY indicator_code"),
@@ -146,6 +148,16 @@ def load(con: duckdb.DuckDBPyConnection) -> dict[str, Any]:
         "yoy": rows(con, "SELECT * FROM marts.v_yoy_change"),
         "completeness": rows(con, "SELECT * FROM marts.v_series_completeness"),
         "missing": rows(con, "SELECT * FROM marts.v_missing_values ORDER BY ALL"),
+        "missing_count": rows(con, "SELECT count(*) AS n FROM marts.v_missing_values")[0]["n"],
+        "ranked_count": {
+            r["indicator_code"]: r["n"]
+            for r in rows(
+                con,
+                """
+                SELECT indicator_code, count(rank_at_common_year) AS n
+                FROM marts.v_latest_comparison GROUP BY indicator_code""",
+            )
+        },
     }
 
 
@@ -362,8 +374,20 @@ STATUS_ICON = {"pass": "✓", "warn": "!", "fail": "✕", "error": "✕"}
 def render(data: dict[str, Any]) -> str:
     inds: list[IndicatorInfo] = data["indicators"]
     years: list[int] = data["years"]
-    countries = data["countries"]
-    name_of = {c["country_iso3"]: c["country_name"] or c["country_iso3"] for c in countries}
+    # Per-country views show the focus countries (all countries when none are configured);
+    # coverage tiles and income-group aggregates cover everything in scope.
+    scope = data["countries"]
+    countries = [c for c in scope if c["is_focus"]] or scope
+    shown = {c["country_iso3"] for c in countries}
+    name_of = {c["country_iso3"]: c["country_name"] or c["country_iso3"] for c in scope}
+    for key in ("latest", "yoy", "completeness", "missing"):
+        data = {**data, key: [r for r in data[key] if r["country_iso3"] in shown]}
+    scope_note = (
+        f"Per-country views show the {len(countries)} focus countries; coverage and income groups "
+        f"cover all {len(scope)} economies in scope."
+        if len(countries) < len(scope)
+        else ""
+    )
     fresh = data["freshness"]
     cov = data["coverage"]
     dq = data["dq"]
@@ -398,8 +422,8 @@ def render(data: dict[str, Any]) -> str:
         <div class="tile-value">{esc(lastupdated)}</div>
         <div class="tile-note">World Bank WDI · fetched {esc(f"{fetched:%Y-%m-%d %H:%M} UTC" if fetched else "–")}</div></div>
       <div class="tile"><div class="tile-label">Scope</div>
-        <div class="tile-value">{len(countries)} × {len(inds)} × {len(years)}</div>
-        <div class="tile-note">countries × indicators × years ({years[0]}–{years[-1]})</div></div>
+        <div class="tile-value">{len(scope)} × {len(inds)} × {len(years)}</div>
+        <div class="tile-note">countries × indicators × years ({years[0]}–{years[-1]}){f" · {len(countries)} focus countries shown below" if len(countries) < len(scope) else ""}</div></div>
     </section>"""  # fmt: skip
     sections.append(tiles)
 
@@ -433,16 +457,14 @@ def render(data: dict[str, Any]) -> str:
         f'x1="1" x2="15" y1="5" y2="5"/></svg>{esc(g)} · {esc(n)}</span>'
         for g, n, _ in groups
     )
-    members = "; ".join(
-        f"{g}: " + ", ".join(sorted({name_of[c] for r in data["income"] if r["income_group_id"] == g
-                                       for c in (r["countries"] or "").split(";") if c in name_of}))
-        for g, _, _ in groups
-    )  # fmt: skip
+    members = " · ".join(
+        f"{g}: {sum(c['income_group_id'] == g for c in scope)} economies" for g, _, _ in groups
+    )
     sections.append(f"""
     <section><h2>Income groups over time</h2>
-      <p class="lede">Each indicator combined across the selected countries in each income group, using the
+      <p class="lede">Each indicator combined across all economies in scope in each income group, using the
         aggregation configured for it. Groups use the <em>current</em> World Bank classification for every year.
-        Members — {esc(members)}.</p>
+        {esc(members)}.</p>
       <div class="legend">{legend}</div>
       <div class="grid">{"".join(cards)}</div>
       {details("Show data table", table(["Indicator", "Year", "Income group", "Aggregate", "Simple mean", "Countries", "Complete"], table_rows, {3, 4}))}
@@ -453,9 +475,10 @@ def render(data: dict[str, Any]) -> str:
     for ind in inds:
         rows_ = [r for r in data["latest"] if r["indicator_code"] == ind.code]
         common = rows_[0]["latest_common_year"] if rows_ else None
+        ranked = data["ranked_count"].get(ind.code, 0)
         bars = [{"name": r["country_name"] or r["country_iso3"], "value": r["value_at_common_year"],
-                 "extra": [("Rank", str(r["rank_at_common_year"])),
-                           ("Share of selected", f'{r["pct_of_selected_total_at_common_year"]:.1f}%'
+                 "extra": [("Rank", f"{r['rank_at_common_year']} of {ranked}"),
+                           ("Share of total", f'{r["pct_of_selected_total_at_common_year"]:.1f}%'
                             if r["pct_of_selected_total_at_common_year"] is not None else "–")]}
                 for r in rows_]  # fmt: skip
         later = [
@@ -464,7 +487,9 @@ def render(data: dict[str, Any]) -> str:
             if not r["is_same_as_common_year"]
         ]
         note = (
-            f"Latest year all countries have: {common}"
+            f"Latest year all focus countries have: {common} · rank among {ranked} economies"
+            if common and len(countries) < len(scope)
+            else f"Latest year all countries have: {common}"
             if common
             else "No year with values for every country"
         )
@@ -482,8 +507,9 @@ def render(data: dict[str, Any]) -> str:
                                r["country_latest_year"] or "–", fmt(r["country_latest_value"])])  # fmt: skip
     sections.append(f"""
     <section><h2>Country comparison at the latest year</h2>
-      <p class="lede">Ranked at the most recent year in which every selected country has a value, so all bars
-        compare the same year. Where a country has a more recent value of its own, it is noted.</p>
+      <p class="lede">Ranked at the most recent year in which every focus country has a value, so all bars
+        compare the same year; ranks and shares are among all economies with a value that year. Where a country
+        has a more recent value of its own, it is noted.</p>
       <div class="grid">{"".join(cards)}</div>
       {details("Show data table", table(["Indicator", "Country", "Common year", "Value", "Rank", "Own latest year", "Own latest value"], table_rows, {3, 6}))}
     </section>""")  # fmt: skip
@@ -540,6 +566,7 @@ def render(data: dict[str, Any]) -> str:
         body.append(
             f'<tr><th scope="row">{esc(c["country_name"] or c["country_iso3"])}</th>{"".join(tds)}</tr>'
         )
+    missing_all = data["missing_count"]
     missing_rows = [[name_of.get(r["country_iso3"], r["country_iso3"]), r["indicator"], r["year"],
                      r["missing_reason"].replace("_", " "), r["gap_type"].replace("_", " ")]
                     for r in data["missing"]]  # fmt: skip
@@ -547,11 +574,17 @@ def render(data: dict[str, Any]) -> str:
         table(["Country", "Indicator", "Year", "Reason", "Gap type"], missing_rows)
         if missing_rows
         else f'<p class="ok"><span class="status good" aria-hidden="true">✓</span> No missing values: the source '
-        f"returned a value for every configured country, indicator and year ({years[0]}–{years[-1]}).</p>"
+        f"returned a value for every {'focus ' if len(countries) < len(scope) else ''}country, indicator and "
+        f"year ({years[0]}–{years[-1]}).</p>"
     )
+    if len(countries) < len(scope):
+        missing_html += (
+            f'<p class="lede">Across all {len(scope)} economies in scope, {missing_all} country × '
+            f"indicator × year combinations have no value; see <code>output/q1_missing_values.csv</code>.</p>"
+        )
     sections.append(f"""
     <section><h2>Data completeness</h2>
-      <p class="lede">Years with a value out of years expected, per country and indicator. Missing data is kept as an
+      <p class="lede">Years with a value out of years expected, per {"focus " if len(countries) < len(scope) else ""}country and indicator. Missing data is kept as an
         explicit status (null in source, or not returned by the API), never as zero.</p>
       <div class="tablewrap"><table class="matrix"><thead><tr><th>Country</th>{head}</tr></thead>
         <tbody>{"".join(body)}</tbody></table></div>
@@ -577,6 +610,7 @@ def render(data: dict[str, Any]) -> str:
 
     return PAGE.format(
         run_id=esc(run_id),
+        scope_note=esc(scope_note),
         body="".join(sections),
         css=CSS,
         script=SCRIPT,
@@ -614,7 +648,7 @@ PAGE = """<!doctype html>
 <header class="page-head">
   <h1>World Bank indicators</h1>
   <p class="meta">Generated by <code>wbpipe</code> from ingest run <code>{run_id}</code>.
-    Source: World Bank API v2 (World Development Indicators).</p>
+    Source: World Bank API v2 (World Development Indicators). {scope_note}</p>
 </header>
 <main>{body}</main>
 <footer><p>Every value traces back to the API response it came from (<code>response_id</code> in the warehouse).

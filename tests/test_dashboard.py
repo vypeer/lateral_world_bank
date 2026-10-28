@@ -7,7 +7,7 @@ import pytest
 from conftest import edit_observations
 
 from wbpipe.dashboard import fmt, fmt_pct, nice_ticks, run_dashboard, yoy_bin
-from wbpipe.quality import run_checks
+from wbpipe.quality import DataQualityError, run_checks
 from wbpipe.report import ReportError
 
 
@@ -37,7 +37,7 @@ def test_dashboard_is_self_contained_and_complete(settings, published):
         assert name in page
     assert page.count("<svg") == page.count("</svg>")
     assert page.count('class="chart"') == 4 * 3  # income lines, latest bars, YoY heatmaps
-    assert "15/15 pass" in page
+    assert "16/16 pass" in page
     assert "No missing values" in page
     assert page.count("<details>") == 3  # a data table behind every chart section
 
@@ -105,3 +105,22 @@ def test_helpers():
         "u2",
         "u3",
     ]
+
+
+def test_dashboard_shows_focus_countries_and_scope_totals(settings, ingest):
+    import dataclasses
+
+    from wbpipe.transform import run_transform
+
+    ingest("run1")
+    wider = dataclasses.replace(settings, countries=(*settings.countries, "FRA"))  # FRA: no data
+    run_transform(wider)
+    with pytest.raises(DataQualityError):  # FRA is undescribed: blocking, publish is refused
+        run_checks(wider)
+    with duckdb.connect(str(settings.paths.warehouse)) as con:  # pretend the checks passed
+        con.execute("UPDATE quality.dq_result SET status = 'pass'")
+    page = run_dashboard(wider).read_text()
+    assert "10 × 4 × 7" in page and "9 focus countries shown below" in page
+    assert "Per-country views show the 9 focus countries" in page
+    assert ">FRA<" not in page and "France" not in page  # not in per-country views
+    assert "28 country × indicator × year combinations have no value" in page

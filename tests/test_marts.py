@@ -180,9 +180,31 @@ def test_latest_comparison_uses_common_year_and_labels_country_latest(
     } == {2024}
 
 
+def test_common_year_is_anchored_on_focus_countries(settings, ingest):
+    ingest("run1")
+    # FRA is in scope but not a focus country and has no data: it is simply unranked
+    run_transform(dataclasses.replace(settings, countries=(*settings.countries, "FRA")))
+    rows = mart(settings, "v_latest_comparison", f"indicator_code = '{POP}'")
+    assert len(rows) == 10 and {r["latest_common_year"] for r in rows} == {2024}
+    fra = next(r for r in rows if r["country_iso3"] == "FRA")
+    assert (fra["rank_at_common_year"], fra["is_focus"], fra["country_latest_year"]) == (
+        None,
+        False,
+        None,
+    )
+    assert sorted(r["rank_at_common_year"] for r in rows if r["is_focus"]) == list(range(1, 10))
+
+
 def test_latest_comparison_without_a_common_year(settings, ingest):
     ingest("run1")
-    run_transform(dataclasses.replace(settings, countries=(*settings.countries, "FRA")))
+    # a FOCUS country without data means no year in which every focus country has a value
+    run_transform(
+        dataclasses.replace(
+            settings,
+            countries=(*settings.countries, "FRA"),
+            focus_countries=(*settings.focus_countries, "FRA"),
+        )
+    )
     rows = mart(settings, "v_latest_comparison", f"indicator_code = '{POP}'")
     assert len(rows) == 10
     assert {r["latest_common_year"] for r in rows} == {None}

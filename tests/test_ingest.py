@@ -7,17 +7,18 @@ import pytest
 from conftest import BASE_URL, LIVE, FakeResponse, query
 
 from wbpipe.api_client import WorldBankApiError
-from wbpipe.ingest import plan_requests
+from wbpipe.ingest import country_request, plan_requests
 
 COUNTRIES = "BRA;CAN;DEU;GBR;IND;JPN;MEX;USA;ZAF"
 EXPECTED_PAGES = 1 + 4 * (1 + 2)  # countries + per indicator (metadata + 2 observation pages)
 
 
 def test_plan_is_config_driven(settings):
-    reqs = plan_requests(settings)
+    assert country_request(settings).path == f"country/{COUNTRIES}"
+    reqs = plan_requests(settings, settings.countries)
     assert [r.endpoint for r in reqs].count("observation") == 4
-    assert reqs[0].path == f"country/{COUNTRIES}"
-    assert reqs[2].params == {"date": "2018:2024"}
+    assert reqs[1].path == f"country/{COUNTRIES}/indicator/SP.POP.TOTL"
+    assert reqs[1].params == {"date": "2018:2024"}
 
 
 def test_first_run_lands_and_registers_every_page(settings, ingest):

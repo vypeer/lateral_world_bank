@@ -21,6 +21,7 @@ SELECT
     f.response_id,
     f.source_lastupdated,
     f.last_changed_run_id,
+    c.is_focus,
     c.config_order AS country_order,
     i.config_order AS indicator_order
 FROM core.fct_indicator_value AS f

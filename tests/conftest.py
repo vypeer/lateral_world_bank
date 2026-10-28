@@ -103,6 +103,19 @@ def ingest(settings, fake_session):
 
 
 @pytest.fixture
+def ingest_with(fake_session):
+    """Ingest from the fixtures with explicitly given settings."""
+    from wbpipe.api_client import WorldBankClient
+    from wbpipe.ingest import run_ingest
+
+    def _run(settings: Settings, run_id: str):
+        client = WorldBankClient(settings.api, session=fake_session, sleep=lambda _: None)
+        return run_ingest(settings, client=client, run_id=run_id)
+
+    return _run
+
+
+@pytest.fixture
 def pipeline(settings, ingest):
     """Ingest then transform, as `wbpipe run` would."""
     from wbpipe.transform import run_transform
@@ -156,6 +169,8 @@ def settings(tmp_path: Path) -> Settings:
     """The repo config, with paging matching the fixtures and storage in a temp dir."""
     raw = yaml.safe_load((REPO / "config" / "pipeline.yaml").read_text())
     raw["api"].update(base_url=BASE_URL, per_page=50, max_retries=2, backoff_seconds=0)
+    # The captured fixtures name these nine countries explicitly; 'all' mode has its own tests.
+    raw["countries"] = COUNTRIES.split(";")
     raw["paths"] = {
         "landing_dir": str(tmp_path / "landing"),
         "warehouse": str(tmp_path / "warehouse.duckdb"),

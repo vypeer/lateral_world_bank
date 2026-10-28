@@ -12,8 +12,13 @@ years:
   start: 2018
   end: 2024
 
-# ISO3 codes
-countries:
+# Countries in scope: "all" = every economy the World Bank API lists (217 today; regional and
+# income-group aggregates are excluded), or an explicit list of ISO3 codes.
+countries: all
+
+# The brief's countries. Dashboards show these by default, and the latest-year comparison uses
+# the latest year in which all of them have a value. Must be within `countries`.
+focus_countries:
   - BRA
   - CAN
   - DEU
@@ -45,7 +50,9 @@ indicators:
       denominator: SP.POP.TOTL
   - code: SP.DYN.LE00.IN
     short_name: life_expectancy_years
-    valid_min: 20
+    # Bounds catch impossible values, not extreme ones: crisis years go below 20
+    # (Central African Republic 2022 is 18.8 in WDI; Rwanda 1994 was in the low teens).
+    valid_min: 10
     valid_max: 100
     aggregation:
       method: weighted_mean

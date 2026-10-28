@@ -12,9 +12,13 @@ REPO = Path(__file__).resolve().parents[1]
 RAW = yaml.safe_load((REPO / "config" / "pipeline.yaml").read_text())
 
 
+BRIEF = ("BRA", "CAN", "DEU", "GBR", "IND", "JPN", "MEX", "USA", "ZAF")
+
+
 def test_repo_config_loads():
     settings = load_settings(REPO / "config" / "pipeline.yaml", root=REPO)
-    assert len(settings.countries) == 9
+    assert settings.all_countries and settings.countries is None
+    assert settings.focus_countries == BRIEF
     assert settings.indicators[0].code == "SP.POP.TOTL"
     assert list(settings.years) == list(range(2018, 2025))
     assert settings.paths.warehouse == REPO / "data" / "warehouse.duckdb"
@@ -22,17 +26,42 @@ def test_repo_config_loads():
 
 def test_fingerprint_changes_with_config():
     a = parse_settings(RAW, REPO)
-    changed = copy.deepcopy(RAW)
-    changed["countries"].append("FRA")
+    explicit = copy.deepcopy(RAW)
+    explicit["countries"] = list(BRIEF)
+    wider = copy.deepcopy(explicit)
+    wider["countries"].append("FRA")
     assert a.fingerprint() == parse_settings(copy.deepcopy(RAW), REPO).fingerprint()
-    assert a.fingerprint() != parse_settings(changed, REPO).fingerprint()
+    fingerprints = {parse_settings(c, REPO).fingerprint() for c in (RAW, explicit, wider)}
+    assert len(fingerprints) == 3
+    focus_only = copy.deepcopy(RAW)
+    focus_only["focus_countries"] = ["FRA"]
+    assert parse_settings(focus_only, REPO).fingerprint() == a.fingerprint()  # display-only
+
+
+def test_explicit_country_list_is_supported():
+    raw = copy.deepcopy(RAW)
+    raw["countries"] = ["bra", " ind "]
+    raw["focus_countries"] = ["IND"]
+    settings = parse_settings(raw, REPO)
+    assert settings.countries == ("BRA", "IND") and not settings.all_countries
+    assert settings.focus_countries == ("IND",)
+
+
+def test_focus_countries_are_optional():
+    raw = copy.deepcopy(RAW)
+    del raw["focus_countries"]
+    assert parse_settings(raw, REPO).focus_countries == ()
 
 
 @pytest.mark.parametrize(
     ("mutate", "message"),
     [
-        (lambda c: c["countries"].append("br"), "ISO3"),
-        (lambda c: c["countries"].append("BRA"), "duplicates"),
+        (lambda c: c.update(countries=["BRA", "br"]), "ISO3"),
+        (lambda c: c.update(countries=["BRA", "BRA"]), "duplicates"),
+        (lambda c: c.update(countries="some"), "'all' or a list"),
+        (lambda c: c.update(countries=[]), "non-empty"),
+        (lambda c: c.update(countries=["BRA"]), "not in countries"),  # focus outside scope
+        (lambda c: c["focus_countries"].append("xx"), "focus_countries must be ISO3"),
         (lambda c: c["indicators"].append(dict(c["indicators"][0])), "unique"),
         (lambda c: c["indicators"].append({"code": "bad code", "short_name": "x"}), "indicator"),
         (lambda c: c["years"].update(start=2025), "after"),

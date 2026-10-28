@@ -52,6 +52,15 @@ class Warehouse:
             ) from exc
 
 
+def _has_dq_results(wh: Warehouse) -> bool:
+    """quality.dq_result only exists once `wbpipe check` has run."""
+    found = wh.query(
+        "SELECT count(*) AS n FROM information_schema.tables "
+        "WHERE table_schema = 'quality' AND table_name = 'dq_result'"
+    )
+    return bool(found["n"].iloc[0])
+
+
 # ---- reference data ----------------------------------------------------------------------
 
 
@@ -65,12 +74,16 @@ def status(wh: Warehouse) -> dict[str, Any]:
         ORDER BY t.transformed_at DESC LIMIT 1
         """
     )
-    dq = wh.query(
-        """
-        SELECT status, count(*) AS n FROM quality.dq_result
-        WHERE checked_at = (SELECT max(checked_at) FROM quality.dq_result)
-        GROUP BY status
-        """
+    dq = (
+        wh.query(
+            """
+            SELECT status, count(*) AS n FROM quality.dq_result
+            WHERE checked_at = (SELECT max(checked_at) FROM quality.dq_result)
+            GROUP BY status
+            """
+        )
+        if _has_dq_results(wh)
+        else pd.DataFrame({"status": [], "n": []})
     )
     counts = dict(zip(dq["status"], dq["n"], strict=True)) if len(dq) else {}
     out: dict[str, Any] = {str(k): v for k, v in build.iloc[0].items()} if len(build) else {}
@@ -83,7 +96,7 @@ def countries(wh: Warehouse) -> pd.DataFrame:
     return wh.query(
         """
         SELECT country_iso3, coalesce(country_name, country_iso3) AS country_name, region_name,
-               income_group_id, income_group_name, income_group_rank
+               income_group_id, income_group_name, income_group_rank, is_focus
         FROM core.dim_country ORDER BY config_order
         """
     )
@@ -218,6 +231,10 @@ def _empty(columns: list[str] | None = None) -> pd.DataFrame:
 
 
 def dq_latest(wh: Warehouse) -> pd.DataFrame:
+    if not _has_dq_results(wh):
+        return _empty(
+            ["check_name", "severity", "status", "violation_count", "description", "sample"]
+        )
     return wh.query(
         """
         SELECT check_name, severity, status, violation_count, description, sample
@@ -230,6 +247,8 @@ def dq_latest(wh: Warehouse) -> pd.DataFrame:
 
 
 def dq_history(wh: Warehouse) -> pd.DataFrame:
+    if not _has_dq_results(wh):
+        return _empty(["checked_at", "ingest_run_id", "passed", "warnings", "blocking"])
     return wh.query(
         """
         SELECT checked_at, ingest_run_id,

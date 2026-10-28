@@ -11,13 +11,14 @@ import hashlib
 import json
 import logging
 import uuid
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
 
-from wbpipe.api_client import ApiPage, WorldBankClient
+from wbpipe.api_client import ApiPage, WorldBankApiError, WorldBankClient
 from wbpipe.config import Settings
 from wbpipe.warehouse import connect
 
@@ -45,17 +46,39 @@ class IngestResult:
     n_new_responses: int
 
 
-def plan_requests(settings: Settings) -> list[Request]:
-    """Every request a run makes, derived from configuration only."""
-    countries = ";".join(settings.countries)
-    reqs = [Request("country", None, f"country/{countries}", {})]
+# The API lists regional and income-group aggregates ("World", "High income", ...) alongside
+# economies; they are marked with region id "NA".
+AGGREGATE_REGION_ID = "NA"
+
+
+def country_request(settings: Settings) -> Request:
+    """Country metadata: the configured list, or every entry the API has in 'all' mode."""
+    if settings.countries is None:
+        return Request("country", None, "country", {})
+    return Request("country", None, f"country/{';'.join(settings.countries)}", {})
+
+
+def economies(pages: Sequence[ApiPage]) -> list[str]:
+    """ISO3 codes of the economies (not aggregates) in country-metadata pages."""
+    return [
+        row["id"]
+        for page in pages
+        for row in page.rows
+        if (row.get("region") or {}).get("id") != AGGREGATE_REGION_ID
+    ]
+
+
+def plan_requests(settings: Settings, countries: Sequence[str]) -> list[Request]:
+    """Indicator metadata and observation requests for the resolved countries."""
+    codes = ";".join(countries)
+    reqs = []
     for ind in settings.indicators:
         reqs.append(Request("indicator", ind.code, f"indicator/{ind.code}", {}))
         reqs.append(
             Request(
                 "observation",
                 ind.code,
-                f"country/{countries}/indicator/{ind.code}",
+                f"country/{codes}/indicator/{ind.code}",
                 {"date": f"{settings.start_year}:{settings.end_year}"},
             )
         )
@@ -84,15 +107,28 @@ def run_ingest(
 
     # Fetch before opening the warehouse so its write lock is held only while registering.
     landed: list[tuple[Request, ApiPage, Path]] = []
+
+    def fetch(req: Request) -> list[ApiPage]:
+        pages = []
+        for page in client.iter_pages(req.path, req.params):
+            rel_path = Path(run_id) / req.landing_subdir / f"page_{page.page:04d}.json"
+            target = settings.paths.landing_dir / rel_path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(page.body)
+            landed.append((req, page, rel_path))
+            pages.append(page)
+        log.info("fetched %s (%d page(s))", req.path[:80], len(pages))
+        return pages
+
     try:
-        for req in plan_requests(settings):
-            for page in client.iter_pages(req.path, req.params):
-                rel_path = Path(run_id) / req.landing_subdir / f"page_{page.page:04d}.json"
-                target = settings.paths.landing_dir / rel_path
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(page.body)
-                landed.append((req, page, rel_path))
-            log.info("fetched %s (%s page(s))", req.path, page.meta.get("pages"))
+        # Countries first: in 'all' mode the observation requests depend on the economies listed.
+        country_pages = fetch(country_request(settings))
+        countries = settings.countries or tuple(economies(country_pages))
+        if not countries:
+            raise WorldBankApiError("the country endpoint listed no economies")
+        log.info("%d countries in scope", len(countries))
+        for req in plan_requests(settings, countries):
+            fetch(req)
     except Exception as exc:
         with connect(settings) as con:
             _record_failure(con, settings, run_id, started_at, exc)

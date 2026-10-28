@@ -39,7 +39,7 @@ def app(built, monkeypatch):
 def test_status_reports_build_and_checks(built):
     status = d.status(built)
     assert status["ingest_run_id"] == "run1"
-    assert status["dq"] == {"pass": 15, "warn": 0, "fail": 0, "error": 0}
+    assert status["dq"] == {"pass": 16, "warn": 0, "fail": 0, "error": 0}
 
 
 def test_comparison_uses_latest_year_common_to_the_selection(settings, ingest, fake_session):
@@ -107,12 +107,12 @@ def test_app_renders_every_tab(app):
         "Trends", "Compare", "Year-over-year", "Income groups", "Data quality & lineage",
         "Explore & SQL",
     ]  # fmt: skip
-    assert any("15/15 data-quality checks pass" in s.value for s in at.success)
+    assert any("16/16 data-quality checks pass" in s.value for s in at.success)
 
 
 def test_filters_drive_every_view(app):
     at = app.run()
-    countries = next(m for m in at.multiselect if m.label == "Countries")
+    countries = next(m for m in at.multiselect if m.label.startswith("Countries"))
     countries.set_value(["JPN", "IND"]).run()
     next(s for s in at.selectbox if s.label == "Indicator").set_value("SP.DYN.LE00.IN").run()
     next(s for s in at.slider if s.label == "Years").set_value((2020, 2022)).run()
@@ -123,7 +123,7 @@ def test_filters_drive_every_view(app):
 
 def test_no_country_selected_is_handled(app):
     at = app.run()
-    next(m for m in at.multiselect if m.label == "Countries").set_value([]).run()
+    next(m for m in at.multiselect if m.label.startswith("Countries")).set_value([]).run()
     assert not at.exception
     assert any("Select at least one country" in i.value for i in at.info)
 
@@ -157,3 +157,18 @@ def test_missing_warehouse_shows_guidance(tmp_path, monkeypatch):
     at = AppTest.from_file(APP, default_timeout=60).run()
     assert not at.exception
     assert any("no warehouse" in w.value for w in at.warning)
+
+
+def test_focus_countries_are_preselected(settings, ingest, monkeypatch):
+    import dataclasses
+
+    from wbpipe.transform import run_transform
+
+    ingest("run1")
+    run_transform(dataclasses.replace(settings, countries=(*settings.countries, "FRA")))
+    monkeypatch.setenv("WBPIPE_WAREHOUSE", str(settings.paths.warehouse))
+    at = AppTest.from_file(APP, default_timeout=60).run()
+    assert not at.exception
+    countries = next(m for m in at.multiselect if m.label.startswith("Countries"))
+    assert len(countries.options) == 10 and countries.value == list(ALL)
+    assert countries.label.startswith("Countries (10 in scope")

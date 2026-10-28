@@ -39,7 +39,10 @@ PALETTE = {
         "muted": "#898781",
     },
 }
-GROUP_ORDER = ["HIC", "UMC", "LMC", "LIC"]  # income groups keep their colour whatever is filtered
+GROUP_ORDER = ["HIC", "UMC", "LMC", "LIC"]
+# Beyond these, views stop being readable: show the first N of the selection and say so.
+MAX_PANELS = 24
+MAX_ROWS = 60  # income groups keep their colour whatever is filtered
 STATUS_ICON = {"pass": "✅", "warn": "⚠️", "fail": "⛔", "error": "⛔"}
 # Axis labels as 1.5B / 40T rather than d3's 1.5G
 COMPACT_AXIS = "replace(format(datum.value, '~s'), 'G', 'B')"
@@ -140,10 +143,11 @@ def filters(
         or []
     )
     country_names = dict(zip(countries["country_iso3"], countries["country_name"], strict=True))
+    focus = list(countries.loc[countries["is_focus"], "country_iso3"]) or list(country_names)
     iso3 = st.multiselect(
-        "Countries",
+        f"Countries ({len(country_names)} in scope; the brief's focus countries are preselected)",
         list(country_names),
-        default=list(country_names),
+        default=focus,
         format_func=country_names.__getitem__,
     )
     ind = ind.copy()
@@ -151,7 +155,15 @@ def filters(
     return ind, iso3, int(y0), int(y1), list(groups)
 
 
+def capped(iso3: list[str], limit: int, what: str) -> list[str]:
+    if len(iso3) > limit:
+        st.info(f"Showing the first {limit} of {len(iso3)} selected countries as {what}; "
+                "narrow the selection to see others.")  # fmt: skip
+    return iso3[:limit]
+
+
 def tab_trends(ind: pd.Series, iso3: list[str], y0: int, y1: int) -> None:
+    iso3 = capped(iso3, MAX_PANELS, "panels")
     df = q("values", ind["indicator_code"], tuple(iso3), y0, y1)
     c1, c2 = st.columns([3, 2])
     mode = c1.segmented_control(
@@ -214,7 +226,11 @@ def tab_compare(ind: pd.Series, iso3: list[str], years: list[int]) -> None:
     if year is None or df.empty:
         st.warning("No year in the range has a value for every selected country.")
         return
-    st.caption(f"{ind['name']} · {year}")
+    st.caption(f"{ind['name']} · {year} · ranked within the selection")
+    missing = df[df["value"].isna()]
+    if len(df) > MAX_ROWS:
+        st.info(f"Showing the top {MAX_ROWS} of {len(df)} selected countries.")
+        df = df.head(MAX_ROWS)
     df = df.assign(label=df["value"].map(fmt))
     bars = alt.Chart(df).encode(
         y=alt.Y("country_name:N", sort="-x", title=None),
@@ -231,7 +247,6 @@ def tab_compare(ind: pd.Series, iso3: list[str], years: list[int]) -> None:
         + bars.mark_text(align="left", dx=6, color=palette()["muted"]).encode(text="label:N")
     ).properties(height=max(120, 30 * len(df)))
     st.altair_chart(chart, width="stretch")
-    missing = df[df["value"].isna()]
     if len(missing):
         st.info("No value in this year for: " + ", ".join(missing["country_name"]))
 
@@ -250,6 +265,7 @@ def tab_yoy(ind: pd.Series, iso3: list[str], y0: int, y1: int, years: list[int])
         if measure and measure.startswith("Annualised")
         else "yoy_pct_change"
     )
+    iso3 = capped(iso3, MAX_ROWS, "heatmap rows")
     df = q("yoy", ind["indicator_code"], tuple(iso3), max(y0, years[0] + 1), y1)
     if df.empty:
         st.info(f"Pick a range after {years[0]}: its prior year is outside the configured range.")
@@ -366,12 +382,17 @@ def tab_income(ind: pd.Series, groups: list[str], y0: int, y1: int) -> None:
             "Some group-years are incomplete (a member had no value); their aggregate covers "
             "fewer countries and is not comparable with other years."
         )
-    st.caption("Income group is the current World Bank classification, applied to every year.")
+    st.caption(
+        "Aggregated over every economy in the warehouse in each group, not only the selected "
+        "countries. Income group is the current World Bank classification, applied to every year."
+    )
 
 
 def tab_quality(ind: pd.Series, iso3: list[str], y0: int, y1: int, countries: pd.DataFrame) -> None:
     dq = q("dq_latest")
     st.markdown("##### Latest data-quality checks")
+    if dq.empty:
+        st.warning("Data-quality checks have not run for this build (`wbpipe check`).")
     st.dataframe(
         dq.assign(status=dq["status"].map(lambda s: f"{STATUS_ICON.get(s, '')} {s}")).drop(
             columns=["sample"]
